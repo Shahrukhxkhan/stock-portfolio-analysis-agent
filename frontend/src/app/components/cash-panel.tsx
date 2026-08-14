@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Edit2, Check, X, DollarSign, TrendingUp, Wallet, Calendar } from "lucide-react"
+import { Edit2, Check, X, DollarSign, TrendingUp, Wallet, Calendar, ArrowUpRight, ArrowDownRight } from "lucide-react"
 
 interface CashPanelProps {
   totalCash: number
@@ -52,22 +52,22 @@ export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, on
   }
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-6">
+    <div className="flex flex-wrap items-center justify-between gap-3 w-full overflow-x-auto pb-1 hide-scrollbar">
+      <div className="flex flex-wrap items-center gap-3.5">
         {/* Total Cash */}
-        <div className="flex items-center gap-3 p-2 px-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md group">
-          <div className="w-8 h-8 bg-[#FF003C]/20 border border-[#FF003C]/40 rounded-lg flex items-center justify-center">
-            <Wallet size={16} className="text-[#FF003C]" />
+        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out group border border-white/10 hover:border-white/20">
+          <div className="w-9 h-9 bg-blue-500/15 border border-blue-500/30 text-blue-400 rounded-full flex items-center justify-center shadow-[0_0_12px_rgba(59,130,246,0.25)] flex-shrink-0">
+            <Wallet size={18} />
           </div>
           <div>
-            <div className="text-xs text-[#a1a1aa] font-medium">Total Cash</div>
+            <div className="text-[11px] text-[#a1a1aa] font-medium tracking-wide uppercase">Total Cash</div>
             {isEditing ? (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 mt-0.5">
                 <input
                   type="text"
                   value={editValue}
                   onChange={(e) => setEditValue(e.target.value)}
-                  className="w-16 text-sm font-semibold text-[#f5f5f7] font-['Roobert'] bg-white/10 border border-white/20 rounded px-1 focus:outline-none focus:border-[#6366f1]"
+                  className="w-16 text-sm font-semibold text-[#f5f5f7] font-['Roobert'] bg-white/10 border border-white/20 rounded px-1.5 focus:outline-none focus:border-blue-400"
                   onKeyDown={(e) => e.key === "Enter" && handleSave()}
                 />
                 <button onClick={handleSave} className="p-1 text-emerald-400 hover:bg-emerald-500/20 rounded transition-colors">
@@ -78,7 +78,7 @@ export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, on
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 mt-0.5">
                 <span className="text-sm font-semibold text-[#f5f5f7] font-['Roobert']">
                   {formatCurrency(totalCash)}
                 </span>
@@ -94,50 +94,53 @@ export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, on
         </div>
 
         {/* Invested Amount */}
-        <div className="flex items-center gap-3 p-2 px-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md">
-          <div className="w-8 h-8 bg-[#6366f1]/20 border border-[#6366f1]/40 rounded-lg flex items-center justify-center">
-            <TrendingUp size={16} className="text-[#818cf8]" />
+        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
+          <div className="w-9 h-9 bg-purple-500/15 border border-purple-500/30 text-purple-400 rounded-full flex items-center justify-center shadow-[0_0_12px_rgba(168,85,247,0.25)] flex-shrink-0">
+            <TrendingUp size={18} />
           </div>
           <div>
-            <div className="text-xs text-[#a1a1aa] font-medium">Invested</div>
-            <div className="text-sm font-semibold text-[#f5f5f7] font-['Roobert']">
+            <div className="text-[11px] text-[#a1a1aa] font-medium tracking-wide uppercase">Invested</div>
+            <div className="text-sm font-semibold text-[#f5f5f7] font-['Roobert'] mt-0.5">
               {formatCurrency(investedAmount)}
             </div>
           </div>
         </div>
 
         {/* Current Portfolio Value */}
-        <div className="flex items-center gap-3 p-2 px-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md">
-          <div className="w-8 h-8 bg-[#a855f7]/20 border border-[#a855f7]/40 rounded-lg flex items-center justify-center">
-            <DollarSign size={16} className="text-[#c084fc]" />
+        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
+          <div className="w-9 h-9 bg-amber-400/15 border border-amber-400/30 text-amber-300 rounded-full flex items-center justify-center shadow-[0_0_12px_rgba(251,191,36,0.25)] flex-shrink-0">
+            <DollarSign size={18} />
           </div>
           <div>
-            <div className="text-xs text-[#a1a1aa] font-medium">Portfolio Value</div>
-            <div className="text-sm font-semibold text-[#f5f5f7] font-['Roobert']">
+            <div className="text-[11px] text-[#a1a1aa] font-medium tracking-wide uppercase">Portfolio Value</div>
+            <div className="text-sm font-semibold text-[#f5f5f7] font-['Roobert'] mt-0.5">
               {formatCurrency(currentPortfolioValue)}
             </div>
           </div>
         </div>
 
         {/* 4-Year Return */}
-        <div className="flex items-center gap-3 p-2 px-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md">
+        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
           <div
-            className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+            className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
               fourYearReturn >= 0 
-                ? "bg-[#06b6d4]/20 border border-[#06b6d4]/40" 
-                : "bg-rose-500/20 border border-rose-500/40"
+                ? "bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.25)]" 
+                : "bg-rose-500/15 border border-rose-500/30 text-rose-400 shadow-[0_0_12px_rgba(244,63,94,0.25)]"
             }`}
           >
-            <Calendar size={16} className={fourYearReturn >= 0 ? "text-[#22d3ee]" : "text-rose-400"} />
+            <Calendar size={18} />
           </div>
           <div>
-            <div className="text-xs text-[#a1a1aa] font-medium">4-Year Return</div>
-            <div className="flex items-center gap-2">
+            <div className="text-[11px] text-[#a1a1aa] font-medium tracking-wide uppercase">4-Year Return</div>
+            <div className="flex items-center gap-1.5 mt-0.5">
               <div
-                className={`text-sm font-semibold font-['Roobert'] ${
-                  fourYearReturn >= 0 ? "text-emerald-400" : "text-rose-400"
+                className={`text-sm font-semibold font-['Roobert'] flex items-center gap-0.5 ${
+                  fourYearReturn >= 0 
+                    ? "text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]" 
+                    : "text-rose-400 drop-shadow-[0_0_8px_rgba(244,63,94,0.3)]"
                 }`}
               >
+                {fourYearReturn >= 0 ? <ArrowUpRight size={14} className="inline text-emerald-400" /> : <ArrowDownRight size={14} className="inline text-rose-400" />}
                 {fourYearReturn >= 0 ? "+" : ""}
                 {formatCurrency(fourYearReturn)}
               </div>
@@ -151,14 +154,14 @@ export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, on
       </div>
 
       {/* Investment Progress */}
-      <div className="flex items-center gap-3 p-2 px-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md">
+      <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3.5 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
         <div className="text-right">
-          <div className="text-xs text-[#a1a1aa] font-medium">Portfolio Allocation</div>
-          <div className="text-sm font-semibold text-[#f5f5f7] font-['Roobert']">{investedPercentage.toFixed(1)}%</div>
+          <div className="text-[11px] text-[#a1a1aa] font-medium tracking-wide uppercase">Portfolio Allocation</div>
+          <div className="text-sm font-semibold text-[#f5f5f7] font-['Roobert'] mt-0.5">{investedPercentage.toFixed(1)}%</div>
         </div>
-        <div className="w-20 h-2 bg-white/10 rounded-full overflow-hidden">
+        <div className="w-24 h-2 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10 backdrop-blur-md">
           <div
-            className="h-full bg-gradient-to-r from-[#FF003C] via-[#6366f1] to-[#a855f7] transition-all duration-300"
+            className="h-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 transition-all duration-500 ease-out shadow-[0_0_8px_rgba(236,72,153,0.4)]"
             style={{ width: `${Math.min(investedPercentage, 100)}%` }}
           />
         </div>
@@ -166,3 +169,4 @@ export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, on
     </div>
   )
 }
+
