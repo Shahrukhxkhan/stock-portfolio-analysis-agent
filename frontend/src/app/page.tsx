@@ -269,7 +269,7 @@ export default function OpenStocksCanvas() {
   return (
     <div className="h-screen flex overflow-hidden text-[#f5f5f7]">
       {/* Left Panel - Prompt Input */}
-      <div className="w-85 border-r border-white/10 glass-panel !rounded-none !border-y-0 !border-l-0 flex-shrink-0 backdrop-blur-xl">
+      <div className="w-85 relative flex-shrink-0 h-full backdrop-blur-2xl bg-black/20 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-[1px] after:bg-gradient-to-b after:from-transparent after:via-white/15 after:to-transparent z-20">
         <PromptPanel availableCash={totalCash} />
       </div>
 
