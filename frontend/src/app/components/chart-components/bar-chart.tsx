@@ -19,26 +19,31 @@ export function BarChartComponent({ data, size = "normal", onClick }: BarChartCo
   const fontSize = size === "small" ? 8 : 10
   const tooltipFontSize = size === "small" ? "9px" : "11px"
   return (
-    <div className={`bg-white border border-[#D8D8E5] rounded-xl ${padding}`}>
+    <div className={`glass-panel ${padding}`}>
       <div style={{ height }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E8E8EF" />
-            <XAxis dataKey="ticker" stroke="#575758" fontSize={fontSize} fontFamily="Plus Jakarta Sans" />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.08)" />
+            <XAxis dataKey="ticker" stroke="#a1a1aa" fontSize={fontSize} fontFamily="Plus Jakarta Sans" />
             <YAxis
-              stroke="#575758"
+              stroke="#a1a1aa"
               fontSize={fontSize}
               fontFamily="Plus Jakarta Sans"
               tickFormatter={(value) => `${value}%`}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "white",
-                border: "1px solid #D8D8E5",
-                borderRadius: "8px",
+                backgroundColor: "rgba(15, 15, 23, 0.95)",
+                border: "1px solid rgba(255, 255, 255, 0.12)",
+                borderRadius: "12px",
+                color: "#f5f5f7",
                 fontSize: tooltipFontSize,
                 fontFamily: "Plus Jakarta Sans",
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.5)",
+                backdropFilter: "blur(12px)",
               }}
+              itemStyle={{ color: "#f5f5f7" }}
+              labelStyle={{ color: "#a1a1aa" }}
               formatter={(value: number) => [`${value.toFixed(1)}%`, "Return"]}
             />
             <Bar onClick={(data, index) => {
@@ -48,7 +53,7 @@ export function BarChartComponent({ data, size = "normal", onClick }: BarChartCo
                 // @ts-ignore
                 onClick?.(data.payload.ticker as string)
               }
-            }} dataKey="return" fill="#FF003C" radius={[2, 2, 0, 0]} />
+            }} dataKey="return" fill="#6366f1" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

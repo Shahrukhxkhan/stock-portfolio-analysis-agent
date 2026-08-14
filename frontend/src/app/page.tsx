@@ -118,7 +118,7 @@ export default function OpenStocksCanvas() {
               </div>
 
               <button hidden={status == "complete"}
-                className="mt-4 rounded-full px-6 py-2 bg-green-50 text-green-700 border border-green-200 shadow-sm hover:bg-green-100 transition-colors font-semibold text-sm"
+                className="mt-4 rounded-full px-6 py-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shadow-sm hover:bg-emerald-500/30 transition-colors font-semibold text-sm backdrop-blur-md"
                 onClick={() => {
                   debugger
                   if (respond) {
@@ -157,7 +157,7 @@ export default function OpenStocksCanvas() {
                 Accept
               </button>
               <button hidden={status == "complete"}
-                className="rounded-full px-6 py-2 bg-red-50 text-red-700 border border-red-200 shadow-sm hover:bg-red-100 transition-colors font-semibold text-sm ml-2"
+                className="rounded-full px-6 py-2 bg-rose-500/20 text-rose-300 border border-rose-500/30 shadow-sm hover:bg-rose-500/30 transition-colors font-semibold text-sm ml-2 backdrop-blur-md"
                 onClick={() => {
                   debugger
                   if (respond) {
@@ -183,7 +183,7 @@ export default function OpenStocksCanvas() {
         <>
           <LineChartComponent data={args?.investment_summary?.performanceData} size="small" />
           <button hidden={status == "complete"}
-            className="mt-4 rounded-full px-6 py-2 bg-green-50 text-green-700 border border-green-200 shadow-sm hover:bg-green-100 transition-colors font-semibold text-sm"
+            className="mt-4 rounded-full px-6 py-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shadow-sm hover:bg-emerald-500/30 transition-colors font-semibold text-sm backdrop-blur-md"
             onClick={() => {
               debugger
               if (respond) {
@@ -201,7 +201,7 @@ export default function OpenStocksCanvas() {
             Accept
           </button>
           <button hidden={status == "complete"}
-            className="rounded-full px-6 py-2 bg-red-50 text-red-700 border border-red-200 shadow-sm hover:bg-red-100 transition-colors font-semibold text-sm ml-2"
+            className="rounded-full px-6 py-2 bg-rose-500/20 text-rose-300 border border-rose-500/30 shadow-sm hover:bg-rose-500/30 transition-colors font-semibold text-sm ml-2 backdrop-blur-md"
             onClick={() => {
               debugger
               if (respond) {
@@ -267,16 +267,16 @@ export default function OpenStocksCanvas() {
 
 
   return (
-    <div className="h-screen bg-[#FAFCFA] flex overflow-hidden">
+    <div className="h-screen flex overflow-hidden text-[#f5f5f7]">
       {/* Left Panel - Prompt Input */}
-      <div className="w-85 border-r border-[#D8D8E5] bg-white flex-shrink-0">
+      <div className="w-85 border-r border-white/10 glass-panel !rounded-none !border-y-0 !border-l-0 flex-shrink-0 backdrop-blur-xl">
         <PromptPanel availableCash={totalCash} />
       </div>
 
       {/* Center Panel - Generative Canvas */}
       <div className="flex-1 relative min-w-0">
         {/* Top Bar with Cash Info */}
-        <div className="absolute top-0 left-0 right-0 bg-white border-b border-[#D8D8E5] p-4 z-10">
+        <div className="absolute top-0 left-0 right-0 glass-panel !rounded-none !border-x-0 !border-t-0 border-b border-white/10 p-4 z-10 backdrop-blur-xl bg-black/20">
           <CashPanel
             totalCash={totalCash}
             investedAmount={investedAmount}
@@ -289,7 +289,7 @@ export default function OpenStocksCanvas() {
         {/* <div className="absolute top-4 right-4 z-20">
           <button
             onClick={toggleComponentTree}
-            className="px-3 py-1 text-xs font-semibold text-[#575758] bg-white border border-[#D8D8E5] rounded-md hover:bg-[#F0F0F4] transition-colors"
+            className="px-3 py-1 text-xs font-semibold text-[#a1a1aa] bg-white/5 border border-white/10 rounded-md hover:bg-white/10 transition-colors"
           >
             {showComponentTree ? "Hide Tree" : "Show Tree"}
           </button>
@@ -302,7 +302,7 @@ export default function OpenStocksCanvas() {
 
       {/* Right Panel - Component Tree (Optional) */}
       {showComponentTree && (
-        <div className="w-64 border-l border-[#D8D8E5] bg-white flex-shrink-0">
+        <div className="w-64 border-l border-white/10 glass-panel !rounded-none !border-y-0 !border-r-0 flex-shrink-0 backdrop-blur-xl">
           <ComponentTree portfolioState={currentState} />
         </div>
       )}

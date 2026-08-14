@@ -13,21 +13,21 @@ export function InsightCardComponent({ insight, type }: InsightCardComponentProp
   const getTypeStyles = () => {
     switch (type) {
       case "bull":
-        return "border-l-4 border-l-[#00d237] bg-[#86ECE4]/10"
+        return "border-l-4 border-l-emerald-400 bg-emerald-500/10"
       case "bear":
-        return "border-l-4 border-l-red-500 bg-red-50"
+        return "border-l-4 border-l-rose-500 bg-rose-500/10"
       default:
-        return "border-l-4 border-l-[#D8D8E5]"
+        return "border-l-4 border-l-white/20"
     }
   }
 
   return (
-    <div className={`bg-white border border-[#D8D8E5] rounded-xl p-3 ${getTypeStyles()}`}>
-      <div className="flex items-start gap-2">
+    <div className={`glass-panel p-3.5 ${getTypeStyles()}`}>
+      <div className="flex items-start gap-2.5">
         <span className="text-lg">{insight.emoji}</span>
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-semibold text-[#030507] font-['Roobert'] mb-1">{insight.title}</h3>
-          <p className="text-xs text-[#575758] font-['Plus_Jakarta_Sans'] leading-relaxed">{insight.description}</p>
+          <h3 className="text-sm font-semibold text-[#f5f5f7] font-['Roobert'] mb-1">{insight.title}</h3>
+          <p className="text-xs text-[#a1a1aa] font-['Plus_Jakarta_Sans'] leading-relaxed">{insight.description}</p>
         </div>
       </div>
     </div>

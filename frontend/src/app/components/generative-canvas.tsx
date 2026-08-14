@@ -78,11 +78,11 @@ export function GenerativeCanvas({ portfolioState, setSelectedStock, sandBoxPort
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-lg">🐂</span>
-                <h3 className="text-sm font-semibold text-[#1B606F] font-['Roobert']">BULL CASE</h3>
+                <h3 className="text-sm font-semibold text-emerald-400 font-['Roobert'] tracking-wide">BULL CASE</h3>
               </div>
               <div className="space-y-3">
                 {portfolioState.bullInsights.length === 0 ? (
-                  <div className="text-center text-sm text-gray-400 py-6">No bull case insights.</div>
+                  <div className="text-center text-sm text-[#a1a1aa] py-6 glass-panel">No bull case insights.</div>
                 ) : (
                   portfolioState.bullInsights.map((insight, index) => (
                     <InsightCardComponent key={`bull-${index}`} insight={insight} type="bull" />
@@ -95,11 +95,11 @@ export function GenerativeCanvas({ portfolioState, setSelectedStock, sandBoxPort
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-lg">🐻</span>
-                <h3 className="text-sm font-semibold text-red-600 font-['Roobert']">BEAR CASE</h3>
+                <h3 className="text-sm font-semibold text-rose-400 font-['Roobert'] tracking-wide">BEAR CASE</h3>
               </div>
               <div className="space-y-3">
                 {portfolioState.bearInsights.length === 0 ? (
-                  <div className="text-center text-sm text-gray-400 py-6">No bear case insights.</div>
+                  <div className="text-center text-sm text-[#a1a1aa] py-6 glass-panel">No bear case insights.</div>
                 ) : (
                   portfolioState.bearInsights.map((insight, index) => (
                     <InsightCardComponent key={`bear-${index}`} insight={insight} type="bear" />
