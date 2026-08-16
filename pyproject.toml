@@ -1,4 +1,4 @@
-﻿[project]
+[project]
 name = "stock-portfolio-agent"
 version = "0.1.0"
 description = "A comprehensive stock portfolio analysis and management system with AI agents"
@@ -15,3 +15,9 @@ dependencies = [
     "crewai>=0.140.0,<0.141.0",
     "pybase64>=1.4.1,<2.0.0",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
+

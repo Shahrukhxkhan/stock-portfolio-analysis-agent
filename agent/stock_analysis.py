@@ -157,6 +157,196 @@ generate_insights = {
   }
 }
 # ===============================================================================
+# PURE FINANCIAL CALCULATION FUNCTIONS
+# ===============================================================================
+
+def calculate_single_shot_purchases(stock_data, current_tickers, amounts, total_cash, holdings):
+    """
+    (a) Single-shot purchase calculation: Buy shares at the first available date.
+    """
+    investment_log = []
+    add_funds_needed = False
+    add_funds_dates = []
+
+    first_date = stock_data.index[0]
+    row = stock_data.loc[first_date]
+    
+    for idx, ticker in enumerate(current_tickers):
+        price = row[ticker]
+        
+        if np.isnan(price):
+            investment_log.append(
+                f"{first_date.date()}: No price data for {ticker}, could not invest."
+            )
+            add_funds_needed = True
+            add_funds_dates.append(
+                (str(first_date.date()), ticker, price, amounts[idx])
+            )
+            continue
+            
+        allocated = amounts[idx]
+        
+        if total_cash >= allocated and allocated >= price:
+            shares_to_buy = allocated // price
+            if shares_to_buy > 0:
+                cost = shares_to_buy * price
+                holdings[ticker] += shares_to_buy
+                total_cash -= cost
+                investment_log.append(
+                    f"{first_date.date()}: Bought {shares_to_buy:.2f} shares of {ticker} at ${price:.2f} (cost: ${cost:.2f})"
+                )
+            else:
+                investment_log.append(
+                    f"{first_date.date()}: Not enough allocated cash to buy {ticker} at ${price:.2f}. Allocated: ${allocated:.2f}"
+                )
+                add_funds_needed = True
+                add_funds_dates.append(
+                    (str(first_date.date()), ticker, price, allocated)
+                )
+        else:
+            investment_log.append(
+                f"{first_date.date()}: Not enough total cash to buy {ticker} at ${price:.2f}. Allocated: ${allocated:.2f}, Available: ${total_cash:.2f}"
+            )
+            add_funds_needed = True
+            add_funds_dates.append(
+                (str(first_date.date()), ticker, price, total_cash)
+            )
+    return total_cash, holdings, investment_log, add_funds_needed, add_funds_dates
+
+
+def calculate_dca_purchases(stock_data, current_tickers, total_cash, holdings):
+    """
+    (b) DCA interval purchase calculation: Spread investments over time for each available date.
+    """
+    investment_log = []
+    add_funds_needed = False
+    add_funds_dates = []
+
+    for date, row in stock_data.iterrows():
+        for i, ticker in enumerate(current_tickers):
+            price = row[ticker]
+            
+            if np.isnan(price):
+                continue
+                
+            if total_cash >= price:
+                shares_to_buy = total_cash // price
+                if shares_to_buy > 0:
+                    cost = shares_to_buy * price
+                    holdings[ticker] += shares_to_buy
+                    total_cash -= cost
+                    investment_log.append(
+                        f"{date.date()}: Bought {shares_to_buy:.2f} shares of {ticker} at ${price:.2f} (cost: ${cost:.2f})"
+                    )
+            else:
+                add_funds_needed = True
+                add_funds_dates.append(
+                    (str(date.date()), ticker, price, total_cash)
+                )
+                investment_log.append(
+                    f"{date.date()}: Not enough cash to buy {ticker} at ${price:.2f}. Available: ${total_cash:.2f}. Please add more funds."
+                )
+    return total_cash, holdings, investment_log, add_funds_needed, add_funds_dates
+
+
+def calculate_pnl_and_metrics(stock_data, current_tickers, all_tickers, holdings, total_cash, interval, investment_log):
+    """
+    (c) P&L dollar and percentage calculation, and (d) share count / current value computation.
+    """
+    final_prices = stock_data.iloc[-1]
+    total_value = 0.0
+    returns = {}
+    total_invested_per_stock = {}
+    percent_allocation_per_stock = {}
+    percent_return_per_stock = {}
+    total_invested = 0.0
+    
+    for idx, ticker in enumerate(current_tickers):
+        if interval == "single_shot":
+            first_date = stock_data.index[0]
+            price = stock_data.loc[first_date][ticker]
+            shares_bought = holdings[ticker]
+            invested = shares_bought * price
+        else:
+            invested = 0.0
+            for log in investment_log:
+                if f"shares of {ticker}" in log and "Bought" in log:
+                    try:
+                        cost_str = log.split("(cost: $")[-1].split(")")[0]
+                        invested += float(cost_str)
+                    except Exception:
+                        pass
+        total_invested_per_stock[ticker] = invested
+        total_invested += invested
+        
+    for ticker in all_tickers:
+        invested = total_invested_per_stock.get(ticker, 0.0)
+        holding_value = holdings[ticker] * final_prices[ticker]
+        returns[ticker] = holding_value - invested
+        total_value += holding_value
+        
+        percent_allocation_per_stock[ticker] = (
+            (invested / total_invested * 100) if total_invested > 0 else 0.0
+        )
+        
+        percent_return_per_stock[ticker] = (
+            ((holding_value - invested) / invested * 100) if invested > 0 else 0.0
+        )
+    total_value += total_cash
+
+    return {
+        "holdings": holdings,
+        "final_prices": final_prices.to_dict(),
+        "cash": total_cash,
+        "returns": returns,
+        "total_value": total_value,
+        "investment_log": investment_log,
+        "total_invested_per_stock": total_invested_per_stock,
+        "percent_allocation_per_stock": percent_allocation_per_stock,
+        "percent_return_per_stock": percent_return_per_stock,
+    }
+
+
+def execute_portfolio_allocation(stock_data, current_tickers, amounts, interval, total_cash, existing_portfolio=None):
+    """
+    Orchestrates the portfolio allocation calculation logic.
+    """
+    if existing_portfolio is None:
+        existing_portfolio = []
+    elif isinstance(existing_portfolio, str):
+        existing_portfolio = json.loads(existing_portfolio)
+        
+    all_tickers = list(set(current_tickers + [inv["ticker"] for inv in existing_portfolio]))
+    
+    holdings = {}
+    for investment in existing_portfolio:
+        ticker = investment["ticker"]
+        if ticker not in holdings:
+            holdings[ticker] = 0.0
+    for ticker in current_tickers:
+        if ticker not in holdings:
+            holdings[ticker] = 0.0
+            
+    stock_data = stock_data.sort_index()
+
+    if interval == "single_shot":
+        total_cash, holdings, investment_log, add_funds_needed, add_funds_dates = calculate_single_shot_purchases(
+            stock_data, current_tickers, amounts, total_cash, holdings
+        )
+    else:
+        total_cash, holdings, investment_log, add_funds_needed, add_funds_dates = calculate_dca_purchases(
+            stock_data, current_tickers, total_cash, holdings
+        )
+
+    summary = calculate_pnl_and_metrics(
+        stock_data, current_tickers, all_tickers, holdings, total_cash, interval, investment_log
+    )
+    summary["add_funds_needed"] = add_funds_needed
+    summary["add_funds_dates"] = add_funds_dates
+    return summary
+
+
+# ===============================================================================
 # MAIN FLOW CLASS
 # ===============================================================================
 
@@ -539,6 +729,7 @@ class StockAnalysisFlow(Flow):
         all_tickers = list(set(current_tickers + [inv["ticker"] for inv in existing_portfolio]))
         print(f"Debug: Processing allocation for all tickers: {all_tickers}")
 
+
         # Step 4.5: Initialize cash available for investment
         # Use existing available cash or sum of requested amounts
         if self.state['state']["available_cash"] is not None:
@@ -551,157 +742,27 @@ class StockAnalysisFlow(Flow):
         existing_portfolio = self.state.get("investment_portfolio", [])
         if isinstance(existing_portfolio, str):
             existing_portfolio = json.loads(existing_portfolio)
-        
-        # Initialize holdings with existing portfolio
-        holdings = {}
-        for investment in existing_portfolio:
-            ticker = investment["ticker"]
-            if ticker not in holdings:
-                holdings[ticker] = 0.0
-        
-        # Add new tickers from current query
-        for ticker in current_tickers:
-            if ticker not in holdings:
-                holdings[ticker] = 0.0
-        
-        investment_log = []  # Log of all investment transactions
-        add_funds_needed = False  # Flag if more funds are needed
-        add_funds_dates = []  # Dates when funds were insufficient
-
-        # Step 4.7: Ensure stock data is sorted chronologically
-        stock_data = stock_data.sort_index()
-
-        # Step 4.8: Execute investment strategy based on interval
-        if interval == "single_shot":
-            # SINGLE-SHOT STRATEGY: Buy all shares at the first available date
-            first_date = stock_data.index[0]
-            row = stock_data.loc[first_date]
             
-            # Loop through each ticker and attempt to buy allocated amount
-            for idx, ticker in enumerate(current_tickers):
-                price = row[ticker]
-                
-                # Step 4.8.1: Check if price data is available
-                if np.isnan(price):
-                    investment_log.append(
-                        f"{first_date.date()}: No price data for {ticker}, could not invest."
-                    )
-                    add_funds_needed = True
-                    add_funds_dates.append(
-                        (str(first_date.date()), ticker, price, amounts[idx])
-                    )
-                    continue
-                    
-                # Step 4.8.2: Calculate how much to invest in this ticker
-                allocated = amounts[idx]
-                
-                # Step 4.8.3: Check if we have enough cash and allocation is sufficient
-                if total_cash >= allocated and allocated >= price:
-                    shares_to_buy = allocated // price  # Integer division for whole shares
-                    if shares_to_buy > 0:
-                        cost = shares_to_buy * price
-                        holdings[ticker] += shares_to_buy
-                        total_cash -= cost
-                        investment_log.append(
-                            f"{first_date.date()}: Bought {shares_to_buy:.2f} shares of {ticker} at ${price:.2f} (cost: ${cost:.2f})"
-                        )
-                    else:
-                        investment_log.append(
-                            f"{first_date.date()}: Not enough allocated cash to buy {ticker} at ${price:.2f}. Allocated: ${allocated:.2f}"
-                        )
-                        add_funds_needed = True
-                        add_funds_dates.append(
-                            (str(first_date.date()), ticker, price, allocated)
-                        )
-                else:
-                    # Step 4.8.4: Insufficient funds for this ticker
-                    investment_log.append(
-                        f"{first_date.date()}: Not enough total cash to buy {ticker} at ${price:.2f}. Allocated: ${allocated:.2f}, Available: ${total_cash:.2f}"
-                    )
-                    add_funds_needed = True
-                    add_funds_dates.append(
-                        (str(first_date.date()), ticker, price, total_cash)
-                    )
-            # No further purchases on subsequent dates for single-shot strategy
-        else:
-            # DOLLAR-COST AVERAGING (DCA) STRATEGY: Spread investments over time
-            for date, row in stock_data.iterrows():
-                for i, ticker in enumerate(current_tickers):
-                    price = row[ticker]
-                    
-                    # Step 4.8.5: Skip if no price data available
-                    if np.isnan(price):
-                        continue  # skip if price is NaN
-                        
-                    # Step 4.8.6: Invest as much as possible for this ticker at this date
-                    if total_cash >= price:
-                        shares_to_buy = total_cash // price
-                        if shares_to_buy > 0:
-                            cost = shares_to_buy * price
-                            holdings[ticker] += shares_to_buy
-                            total_cash -= cost
-                            investment_log.append(
-                                f"{date.date()}: Bought {shares_to_buy:.2f} shares of {ticker} at ${price:.2f} (cost: ${cost:.2f})"
-                            )
-                    else:
-                        # Step 4.8.7: Log when funds are insufficient
-                        add_funds_needed = True
-                        add_funds_dates.append(
-                            (str(date.date()), ticker, price, total_cash)
-                        )
-                        investment_log.append(
-                            f"{date.date()}: Not enough cash to buy {ticker} at ${price:.2f}. Available: ${total_cash:.2f}. Please add more funds."
-                        )
-
-        # Step 4.9: Calculate final portfolio value and performance metrics
-        final_prices = stock_data.iloc[-1]  # Latest prices for each stock
-        total_value = 0.0
-        returns = {}  # Absolute returns for each ticker
-        total_invested_per_stock = {}  # Amount invested in each stock
-        percent_allocation_per_stock = {}  # Percentage allocation for each stock
-        percent_return_per_stock = {}  # Percentage return for each stock
-        total_invested = 0.0
+        summary = execute_portfolio_allocation(
+            stock_data=stock_data,
+            current_tickers=current_tickers,
+            amounts=amounts,
+            interval=interval,
+            total_cash=total_cash,
+            existing_portfolio=existing_portfolio,
+        )
         
-        # Step 4.10: Calculate total amount invested per stock
-        for idx, ticker in enumerate(current_tickers):
-            # Calculate how much was actually invested in this stock
-            if interval == "single_shot":
-                # Step 4.10.1: For single-shot, only one purchase at first date
-                first_date = stock_data.index[0]
-                price = stock_data.loc[first_date][ticker]
-                shares_bought = holdings[ticker]
-                invested = shares_bought * price
-            else:
-                # Step 4.10.2: For DCA, sum all purchases from the log
-                invested = 0.0
-                for log in investment_log:
-                    if f"shares of {ticker}" in log and "Bought" in log:
-                        # Extract cost from log string
-                        try:
-                            cost_str = log.split("(cost: $")[-1].split(")")[0]
-                            invested += float(cost_str)
-                        except Exception:
-                            pass
-            total_invested_per_stock[ticker] = invested
-            total_invested += invested
-            
-        # Step 4.11: Calculate percentage allocations and returns
-        for ticker in all_tickers:
-            invested = total_invested_per_stock[ticker]
-            holding_value = holdings[ticker] * final_prices[ticker]  # Current value of holdings
-            returns[ticker] = holding_value - invested  # Absolute return
-            total_value += holding_value
-            
-            # Calculate percentage allocation (what % of total investment went to this stock)
-            percent_allocation_per_stock[ticker] = (
-                (invested / total_invested * 100) if total_invested > 0 else 0.0
-            )
-            
-            # Calculate percentage return (how much % this stock gained/lost)
-            percent_return_per_stock[ticker] = (
-                ((holding_value - invested) / invested * 100) if invested > 0 else 0.0
-            )
-        total_value += total_cash  # Add remaining cash to total portfolio value
+        holdings = summary["holdings"]
+        total_cash = summary["cash"]
+        returns = summary["returns"]
+        total_value = summary["total_value"]
+        investment_log = summary["investment_log"]
+        add_funds_needed = summary["add_funds_needed"]
+        add_funds_dates = summary["add_funds_dates"]
+        total_invested_per_stock = summary["total_invested_per_stock"]
+        percent_allocation_per_stock = summary["percent_allocation_per_stock"]
+        percent_return_per_stock = summary["percent_return_per_stock"]
+        final_prices = stock_data.iloc[-1]
 
         # Step 4.12: Store investment summary results in state
         self.state['state']["investment_summary"] = {
