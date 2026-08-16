@@ -1,18 +1,17 @@
-<<<<<<< HEAD
-# stock-portfolio-analysis-agent
-=======
 # Stock Portfolio Agent
 
-This project shows how to create an AI agent that streams the portfolio analysis workflow in real-time. Built with CrewAI (backend), React/Next.js (frontend), the CopilotKit's AG-UI Protocol enables users to watch the agent fetch stock data, calculate allocations, and generate insights live.
+This project demonstrates an AI agent that streams stock portfolio analysis workflows in real time. Built with **CrewAI** (backend), **React / Next.js** (frontend), and **CopilotKit's AG-UI Protocol**, users can observe the agent fetching stock data, performing portfolio allocations, and generating insights live.
 
-**Tech stack:**
-- [React](https://react.dev) + [Next.js](https://nextjs.org) for the frontend UI
-- [FastAPI](https://fastapi.tiangolo.com) + [Uvicorn](https://www.uvicorn.org) for the backend API
-- [CopilotKit](https://github.com/CopilotKit/CopilotKit) + AG UI Protocol for streaming agent events
-- [CrewAI](https://github.com/crewAIInc/crewAI) for the agent workflow
-- [yfinance](https://github.com/ranaroussi/yfinance) and [pandas](https://pandas.pydata.org) for market data and analysis
+📖 **For exhaustive technical documentation, architecture details, and full feature specs, see [PROJECT_OVERVIEW.md](file:///d:/PROJECTS/stock-portfolio-analysis-agent/PROJECT_OVERVIEW.md).**
 
-## Setup
+## Tech Stack
+- **Frontend UI**: [React 19](https://react.dev) + [Next.js 15](https://nextjs.org) + [Recharts](https://recharts.org) + [Tailwind CSS 4](https://tailwindcss.com)
+- **Backend API**: [FastAPI](https://fastapi.tiangolo.com) + [Uvicorn](https://www.uvicorn.org)
+- **Streaming & Protocol**: [CopilotKit](https://github.com/CopilotKit/CopilotKit) + AG-UI Protocol
+- **Agent Workflow**: [CrewAI](https://github.com/crewAIInc/crewAI) (`crewai.flow.flow`)
+- **Market Data**: [yfinance](https://github.com/ranaroussi/yfinance) and [pandas](https://pandas.pydata.org)
+
+## Quick Setup
 
 1. **Install Dependencies**:
    ```bash
@@ -27,18 +26,15 @@ This project shows how to create an AI agent that streams the portfolio analysis
 2. **Environment Variables**:
    - `agent/.env` (backend):
      ```env
-     OPENAI_API_KEY=your-key
+     OPENAI_API_KEY=your-openai-api-key
      ```
    - `frontend/.env` (frontend):
      ```env
-     OPENAI_API_KEY=your-openai-key
+     OPENAI_API_KEY=your-openai-api-key
      NEXT_PUBLIC_CREWAI_URL=http://127.0.0.1:8000/crewai-agent
      ```
 
-3. **Configure Backend URL (optional)**:
-   The frontend expects the backend to run locally. If you change host/port, update the frontend API call configuration accordingly.
-
-4. **Run the App**:
+3. **Run the App**:
    ```bash
    # Start backend
    uv run python agent/main.py
@@ -50,28 +46,10 @@ This project shows how to create an AI agent that streams the portfolio analysis
 
 ## Usage
 
-1. **Open the UI**:
-   - Visit `http://localhost:3000`.
+1. **Open the UI**: Visit `http://localhost:3000`.
+2. **Run Stock Analysis**: Ask for portfolio analysis (e.g., *"Analyze AAPL and MSFT with $10k each over the last year"*).
+3. **Watch Live Progress**: Streamed tool calls, execution steps, charts, and insights render live on screen.
 
-2. **Run a Stock Analysis**:
-   - Use the prompt/input in the UI to ask for a portfolio analysis (e.g., "Analyze AAPL and MSFT with $10k each").
-   - Watch live progress: messages, tool calls, and intermediate results stream into the UI via AG UI Protocol events.
+## Documentation
+Refer to [`PROJECT_OVERVIEW.md`](file:///d:/PROJECTS/stock-portfolio-analysis-agent/PROJECT_OVERVIEW.md) for full implementation details, architecture diagrams, and feature breakdowns.
 
-3. **Review Results**:
-   - View allocation summaries, charts, and insights rendered by the frontend components.
-
-## Development Notes
-- If your editor reports missing imports, ensure it points to the same Python environment where you installed dependencies (`uv`, `venv`, `conda`, etc.). Running `uv sync` in the repo root is recommended, but any standard Python environment manager works.
-- The FastAPI app is in `agent/main.py`; core workflow logic is in `agent/stock_analysis.py`.
-
-
-
-## 📬 Stay Updated with Our Newsletter!
-
-**Get a FREE Data Science eBook** 📖 with 150+ essential lessons in Data Science when you subscribe to our newsletter! Stay in the loop with the latest tutorials, insights, and exclusive resources. [Subscribe now!](https://join.dailydoseofds.com)
-
-[![Daily Dose of Data Science Newsletter](https://github.com/patchy631/ai-engineering/blob/main/resources/join_ddods.png)](https://join.dailydoseofds.com)
-
-## Contribution
-Contributions are welcome! Please open an issue or submit a PR.
->>>>>>> b1e12b1 (Initial commit: Stock Portfolio Analysis Agent with FastAPI backend and Next.js CopilotKit frontend)
