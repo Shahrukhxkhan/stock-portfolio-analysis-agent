@@ -7,11 +7,24 @@ import { InsightCardComponent } from "./chart-components/insight-card"
 import { SectionTitle } from "./chart-components/section-title"
 import { BarChartComponent } from "./chart-components/bar-chart"
 import { ScenarioSimulator } from "./chart-components/scenario-simulator"
+import { RiskMetricsCard } from "./chart-components/risk-metrics-card"
+import { CorrelationHeatmap } from "./chart-components/correlation-heatmap"
+import { MonteCarloChart } from "./chart-components/monte-carlo-chart"
+import { RebalancingTable } from "./chart-components/rebalancing-table"
+import { DividendAnalytics } from "./chart-components/dividend-analytics"
+import { MultiAgentInsights } from "./chart-components/multi-agent-insights"
 import type { PortfolioState, SandBoxPortfolioState } from "../page"
-import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download } from "lucide-react"
+import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot } from "lucide-react"
 
 interface GenerativeCanvasProps {
-  portfolioState: PortfolioState
+  portfolioState: PortfolioState & {
+    riskMetrics?: any
+    correlationMatrix?: any
+    monteCarlo?: any
+    dividendAnalytics?: any
+    rebalancingOrders?: any
+    multiAgentCrew?: any
+  }
   setSelectedStock: (stock: string | null) => void
   sandBoxPortfolio: SandBoxPortfolioState[]
   setSandBoxPortfolio: (portfolio: SandBoxPortfolioState[]) => void
@@ -22,7 +35,9 @@ export function GenerativeCanvas({
   setSelectedStock,
   sandBoxPortfolio,
 }: GenerativeCanvasProps) {
-  const [activeTab, setActiveTab] = useState<"overview" | "performance" | "allocations" | "insights" | "simulator">("overview")
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "performance" | "allocations" | "multiagent" | "risk" | "rebalance" | "insights" | "simulator"
+  >("overview")
 
   const handleExportData = () => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(portfolioState, null, 2))
@@ -43,6 +58,9 @@ export function GenerativeCanvas({
             { id: "overview", label: "Overview", icon: LayoutGrid },
             { id: "performance", label: "Performance", icon: TrendingUp },
             { id: "allocations", label: "Allocations & Returns", icon: PieChart },
+            { id: "multiagent", label: "Multi-Agent Intelligence", icon: Bot },
+            { id: "risk", label: "Quant & Risk Analytics", icon: ShieldCheck },
+            { id: "rebalance", label: "Rebalance & Dividends", icon: Scale },
             { id: "insights", label: "Market Insights", icon: Sparkles },
             { id: "simulator", label: "What-If Simulator", icon: Sliders },
           ].map((tab) => {
@@ -107,6 +125,9 @@ export function GenerativeCanvas({
                 )}
               </div>
             </div>
+
+            {/* Risk Metrics Quick Overview */}
+            <RiskMetricsCard metrics={portfolioState?.riskMetrics} />
 
             {/* Allocation and Returns Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -231,6 +252,30 @@ export function GenerativeCanvas({
                 <BarChartComponent data={portfolioState?.returnsData || []} onClick={setSelectedStock} />
               </div>
             </div>
+          </div>
+        )}
+
+        {/* MULTI-AGENT INTELLIGENCE TAB */}
+        {activeTab === "multiagent" && (
+          <MultiAgentInsights data={portfolioState?.multiAgentCrew} />
+        )}
+
+        {/* QUANT & RISK ANALYTICS TAB */}
+        {activeTab === "risk" && (
+          <div className="space-y-4">
+            <RiskMetricsCard metrics={portfolioState?.riskMetrics} />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <CorrelationHeatmap data={portfolioState?.correlationMatrix} />
+              <MonteCarloChart data={portfolioState?.monteCarlo} />
+            </div>
+          </div>
+        )}
+
+        {/* REBALANCE & DIVIDENDS TAB */}
+        {activeTab === "rebalance" && (
+          <div className="space-y-4">
+            <RebalancingTable orders={portfolioState?.rebalancingOrders} />
+            <DividendAnalytics data={portfolioState?.dividendAnalytics} />
           </div>
         )}
 

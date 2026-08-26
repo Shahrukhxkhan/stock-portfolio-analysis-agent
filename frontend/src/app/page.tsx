@@ -45,6 +45,12 @@ export interface PortfolioState {
     emoji: string
   }>
   totalReturns: number
+  riskMetrics?: any
+  correlationMatrix?: any
+  monteCarlo?: any
+  dividendAnalytics?: any
+  rebalancingOrders?: any
+  multiAgentCrew?: any
 }
 
 export interface SandBoxPortfolioState {
@@ -141,7 +147,13 @@ export default function OpenStocksCanvas() {
                       bearInsights: args?.insights?.bearInsights || [],
                       currentPortfolioValue: args?.investment_summary?.total_value,
                       totalReturns: (Object.values(args?.investment_summary?.returns) as number[])
-                        .reduce((acc, val) => acc + val, 0)
+                        .reduce((acc, val) => acc + val, 0),
+                      riskMetrics: args?.investment_summary?.risk_metrics,
+                      correlationMatrix: args?.investment_summary?.correlation_matrix,
+                      monteCarlo: args?.investment_summary?.monte_carlo,
+                      dividendAnalytics: args?.investment_summary?.dividend_analytics,
+                      rebalancingOrders: args?.investment_summary?.rebalancing_orders,
+                      multiAgentCrew: args?.investment_summary?.multi_agent_crew,
                     })
                     setInvestedAmount(
                       (Object.values(args?.investment_summary?.total_invested_per_stock) as number[])
