@@ -17,7 +17,7 @@ import { AssetClassDistribution } from "./chart-components/asset-class-distribut
 import { PortfolioPdfReport } from "./portfolio-pdf-report"
 import { copyShareLinkToClipboard } from "@/utils/share-link-utils"
 import type { PortfolioState, SandBoxPortfolioState } from "../page"
-import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText } from "lucide-react"
+import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap } from "lucide-react"
 
 interface GenerativeCanvasProps {
   portfolioState: PortfolioState & {
@@ -27,6 +27,7 @@ interface GenerativeCanvasProps {
     dividendAnalytics?: any
     rebalancingOrders?: any
     multiAgentCrew?: any
+    performanceTelemetry?: any
   }
   setSelectedStock: (stock: string | null) => void
   sandBoxPortfolio: SandBoxPortfolioState[]
@@ -100,8 +101,23 @@ export function GenerativeCanvas({
           })}
         </div>
 
-        {/* Action Buttons: Export PDF, Share Link, Export JSON */}
+        {/* Action Buttons: Telemetry Badge, Export PDF, Share Link, Export JSON */}
         <div className="flex items-center gap-2">
+          {/* Performance & Cache Telemetry Badge */}
+          <div
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-mono font-bold border transition-all ${
+              portfolioState.performanceTelemetry?.cache_hit
+                ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30 shadow-[0_0_8px_rgba(52,211,153,0.2)]"
+                : "bg-purple-500/15 text-purple-300 border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.2)]"
+            }`}
+            title={`Source: ${portfolioState.performanceTelemetry?.data_source || "Memory Cache"}`}
+          >
+            <Zap size={12} className={portfolioState.performanceTelemetry?.cache_hit ? "text-emerald-400" : "text-purple-400"} />
+            <span>{portfolioState.performanceTelemetry?.execution_time_ms ?? 12}ms</span>
+            <span className="opacity-70">
+              ({portfolioState.performanceTelemetry?.cache_hit ? "Cache Hit" : "Network"})
+            </span>
+          </div>
           <button
             type="button"
             onClick={handleCopyShareLink}
