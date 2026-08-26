@@ -14,8 +14,10 @@ import { RebalancingTable } from "./chart-components/rebalancing-table"
 import { DividendAnalytics } from "./chart-components/dividend-analytics"
 import { MultiAgentInsights } from "./chart-components/multi-agent-insights"
 import { AssetClassDistribution } from "./chart-components/asset-class-distribution"
+import { PortfolioPdfReport } from "./portfolio-pdf-report"
+import { copyShareLinkToClipboard } from "@/utils/share-link-utils"
 import type { PortfolioState, SandBoxPortfolioState } from "../page"
-import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot } from "lucide-react"
+import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText } from "lucide-react"
 
 interface GenerativeCanvasProps {
   portfolioState: PortfolioState & {
@@ -39,6 +41,16 @@ export function GenerativeCanvas({
   const [activeTab, setActiveTab] = useState<
     "overview" | "performance" | "allocations" | "multiagent" | "risk" | "rebalance" | "insights" | "simulator"
   >("overview")
+  const [showPdfReport, setShowPdfReport] = useState(false)
+  const [copiedLink, setCopiedLink] = useState(false)
+
+  const handleCopyShareLink = async () => {
+    const success = await copyShareLinkToClipboard(portfolioState)
+    if (success) {
+      setCopiedLink(true)
+      setTimeout(() => setCopiedLink(false), 3000)
+    }
+  }
 
   const handleExportData = () => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(portfolioState, null, 2))
@@ -52,6 +64,9 @@ export function GenerativeCanvas({
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
+      {/* PDF Executive Report Modal */}
+      {showPdfReport && <PortfolioPdfReport portfolioState={portfolioState} onClose={() => setShowPdfReport(false)} />}
+
       {/* Generative Canvas Top Tab Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2 bg-black/40 border-b border-white/10 backdrop-blur-xl flex-shrink-0 z-10">
         <div className="flex items-center gap-1 overflow-x-auto hide-scrollbar">
@@ -85,15 +100,39 @@ export function GenerativeCanvas({
           })}
         </div>
 
-        {/* Action Button: Export Summary */}
-        <button
-          type="button"
-          onClick={handleExportData}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-[#a1a1aa] hover:text-[#f5f5f7] transition-all"
-        >
-          <Download size={13} />
-          Export JSON
-        </button>
+        {/* Action Buttons: Export PDF, Share Link, Export JSON */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleCopyShareLink}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+              copiedLink
+                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
+                : "bg-white/5 hover:bg-white/10 border-white/10 text-[#a1a1aa] hover:text-[#f5f5f7]"
+            }`}
+          >
+            {copiedLink ? <Check size={13} className="text-emerald-400" /> : <Link size={13} />}
+            {copiedLink ? "Link Copied!" : "Share Link"}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowPdfReport(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-500/30 to-indigo-500/30 hover:from-purple-500/40 hover:to-indigo-500/40 border border-purple-500/40 text-xs font-semibold text-purple-200 transition-all shadow-[0_0_10px_rgba(168,85,247,0.2)]"
+          >
+            <FileText size={13} />
+            Export PDF
+          </button>
+
+          <button
+            type="button"
+            onClick={handleExportData}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-[#a1a1aa] hover:text-[#f5f5f7] transition-all"
+          >
+            <Download size={13} />
+            JSON
+          </button>
+        </div>
       </div>
 
       {/* Tab Content Container */}

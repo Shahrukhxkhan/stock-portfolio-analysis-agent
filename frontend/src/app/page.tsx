@@ -13,6 +13,7 @@ import { useCopilotChatSuggestions } from "@copilotkit/react-ui"
 import { INVESTMENT_SUGGESTION_PROMPT } from "@/utils/prompts"
 import { ToolLogs } from "./components/tool-logs"
 import { AssetDetailModal } from "./components/asset-detail-modal"
+import { decodeShareUrlToPortfolio } from "@/utils/share-link-utils"
 
 export interface PortfolioState {
   id: string
@@ -251,6 +252,20 @@ export default function OpenStocksCanvas() {
 
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search)
+      const shareParam = urlParams.get("share")
+      if (shareParam) {
+        const decoded = decodeShareUrlToPortfolio(shareParam)
+        if (decoded) {
+          setCurrentState((prev) => ({
+            ...prev,
+            ...decoded,
+          }))
+          return
+        }
+      }
+    }
     getBenchmarkData()
   }, [])
 
