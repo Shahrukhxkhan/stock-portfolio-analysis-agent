@@ -10,9 +10,10 @@ export interface Allocation {
 interface AllocationTableComponentProps {
   allocations: Allocation[] | [] | undefined
   size?: "normal" | "small"
+  onSelectTicker?: (ticker: string) => void
 }
 
-export function AllocationTableComponent({ allocations, size = "normal" }: AllocationTableComponentProps) {
+export function AllocationTableComponent({ allocations, size = "normal", onSelectTicker }: AllocationTableComponentProps) {
   if (!allocations || allocations.length === 0) {
     return (
       <div className="glass-panel p-6 flex flex-col items-center justify-center text-center space-y-3 relative overflow-hidden">
@@ -36,10 +37,16 @@ export function AllocationTableComponent({ allocations, size = "normal" }: Alloc
   return (
     <div className="glass-panel p-3.5 space-y-3">
       {allocations.map((item) => (
-        <div key={item.ticker} className="space-y-1.5 group p-1.5 rounded-xl hover:bg-white/5 transition-colors">
+        <div
+          key={item.ticker}
+          onClick={() => onSelectTicker?.(item.ticker)}
+          className="space-y-1.5 group p-2 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all cursor-pointer"
+        >
           <div className="flex items-center justify-between text-xs font-['Plus_Jakarta_Sans']">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-[#f5f5f7] tracking-wider font-['Roobert']">{item.ticker}</span>
+              <span className="font-bold text-[#f5f5f7] tracking-wider font-['Roobert'] group-hover:text-purple-300 transition-colors">
+                {item.ticker}
+              </span>
               <span className="text-[11px] text-[#a1a1aa] font-medium">({item.allocation.toFixed(1)}%)</span>
             </div>
             <div className="flex items-center gap-2.5">

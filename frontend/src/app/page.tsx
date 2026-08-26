@@ -12,6 +12,7 @@ import { AllocationTableComponent } from "@/app/components/chart-components/allo
 import { useCopilotChatSuggestions } from "@copilotkit/react-ui"
 import { INVESTMENT_SUGGESTION_PROMPT } from "@/utils/prompts"
 import { ToolLogs } from "./components/tool-logs"
+import { AssetDetailModal } from "./components/asset-detail-modal"
 
 export interface PortfolioState {
   id: string
@@ -299,6 +300,9 @@ export default function OpenStocksCanvas() {
           <GenerativeCanvas setSelectedStock={setSelectedStock} portfolioState={currentState} sandBoxPortfolio={sandBoxPortfolio} setSandBoxPortfolio={setSandBoxPortfolio} />
         </div>
       </div>
+
+      {/* Ticker Detail Modal */}
+      <AssetDetailModal ticker={selectedStock} portfolioState={currentState} onClose={() => setSelectedStock(null)} />
 
       {/* Right Panel - Component Tree (Optional) */}
       {showComponentTree && (

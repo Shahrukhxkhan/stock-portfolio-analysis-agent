@@ -47,17 +47,61 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export function LineChartComponent({ data, size = "normal" }: LineChartComponentProps) {
   const [showPortfolio, setShowPortfolio] = useState(true)
   const [showSpy, setShowSpy] = useState(true)
+  const [showGradient, setShowGradient] = useState(true)
+  const [timeRange, setTimeRange] = useState<"1M" | "6M" | "1Y" | "ALL">("ALL")
 
-  const height = size === "small" ? 120 : 192 // h-30 or h-48
+  const height = size === "small" ? 120 : 210 // h-30 or h-52
   const padding = size === "small" ? "p-2.5" : "p-4"
   const fontSize = size === "small" ? 8 : 10
 
+  // Filter data based on selected time range
+  const filteredData = (data || []).slice(
+    timeRange === "1M" ? -2 : timeRange === "6M" ? -6 : timeRange === "1Y" ? -12 : 0
+  )
+
   return (
-    <div className={`glass-panel ${padding} relative overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]`}>
-      {/* Legend Pill Toggles */}
-      <div className="flex items-center justify-between mb-2">
-        <div className="text-xs text-[#a1a1aa] font-medium tracking-wide">Performance Overview</div>
+    <div className={`glass-panel ${padding} relative overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] space-y-3`}>
+      {/* Legend & Filter Controls */}
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2">
         <div className="flex items-center gap-2">
+          <div className="text-xs text-[#a1a1aa] font-medium tracking-wide">Performance Overview</div>
+          {/* Time Range Chips */}
+          {size !== "small" && (
+            <div className="flex items-center bg-white/5 border border-white/10 rounded-lg p-0.5 ml-2">
+              {(["1M", "6M", "1Y", "ALL"] as const).map((range) => (
+                <button
+                  key={range}
+                  type="button"
+                  onClick={() => setTimeRange(range)}
+                  className={`px-2 py-0.5 text-[10px] font-semibold rounded-md transition-all ${
+                    timeRange === range
+                      ? "bg-purple-500/30 text-purple-200 border border-purple-500/40 shadow-sm"
+                      : "text-[#a1a1aa] hover:text-[#f5f5f7]"
+                  }`}
+                >
+                  {range}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center gap-2">
+          {/* Gradient Area Fill Toggle */}
+          {size !== "small" && (
+            <button
+              type="button"
+              onClick={() => setShowGradient(!showGradient)}
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium transition-all border ${
+                showGradient
+                  ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-300"
+                  : "bg-white/5 border-white/10 text-[#a1a1aa] opacity-50"
+              }`}
+            >
+              Fill
+            </button>
+          )}
+
           <button
             type="button"
             onClick={() => setShowPortfolio(!showPortfolio)}
@@ -87,7 +131,7 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
 
       <div style={{ height }}>
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data}>
+          <ComposedChart data={filteredData}>
             <defs>
               <linearGradient id="portfolioStrokeGradient" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="#FF003C" />
@@ -110,14 +154,14 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
             <Tooltip content={<CustomTooltip />} />
 
             {/* Soft area-fill gradient for Portfolio */}
-            {showPortfolio && (
+            {showPortfolio && showGradient && (
               <Area
                 type="monotone"
                 dataKey="portfolio"
                 stroke="none"
                 fill="url(#portfolioAreaGradient)"
                 isAnimationActive={true}
-                animationDuration={1500}
+                animationDuration={1000}
               />
             )}
 
@@ -131,7 +175,7 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
                 name="Portfolio"
                 dot={false}
                 isAnimationActive={true}
-                animationDuration={1500}
+                animationDuration={1000}
               />
             )}
 
@@ -146,7 +190,7 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
                 name="SPY"
                 dot={false}
                 isAnimationActive={true}
-                animationDuration={1500}
+                animationDuration={1000}
               />
             )}
           </ComposedChart>

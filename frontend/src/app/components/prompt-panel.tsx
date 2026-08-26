@@ -46,6 +46,34 @@ export function PromptPanel({ availableCash }: PromptPanelProps) {
             {formatCurrency(availableCash)}
           </div>
         </div>
+
+        {/* Quick Presets Section */}
+        <div className="mt-3 space-y-1.5">
+          <div className="text-[10px] text-[#a1a1aa] font-bold uppercase tracking-wider">Quick Query Presets</div>
+          <div className="flex flex-wrap gap-1.5">
+            {[
+              { label: "🚀 Tech Trio $10k", text: "Analyze AAPL, MSFT, and NVDA with $10,000 each since Jan 2023" },
+              { label: "📅 DCA SPY $500/mo", text: "DCA $500 monthly into SPY over the last 2 years" },
+              { label: "⚡ TSLA vs AMD", text: "Compare TSLA and AMD with $15,000 total investment since Jan 2024" },
+            ].map((preset, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => {
+                  const inputEl = document.querySelector(".copilotKitInput input, .copilotKitInput textarea") as HTMLInputElement | HTMLTextAreaElement
+                  if (inputEl) {
+                    inputEl.value = preset.text
+                    inputEl.dispatchEvent(new Event("input", { bubbles: true }))
+                    inputEl.focus()
+                  }
+                }}
+                className="text-[10px] font-medium px-2 py-1 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-[#f5f5f7] hover:border-purple-500/40 transition-all text-left truncate max-w-full"
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       <CopilotChat className="h-[78vh] p-3 flex-1" labels={
