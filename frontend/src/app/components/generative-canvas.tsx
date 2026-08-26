@@ -13,6 +13,7 @@ import { MonteCarloChart } from "./chart-components/monte-carlo-chart"
 import { RebalancingTable } from "./chart-components/rebalancing-table"
 import { DividendAnalytics } from "./chart-components/dividend-analytics"
 import { MultiAgentInsights } from "./chart-components/multi-agent-insights"
+import { AssetClassDistribution } from "./chart-components/asset-class-distribution"
 import type { PortfolioState, SandBoxPortfolioState } from "../page"
 import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot } from "lucide-react"
 
@@ -128,6 +129,9 @@ export function GenerativeCanvas({
 
             {/* Risk Metrics Quick Overview */}
             <RiskMetricsCard metrics={portfolioState?.riskMetrics} />
+
+            {/* Asset Class Breakdown Distribution */}
+            <AssetClassDistribution distribution={portfolioState?.assetClassDistribution} />
 
             {/* Allocation and Returns Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

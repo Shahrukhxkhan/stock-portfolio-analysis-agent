@@ -51,6 +51,7 @@ export interface PortfolioState {
   dividendAnalytics?: any
   rebalancingOrders?: any
   multiAgentCrew?: any
+  assetClassDistribution?: any
 }
 
 export interface SandBoxPortfolioState {
@@ -154,6 +155,7 @@ export default function OpenStocksCanvas() {
                       dividendAnalytics: args?.investment_summary?.dividend_analytics,
                       rebalancingOrders: args?.investment_summary?.rebalancing_orders,
                       multiAgentCrew: args?.investment_summary?.multi_agent_crew,
+                      assetClassDistribution: args?.investment_summary?.asset_class_distribution,
                     })
                     setInvestedAmount(
                       (Object.values(args?.investment_summary?.total_invested_per_stock) as number[])

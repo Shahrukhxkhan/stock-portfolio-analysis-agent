@@ -30,6 +30,7 @@ import pandas as pd
 # Import custom prompts for the AI models
 from prompts import system_prompt, insights_prompt
 from multi_agent_crew import run_multi_agent_crew
+from asset_classifier import normalize_ticker, calculate_asset_class_distribution
 
 # Load environment variables (like API keys) from .env file
 load_dotenv()
@@ -576,6 +577,8 @@ def calculate_pnl_and_metrics(stock_data, current_tickers, all_tickers, holdings
         "dividend_analytics": calculate_dividend_analytics(all_tickers, holdings, final_prices_dict),
         "rebalancing_orders": calculate_rebalancing_orders(holdings, final_prices_dict, all_tickers),
         "multi_agent_crew": run_multi_agent_crew(stock_data, all_tickers, holdings, final_prices_dict, total_invested_per_stock),
+        "asset_class_distribution": calculate_asset_class_distribution(holdings, final_prices_dict),
+        "exchange_rates": {"USD": 1.0, "EUR": 0.92, "GBP": 0.78, "INR": 83.5},
     }
 
 
@@ -857,8 +860,9 @@ class StockAnalysisFlow(Flow):
         )
         await asyncio.sleep(2)
         
-        # Step 3.7: Extract investment parameters
-        tickers = arguments["ticker_symbols"]
+        # Step 3.7: Extract investment parameters and normalize ticker symbols
+        tickers = [normalize_ticker(t) for t in arguments["ticker_symbols"]]
+        arguments["ticker_symbols"] = tickers
         investment_date = arguments.get("investment_date", "")
         current_year = datetime.now().year
         

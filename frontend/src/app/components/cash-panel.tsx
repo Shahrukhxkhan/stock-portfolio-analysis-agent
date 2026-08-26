@@ -14,8 +14,17 @@ interface CashPanelProps {
 export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, onTotalCashChange, onStateCashChange }: CashPanelProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [editValue, setEditValue] = useState(totalCash.toString())
+  const [selectedCurrency, setSelectedCurrency] = useState<"USD" | "EUR" | "GBP" | "INR">("USD")
 
-  // const availableCash = totalCash - investedAmount
+  const CURRENCY_RATES = {
+    USD: { rate: 1.0, symbol: "$", code: "USD" },
+    EUR: { rate: 0.92, symbol: "€", code: "EUR" },
+    GBP: { rate: 0.78, symbol: "£", code: "GBP" },
+    INR: { rate: 83.5, symbol: "₹", code: "INR" },
+  }
+
+  const curr = CURRENCY_RATES[selectedCurrency]
+
   const investedPercentage = totalCash > 0 ? (investedAmount / (totalCash + investedAmount)) * 100 : 0
   const fourYearReturn = currentPortfolioValue - investedAmount - totalCash
   const fourYearReturnPercentage = investedAmount > 0 ? (fourYearReturn / investedAmount) * 100 : 0
@@ -43,17 +52,32 @@ export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, on
   }
 
   const formatCurrency = (amount: number) => {
+    const converted = amount * curr.rate
     return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "USD",
+      currency: curr.code,
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
-    }).format(amount)
+    }).format(converted)
   }
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 w-full overflow-x-auto pb-1 hide-scrollbar">
       <div className="flex flex-wrap items-center gap-3.5">
+        {/* Currency Switcher Dropdown */}
+        <div className="glass-panel !rounded-2xl p-2 px-3 flex items-center gap-2 border border-white/10 hover:border-white/20">
+          <span className="text-xs text-[#a1a1aa] font-medium uppercase">FX</span>
+          <select
+            value={selectedCurrency}
+            onChange={(e) => setSelectedCurrency(e.target.value as any)}
+            className="bg-transparent text-xs font-bold text-[#f5f5f7] font-['Roobert'] cursor-pointer focus:outline-none"
+          >
+            <option value="USD" className="bg-[#0f0f17] text-white">🇺🇸 USD ($)</option>
+            <option value="EUR" className="bg-[#0f0f17] text-white">🇪🇺 EUR (€)</option>
+            <option value="GBP" className="bg-[#0f0f17] text-white">🇬🇧 GBP (£)</option>
+            <option value="INR" className="bg-[#0f0f17] text-white">🇮🇳 INR (₹)</option>
+          </select>
+        </div>
         {/* Total Cash */}
         <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out group border border-white/10 hover:border-white/20">
           <div className="w-9 h-9 bg-blue-500/15 border border-blue-500/30 text-blue-400 rounded-full flex items-center justify-center shadow-[0_0_12px_rgba(59,130,246,0.25)] flex-shrink-0">

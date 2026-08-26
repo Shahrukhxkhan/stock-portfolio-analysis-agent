@@ -53,8 +53,9 @@ export function PromptPanel({ availableCash }: PromptPanelProps) {
           <div className="flex flex-wrap gap-1.5">
             {[
               { label: "🚀 Tech Trio $10k", text: "Analyze AAPL, MSFT, and NVDA with $10,000 each since Jan 2023" },
+              { label: "₿ Crypto & Tech $10k", text: "Analyze BTC-USD, ETH-USD, and NVDA with $10,000 each since Jan 2023" },
+              { label: "🥇 Gold & Stocks $15k", text: "Analyze GLD, AAPL, and MSFT with $15,000 total since Jan 2023" },
               { label: "📅 DCA SPY $500/mo", text: "DCA $500 monthly into SPY over the last 2 years" },
-              { label: "⚡ TSLA vs AMD", text: "Compare TSLA and AMD with $15,000 total investment since Jan 2024" },
             ].map((preset, idx) => (
               <button
                 key={idx}
