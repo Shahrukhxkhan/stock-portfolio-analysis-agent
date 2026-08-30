@@ -58,6 +58,7 @@ export interface PortfolioState {
   optionsHedging?: any
   algoBacktest?: any
   financialWatchdog?: any
+  macroYieldCurve?: any
   assetClassDistribution?: any
   performanceTelemetry?: any
 }
@@ -284,6 +285,7 @@ export default function OpenStocksCanvas() {
                       optionsHedging: args?.investment_summary?.options_hedging,
                       algoBacktest: args?.investment_summary?.algo_backtest,
                       financialWatchdog: args?.investment_summary?.financial_watchdog,
+                      macroYieldCurve: args?.investment_summary?.macro_yield_curve,
                       assetClassDistribution: args?.investment_summary?.asset_class_distribution,
                       performanceTelemetry: args?.investment_summary?.performance_telemetry,
                     })

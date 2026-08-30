@@ -26,7 +26,8 @@ import { FamaFrenchFactors } from "./chart-components/fama-french-factors"
 import { OptionsHedgingCard } from "./chart-components/options-hedging-card"
 import { AlgoBacktestCard } from "./chart-components/algo-backtest-card"
 import { FinancialWatchdogCard } from "./chart-components/financial-watchdog-card"
-import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap, Activity, ShieldAlert, Cpu, BellRing } from "lucide-react"
+import { MacroYieldCurveCard } from "./chart-components/macro-yield-curve-card"
+import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap, Activity, ShieldAlert, Cpu, BellRing, Globe } from "lucide-react"
 
 interface GenerativeCanvasProps {
   portfolioState: PortfolioState & {
@@ -40,6 +41,7 @@ interface GenerativeCanvasProps {
     optionsHedging?: any
     algoBacktest?: any
     financialWatchdog?: any
+    macroYieldCurve?: any
     performanceTelemetry?: any
   }
   setSelectedStock: (stock: string | null) => void
@@ -55,7 +57,7 @@ export function GenerativeCanvas({
   onApplyRebalance,
 }: GenerativeCanvasProps) {
   const [activeTab, setActiveTab] = useState<
-    "overview" | "technical" | "performance" | "allocations" | "multiagent" | "risk" | "hedging" | "backtester" | "watchdog" | "rebalance_interactive" | "rebalance" | "insights" | "simulator"
+    "overview" | "technical" | "performance" | "allocations" | "multiagent" | "risk" | "hedging" | "backtester" | "watchdog" | "yield_curve" | "rebalance_interactive" | "rebalance" | "insights" | "simulator"
   >("overview")
   const [quantSubTab, setQuantSubTab] = useState<
     "frontier" | "black_litterman" | "crisis" | "fama_french" | "risk_var"
@@ -102,6 +104,7 @@ export function GenerativeCanvas({
             { id: "hedging", label: "Hedging & Options", icon: ShieldAlert },
             { id: "backtester", label: "Algo Backtester", icon: Cpu },
             { id: "watchdog", label: "Watchdog Sentinel", icon: BellRing },
+            { id: "yield_curve", label: "Yield Curve & Macro", icon: Globe },
             { id: "rebalance", label: "Auto Orders & Dividends", icon: Scale },
             { id: "insights", label: "Market Insights", icon: Sparkles },
             { id: "simulator", label: "What-If Simulator", icon: Sliders },
@@ -445,6 +448,11 @@ export function GenerativeCanvas({
         {/* 24/7 FINANCIAL WATCHDOG SENTINEL TAB */}
         {activeTab === "watchdog" && (
           <FinancialWatchdogCard data={portfolioState?.financialWatchdog} />
+        )}
+
+        {/* MACRO US TREASURY YIELD CURVE & RECESSION RISK TAB */}
+        {activeTab === "yield_curve" && (
+          <MacroYieldCurveCard data={portfolioState?.macroYieldCurve} />
         )}
 
         {/* REBALANCE & DIVIDENDS TAB */}

@@ -64,6 +64,11 @@ Instead of traditional static portfolio calculators, this system leverages an au
   - **24/7 Anomaly Sentinel**: Continuously evaluates portfolio assets against threshold rules for Whale Form 4 purchases > $1M, Congressional STOCK Act disclosures, Technical RSI/MACD momentum breaches, and SEC Note 7 debt covenants.
   - **Real-Time Filterable Alert Feed**: Categorized by severity (Critical, High, Medium, Info) with quick external source verification links.
   - **Multi-Channel Webhook Dispatcher**: Formats and exports live JSON payloads formatted for Discord Webhooks, Telegram Bot Markdown, and Slack Block Kit with in-app test dispatch simulator.
+- **Macro US Treasury Yield Curve & Recession Risk Barometer**:
+  - **Multi-Curve Term Structure**: Interactive multi-line SVG visualization across 9 benchmark maturities (1M to 30Y) comparing Current, 1-Month Ago, 1-Year Ago, and Peak Inversion curves with hover crosshairs.
+  - **2Y/10Y & 3M/10Y Inversion Spreads**: Live yield spread monitoring, yield curve steepening/inversion signals, and macroeconomic cycle regime classification.
+  - **Recession Probability Model**: Quantitative probability estimation (NY Fed Probit model proxy) with visual risk gauge.
+  - **Federal Reserve Rate Shock & Duration Simulator**: Interactive rate delta slider (-200 bps to +200 bps) to model immediate portfolio valuation impact in dollars and percentage, with per-asset duration breakdown.
 - **Generative UI & Visual Analytics**:
   - **TradingView Technical & Candlestick Charts**: Institutional OHLC candlestick series with Volume profiles, EMA overlays (EMA 20/50/200), RSI (14) oscillators, and MACD histograms.
   - **Interactive Drag-and-Drop Rebalancer Canvas**: Target allocation sliders with automatic buy/sell order calculation ($ and share counts) and one-click rebalance execution.
