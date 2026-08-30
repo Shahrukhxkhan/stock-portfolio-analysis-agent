@@ -41,6 +41,11 @@ Instead of traditional static portfolio calculators, this system leverages an au
   - **Dollar-Cost Averaging (DCA)**: Simulates recurring fixed investments across customizable intervals (`1d`, `5d`, `1mo`, `3mo`, `6mo`, `1y`).
 - **Dynamic Cash Management**: Tracks available liquid cash (starting at default `$1,000,000` or custom balance), automatically deducting total invested amounts upon portfolio confirmation.
 - **Bull & Bear Insight Generation**: Uses AI reasoning models to synthesize balanced investment evaluations—highlighting growth catalysts (Bull Case) and potential risk factors (Bear Case) with custom icons/emojis.
+- **Enhanced Multi-Agent Intelligence & RAG**:
+  - **Autonomous Multi-Agent Debate Arena**: Adversarial dual-analyst debate (Permabull Growth Analyst vs Skeptical Risk Officer) adjudicated by a Senior Portfolio Manager Judge who outputs round-by-round arguments, conviction scores (0-100%), and allocation guidance.
+  - **SEC EDGAR 10-K / 10-Q RAG Agent**: Vector citation engine extracting verified balance sheet footnotes, long-term debt maturity schedules, liquidity covenants, and earnings call transcript excerpts with CIK references.
+  - **Whale Activity & Form 4 / 13F / Congressional Tracker**: Real-time monitoring of Form 4 insider transactions (CEO/CFO buys and sales), Congressional trading disclosures (Senate & House members), institutional 13F hedge fund changes, and net smart money momentum.
+  - **Real-Time News & Social Sentiment Agent**: Multi-source sentiment index combining professional financial news, social retail buzz volume (StockTwits & Reddit), and breaking headline impact ratings (+/- direction and High/Med/Low severity).
 - **Generative UI & Visual Analytics**:
   - **TradingView Technical & Candlestick Charts**: Institutional OHLC candlestick series with Volume profiles, EMA overlays (EMA 20/50/200), RSI (14) oscillators, and MACD histograms.
   - **Interactive Drag-and-Drop Rebalancer Canvas**: Target allocation sliders with automatic buy/sell order calculation ($ and share counts) and one-click rebalance execution.
