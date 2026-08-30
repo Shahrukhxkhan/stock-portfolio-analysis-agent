@@ -195,121 +195,14 @@ def run_sec_edgar_rag_agent(tickers: List[str]) -> Dict[str, Any]:
     """
     Agent 2: SEC EDGAR 10-K / 10-Q RAG Agent
     Ingests and queries official SEC regulatory filings, financial footnotes, debt maturity schedules,
-    liquidity covenants, Item 1A risk factors, and earnings call transcript citations.
+    liquidity covenants, and Item 1A risk factors directly from SEC EDGAR with BM25 vector retrieval.
     """
-    SEC_KNOWLEDGE_BASE = {
-        "NVDA": {
-            "filing_type": "Form 10-K (Annual Report)",
-            "filing_date": "2024-Q4 (Audited)",
-            "cik_number": "0001045810",
-            "audit_opinion": "Unqualified / Clean Opinion (PwC LLP)",
-            "citations": [
-                {
-                    "section": "Note 7 — Long-Term Debt & Liquidity",
-                    "citation": "Total senior notes outstanding of $8.46B with weighted-average interest rate of 2.92%. No material debt maturities until 2026 ($1.25B 3.20% notes). Cash, cash equivalents, and marketable securities totaled $34.8B.",
-                    "rag_relevance_score": 0.96,
-                    "risk_flag": "LOW"
-                },
-                {
-                    "section": "Item 1A — Risk Factors (Supply Chain Concentration)",
-                    "citation": "We rely on a single independent foundry supplier (TSMC) to manufacture our semiconductor wafers and advanced packaging (CoWoS). Disruptions in Taiwan or manufacturing bottlenecks could severely restrict product supply.",
-                    "rag_relevance_score": 0.94,
-                    "risk_flag": "ELEVATED"
-                },
-                {
-                    "section": "Item 7 — Management's Discussion and Analysis (MD&A)",
-                    "citation": "Data Center revenue increased 217% YoY driven by the NVIDIA HGX platform and InfiniBand networking. Gross margin expanded to 75.9% compared to 56.9% in the prior year.",
-                    "rag_relevance_score": 0.98,
-                    "risk_flag": "POSITIVE"
-                },
-                {
-                    "section": "Earnings Call Transcript (Q3 FY25)",
-                    "citation": "CEO Jensen Huang: 'Blackwell demand is in full steam, and we are delivering thousands of samples to all major cloud service providers this quarter.'",
-                    "rag_relevance_score": 0.92,
-                    "risk_flag": "POSITIVE"
-                }
-            ]
-        },
-        "AAPL": {
-            "filing_type": "Form 10-K (Annual Report)",
-            "filing_date": "2024-Q4 (Audited)",
-            "cik_number": "0000320193",
-            "audit_opinion": "Unqualified / Clean Opinion (Ernst & Young LLP)",
-            "citations": [
-                {
-                    "section": "Note 6 — Debt & Commercial Paper",
-                    "citation": "Term debt outstanding totaled $95.3B. The Company maintains an active $10.0B commercial paper program with an average interest rate of 5.34%. Net cash position stood at $58.2B after $95.1B in capital returns to shareholders.",
-                    "rag_relevance_score": 0.95,
-                    "risk_flag": "LOW"
-                },
-                {
-                    "section": "Item 1A — Risk Factors (Antitrust & Legal)",
-                    "citation": "The Company is subject to complex legal proceedings including the US Department of Justice antitrust complaint and European Commission Digital Markets Act compliance investigations regarding App Store and NFC access.",
-                    "rag_relevance_score": 0.91,
-                    "risk_flag": "MODERATE"
-                },
-                {
-                    "section": "Note 10 — Segment Performance (Services vs Products)",
-                    "citation": "Services net sales reached an all-time record $96.17B with gross margin of 73.8%, compared to Products gross margin of 36.6%. Services now accounts for 24.6% of total revenue.",
-                    "rag_relevance_score": 0.97,
-                    "risk_flag": "POSITIVE"
-                }
-            ]
-        },
-        "MSFT": {
-            "filing_type": "Form 10-K (Annual Report)",
-            "filing_date": "2024-Q4 (Audited)",
-            "cik_number": "0000789019",
-            "audit_opinion": "Unqualified / Clean Opinion (Deloitte & Touche LLP)",
-            "citations": [
-                {
-                    "section": "Note 11 — Long-Term Debt & Capital Leases",
-                    "citation": "Total debt obligations of $44.9B with S&P AAA credit rating. Capital lease obligations increased to $28.4B reflecting leased datacenter capacity for AI infrastructure expansion.",
-                    "rag_relevance_score": 0.94,
-                    "risk_flag": "LOW"
-                },
-                {
-                    "section": "Item 7 — Intelligent Cloud & Azure Growth",
-                    "citation": "Intelligent Cloud revenue grew 21% to $105.4B, with Azure and other cloud services revenue growing 30%, driven by increasing demand for Azure AI models and foundational infrastructure.",
-                    "rag_relevance_score": 0.97,
-                    "risk_flag": "POSITIVE"
-                },
-                {
-                    "section": "Note 15 — Commitments & Contingencies (OpenAI)",
-                    "citation": "The Company holds a significant minority economic interest in OpenAI Global, LLC and has committed multi-year supercomputing infrastructure investments under long-term commercial agreements.",
-                    "rag_relevance_score": 0.93,
-                    "risk_flag": "MODERATE"
-                }
-            ]
-        }
-    }
+    from sec_edgar_rag import get_real_sec_filing_rag
 
     rag_results = {}
     for ticker in tickers:
         t_upper = ticker.upper()
-        if t_upper in SEC_KNOWLEDGE_BASE:
-            rag_results[t_upper] = SEC_KNOWLEDGE_BASE[t_upper]
-        else:
-            rag_results[t_upper] = {
-                "filing_type": "Form 10-K / 10-Q (Recent Regulatory Filings)",
-                "filing_date": "Latest Fiscal Filing",
-                "cik_number": "SEC Verified",
-                "audit_opinion": "Standard Unqualified Opinion (Big 4 Auditor)",
-                "citations": [
-                    {
-                        "section": "Item 7 — Management's Discussion and Analysis",
-                        "citation": f"Operating margins and revenue trajectory for {t_upper} showed stable year-over-year operational cash flow generation and adequate working capital reserves.",
-                        "rag_relevance_score": 0.89,
-                        "risk_flag": "POSITIVE"
-                    },
-                    {
-                        "section": "Note 8 — Commitments, Debt & Contingencies",
-                        "citation": f"Total long-term liabilities remain within targeted leverage covenants with no immediate liquidity triggers or restructuring covenants breached.",
-                        "rag_relevance_score": 0.87,
-                        "risk_flag": "LOW"
-                    }
-                ]
-            }
+        rag_results[t_upper] = get_real_sec_filing_rag(t_upper)
 
     return rag_results
 
