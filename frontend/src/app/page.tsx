@@ -5,6 +5,8 @@ import { PromptPanel } from "./components/prompt-panel"
 import { GenerativeCanvas } from "./components/generative-canvas"
 import { ComponentTree } from "./components/component-tree"
 import { CashPanel } from "./components/cash-panel"
+import { TickerTape } from "./components/ticker-tape"
+import { PortfolioProfile, PRESET_PORTFOLIOS } from "./components/portfolio-manager"
 import { useCoAgent, useCoAgentStateRender, useCopilotAction, useCopilotReadable } from "@copilotkit/react-core"
 import { BarChartComponent } from "@/app/components/chart-components/bar-chart"
 import { LineChartComponent } from "@/app/components/chart-components/line-chart"
@@ -68,8 +70,10 @@ export interface InvestmentPortfolio {
   amount: number
 }
 
-
 export default function OpenStocksCanvas() {
+  const [profiles, setProfiles] = useState<PortfolioProfile[]>(PRESET_PORTFOLIOS)
+  const [activeProfileId, setActiveProfileId] = useState<string>("tech-momentum")
+
   const [currentState, setCurrentState] = useState<PortfolioState>({
     id: "",
     trigger: "",
@@ -84,8 +88,123 @@ export default function OpenStocksCanvas() {
   const [sandBoxPortfolio, setSandBoxPortfolio] = useState<SandBoxPortfolioState[]>([])
   const [selectedStock, setSelectedStock] = useState<string | null>(null)
   const [showComponentTree, setShowComponentTree] = useState(false)
-  const [totalCash, setTotalCash] = useState(1000000)
+  const [totalCash, setTotalCash] = useState(500000)
   const [investedAmount, setInvestedAmount] = useState(0)
+
+  // Load profiles from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("stock_agent_multi_portfolios")
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setProfiles(parsed)
+          const active = parsed[0]
+          setActiveProfileId(active.id)
+          setTotalCash(active.totalCash)
+          setInvestedAmount(active.investedAmount || 0)
+          if (active.portfolioState?.allocations?.length > 0) {
+            setCurrentState(active.portfolioState)
+          }
+        }
+      }
+    } catch {}
+  }, [])
+
+  // Save profiles to localStorage on state change
+  const saveProfiles = (updatedProfiles: PortfolioProfile[]) => {
+    setProfiles(updatedProfiles)
+    try {
+      localStorage.setItem("stock_agent_multi_portfolios", JSON.stringify(updatedProfiles))
+    } catch {}
+  }
+
+  const handleSelectProfile = (profileId: string) => {
+    const target = profiles.find((p) => p.id === profileId)
+    if (target) {
+      setActiveProfileId(profileId)
+      setTotalCash(target.totalCash)
+      setInvestedAmount(target.investedAmount || 0)
+      if (target.portfolioState?.allocations?.length > 0) {
+        setCurrentState(target.portfolioState)
+      } else {
+        getBenchmarkData()
+      }
+    }
+  }
+
+  const handleCreateProfile = (newProfile: PortfolioProfile) => {
+    const updated = [...profiles, newProfile]
+    saveProfiles(updated)
+    setActiveProfileId(newProfile.id)
+    setTotalCash(newProfile.totalCash)
+    setInvestedAmount(0)
+    setCurrentState(newProfile.portfolioState)
+  }
+
+  const handleDeleteProfile = (profileId: string) => {
+    const updated = profiles.filter((p) => p.id !== profileId)
+    saveProfiles(updated)
+    if (activeProfileId === profileId && updated.length > 0) {
+      handleSelectProfile(updated[0].id)
+    }
+  }
+
+  const handleResetActiveProfile = () => {
+    const updated = profiles.map((p) => {
+      if (p.id === activeProfileId) {
+        return {
+          ...p,
+          totalCash: p.isPreset ? (p.id === "tech-momentum" ? 500000 : p.id === "roth-ira" ? 100000 : p.id === "dividend-vault" ? 250000 : 50000) : 100000,
+          investedAmount: 0,
+          portfolioState: {
+            id: p.id,
+            trigger: "reset",
+            performanceData: [],
+            allocations: [],
+            returnsData: [],
+            bullInsights: [],
+            bearInsights: [],
+            currentPortfolioValue: 0,
+            totalReturns: 0,
+          },
+        }
+      }
+      return p
+    })
+    saveProfiles(updated)
+    setInvestedAmount(0)
+    getBenchmarkData()
+  }
+
+  const handleApplyRebalance = (rebalancedAllocations: any[], newCash: number) => {
+    const updatedAllocations = rebalancedAllocations.map((item) => ({
+      ticker: item.ticker,
+      allocation: item.targetAllocation,
+      currentValue: (currentState.currentPortfolioValue || 100000) * (item.targetAllocation / 100),
+      totalReturn: 0,
+    }))
+
+    const updatedState = {
+      ...currentState,
+      allocations: updatedAllocations,
+    }
+    setCurrentState(updatedState)
+    setTotalCash(newCash)
+
+    // Save to active profile
+    const updatedProfiles = profiles.map((p) => {
+      if (p.id === activeProfileId) {
+        return {
+          ...p,
+          totalCash: newCash,
+          portfolioState: updatedState,
+        }
+      }
+      return p
+    })
+    saveProfiles(updatedProfiles)
+  }
 
   const { state, setState } = useCoAgent({
     name: "crewaiAgent",
@@ -299,48 +418,56 @@ export default function OpenStocksCanvas() {
 
 
   return (
-    <div className="h-screen flex overflow-hidden text-[#f5f5f7]">
-      {/* Left Panel - Prompt Input */}
-      <div className="w-85 relative flex-shrink-0 h-full backdrop-blur-2xl bg-black/20 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-[1px] after:bg-gradient-to-b after:from-transparent after:via-white/15 after:to-transparent z-20">
-        <PromptPanel availableCash={totalCash} />
+    <div className="h-screen flex flex-col overflow-hidden text-[#f5f5f7]">
+      {/* Real-time Streaming Financial Ticker Tape */}
+      <TickerTape />
+
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Left Panel - Prompt Input */}
+        <div className="w-85 relative flex-shrink-0 h-full backdrop-blur-2xl bg-black/20 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-[1px] after:bg-gradient-to-b after:from-transparent after:via-white/15 after:to-transparent z-20">
+          <PromptPanel availableCash={totalCash} />
+        </div>
+
+        {/* Center Panel - Generative Canvas */}
+        <div className="flex-1 relative min-w-0 flex flex-col">
+          {/* Top Bar with Multi-Portfolio & Cash Info & Theme Switcher */}
+          <div className="glass-panel !rounded-none !border-x-0 !border-t-0 border-b border-white/10 p-3.5 z-10 backdrop-blur-xl bg-black/20 flex-shrink-0">
+            <CashPanel
+              totalCash={totalCash}
+              investedAmount={investedAmount}
+              currentPortfolioValue={(totalCash + investedAmount + currentState.totalReturns) || 0}
+              onTotalCashChange={setTotalCash}
+              onStateCashChange={setState}
+              activeProfileId={activeProfileId}
+              profiles={profiles}
+              onSelectProfile={handleSelectProfile}
+              onCreateProfile={handleCreateProfile}
+              onDeleteProfile={handleDeleteProfile}
+              onResetActiveProfile={handleResetActiveProfile}
+            />
+          </div>
+
+          <div className="flex-1 overflow-hidden">
+            <GenerativeCanvas
+              setSelectedStock={setSelectedStock}
+              portfolioState={currentState}
+              sandBoxPortfolio={sandBoxPortfolio}
+              setSandBoxPortfolio={setSandBoxPortfolio}
+              onApplyRebalance={handleApplyRebalance}
+            />
+          </div>
+        </div>
+
+        {/* Ticker Detail Modal */}
+        <AssetDetailModal ticker={selectedStock} portfolioState={currentState} onClose={() => setSelectedStock(null)} />
+
+        {/* Right Panel - Component Tree (Optional) */}
+        {showComponentTree && (
+          <div className="w-64 border-l border-white/10 glass-panel !rounded-none !border-y-0 !border-r-0 flex-shrink-0 backdrop-blur-xl">
+            <ComponentTree portfolioState={currentState} />
+          </div>
+        )}
       </div>
-
-      {/* Center Panel - Generative Canvas */}
-      <div className="flex-1 relative min-w-0">
-        {/* Top Bar with Cash Info */}
-        <div className="absolute top-0 left-0 right-0 glass-panel !rounded-none !border-x-0 !border-t-0 border-b border-white/10 p-4 z-10 backdrop-blur-xl bg-black/20">
-          <CashPanel
-            totalCash={totalCash}
-            investedAmount={investedAmount}
-            currentPortfolioValue={(totalCash + investedAmount + currentState.totalReturns) || 0}
-            onTotalCashChange={setTotalCash}
-            onStateCashChange={setState}
-          />
-        </div>
-
-        {/* <div className="absolute top-4 right-4 z-20">
-          <button
-            onClick={toggleComponentTree}
-            className="px-3 py-1 text-xs font-semibold text-[#a1a1aa] bg-white/5 border border-white/10 rounded-md hover:bg-white/10 transition-colors"
-          >
-            {showComponentTree ? "Hide Tree" : "Show Tree"}
-          </button>
-        </div> */}
-
-        <div className="pt-20 h-full">
-          <GenerativeCanvas setSelectedStock={setSelectedStock} portfolioState={currentState} sandBoxPortfolio={sandBoxPortfolio} setSandBoxPortfolio={setSandBoxPortfolio} />
-        </div>
-      </div>
-
-      {/* Ticker Detail Modal */}
-      <AssetDetailModal ticker={selectedStock} portfolioState={currentState} onClose={() => setSelectedStock(null)} />
-
-      {/* Right Panel - Component Tree (Optional) */}
-      {showComponentTree && (
-        <div className="w-64 border-l border-white/10 glass-panel !rounded-none !border-y-0 !border-r-0 flex-shrink-0 backdrop-blur-xl">
-          <ComponentTree portfolioState={currentState} />
-        </div>
-      )}
     </div>
   )
 }

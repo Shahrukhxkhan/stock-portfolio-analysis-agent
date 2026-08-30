@@ -42,6 +42,11 @@ Instead of traditional static portfolio calculators, this system leverages an au
 - **Dynamic Cash Management**: Tracks available liquid cash (starting at default `$1,000,000` or custom balance), automatically deducting total invested amounts upon portfolio confirmation.
 - **Bull & Bear Insight Generation**: Uses AI reasoning models to synthesize balanced investment evaluations—highlighting growth catalysts (Bull Case) and potential risk factors (Bear Case) with custom icons/emojis.
 - **Generative UI & Visual Analytics**:
+  - **TradingView Technical & Candlestick Charts**: Institutional OHLC candlestick series with Volume profiles, EMA overlays (EMA 20/50/200), RSI (14) oscillators, and MACD histograms.
+  - **Interactive Drag-and-Drop Rebalancer Canvas**: Target allocation sliders with automatic buy/sell order calculation ($ and share counts) and one-click rebalance execution.
+  - **Multi-Portfolio & Account Profiles**: Seamlessly switch between distinct portfolio accounts (*Tech Momentum*, *Roth IRA Growth*, *Dividend Income Vault*, *High-Risk Crypto Sandbox*, or custom profiles) with isolated balances and local storage persistence.
+  - **Voice & Multimodal Speech-to-Text**: Real-time microphone audio recognition with animated audio wave visualizers and automatic prompt insertion.
+  - **Multi-Theme Engine & Live Ticker Tape**: Switch between **Bloomberg Terminal Pro** (high-density amber/green terminal), **Cyberpunk Dark** (neon glassmorphism), and **Executive Light** themes, paired with a real-time scrolling market ticker tape.
   - **Portfolio Value Over Time Line Chart**: Tracks aggregate portfolio growth vs time.
   - **Individual Asset Comparison Bar Charts**: Displays per-stock return metrics.
   - **Comprehensive Allocations Table**: Summarizes ticker details, purchased shares, average buy price, current price, total cost, current market value, and net P&L ($ and %).

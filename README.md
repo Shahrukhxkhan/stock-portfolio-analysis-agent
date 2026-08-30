@@ -5,7 +5,8 @@ This project demonstrates an AI agent that streams stock portfolio analysis work
 📖 **For exhaustive technical documentation, architecture details, and full feature specs, see [PROJECT_OVERVIEW.md](file:///d:/PROJECTS/stock-portfolio-analysis-agent/PROJECT_OVERVIEW.md).**
 
 ## Tech Stack
-- **Frontend UI**: [React 19](https://react.dev) + [Next.js 15](https://nextjs.org) + [Recharts](https://recharts.org) + [Tailwind CSS 4](https://tailwindcss.com)
+- **Frontend UI**: [React 19](https://react.dev) + [Next.js 15](https://nextjs.org) + [Recharts](https://recharts.org) + [TradingView Lightweight Charts](https://github.com/tradingview/lightweight-charts) + [Tailwind CSS 4](https://tailwindcss.com)
+- **Visual Analytics**: Interactive Candlestick Charts (EMA 20/50/200, RSI, MACD), Drag-and-Drop Rebalancer Canvas, Multi-Portfolio Profiles, Voice Recognition (Web Speech API), Bloomberg Terminal Pro & Cyberpunk Themes.
 - **Backend API**: [FastAPI](https://fastapi.tiangolo.com) + [Uvicorn](https://www.uvicorn.org)
 - **Streaming & Protocol**: [CopilotKit](https://github.com/CopilotKit/CopilotKit) + AG-UI Protocol
 - **Agent Workflow**: [CrewAI](https://github.com/crewAIInc/crewAI) (`crewai.flow.flow`)
