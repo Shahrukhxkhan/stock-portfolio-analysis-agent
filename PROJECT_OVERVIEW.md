@@ -45,7 +45,11 @@ Instead of traditional static portfolio calculators, this system leverages an au
   - **Autonomous Multi-Agent Debate Arena**: Adversarial dual-analyst debate (Permabull Growth Analyst vs Skeptical Risk Officer) adjudicated by a Senior Portfolio Manager Judge who outputs round-by-round arguments, conviction scores (0-100%), and allocation guidance.
   - **SEC EDGAR 10-K / 10-Q RAG Agent**: Vector citation engine extracting verified balance sheet footnotes, long-term debt maturity schedules, liquidity covenants, and earnings call transcript excerpts with CIK references.
   - **Whale Activity & Form 4 / 13F / Congressional Tracker**: Real-time monitoring of Form 4 insider transactions (CEO/CFO buys and sales), Congressional trading disclosures (Senate & House members), institutional 13F hedge fund changes, and net smart money momentum.
-  - **Real-Time News & Social Sentiment Agent**: Multi-source sentiment index combining professional financial news, social retail buzz volume (StockTwits & Reddit), and breaking headline impact ratings (+/- direction and High/Med/Low severity).
+  - **Advanced Quantitative Finance & Modeling**:
+  - **Markowitz Modern Portfolio Theory & Efficient Frontier**: Monte Carlo mean-variance optimization, Capital Allocation Line (CAL), Max Sharpe optimal tangency star, Global Min Volatility boundary, and current portfolio coordinate.
+  - **Black-Litterman Asset Allocation Model**: Blends CAPM equilibrium market returns with AI subjective conviction views and confidence matrices to compute posterior expected returns and optimal target weights.
+  - **Historical Crisis Stress Testing & VaR/CVaR**: Simulates portfolio vulnerability across real-world crashes (2008 GFC, 2020 COVID, 2022 Fed Rate Hikes, 2000 Dot-com bust) and computes 95%/99% Parametric & Historical Value at Risk and Expected Shortfall (CVaR).
+  - **Fama-French 5-Factor & Momentum Decomposition**: Evaluates systematic risk exposures across Market Beta (`Mkt-RF`), Size (`SMB`), Value (`HML`), Profitability (`RMW`), Investment (`CMA`), and Trend Momentum (`MOM`) alongside Jensen's Alpha ($\alpha$).
 - **Generative UI & Visual Analytics**:
   - **TradingView Technical & Candlestick Charts**: Institutional OHLC candlestick series with Volume profiles, EMA overlays (EMA 20/50/200), RSI (14) oscillators, and MACD histograms.
   - **Interactive Drag-and-Drop Rebalancer Canvas**: Target allocation sliders with automatic buy/sell order calculation ($ and share counts) and one-click rebalance execution.

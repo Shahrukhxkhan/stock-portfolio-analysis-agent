@@ -33,6 +33,7 @@ from prompts import system_prompt, insights_prompt
 from multi_agent_crew import run_multi_agent_crew
 from asset_classifier import normalize_ticker, calculate_asset_class_distribution
 from cache_manager import cache_manager
+from quant_engine import execute_quantitative_analysis
 
 # Load environment variables (like API keys) from .env file
 load_dotenv()
@@ -579,6 +580,7 @@ def calculate_pnl_and_metrics(stock_data, current_tickers, all_tickers, holdings
         "dividend_analytics": calculate_dividend_analytics(all_tickers, holdings, final_prices_dict),
         "rebalancing_orders": calculate_rebalancing_orders(holdings, final_prices_dict, all_tickers),
         "multi_agent_crew": run_multi_agent_crew(stock_data, all_tickers, holdings, final_prices_dict, total_invested_per_stock),
+        "quant_models": execute_quantitative_analysis(stock_data, all_tickers, percent_allocation_per_stock),
         "asset_class_distribution": calculate_asset_class_distribution(holdings, final_prices_dict),
         "exchange_rates": {"USD": 1.0, "EUR": 0.92, "GBP": 0.78, "INR": 83.5},
         "performance_telemetry": performance_telemetry or {"execution_time_ms": 12, "cache_hit": True, "data_source": "Memory Cache"},

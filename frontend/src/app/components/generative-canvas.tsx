@@ -19,6 +19,10 @@ import { copyShareLinkToClipboard } from "@/utils/share-link-utils"
 import type { PortfolioState, SandBoxPortfolioState } from "../page"
 import { TradingViewChart } from "./chart-components/tradingview-chart"
 import { InteractiveRebalancer } from "./chart-components/interactive-rebalancer"
+import { EfficientFrontierChart } from "./chart-components/efficient-frontier-chart"
+import { BlackLittermanCard } from "./chart-components/black-litterman-card"
+import { CrisisStressTest } from "./chart-components/crisis-stress-test"
+import { FamaFrenchFactors } from "./chart-components/fama-french-factors"
 import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap, Activity } from "lucide-react"
 
 interface GenerativeCanvasProps {
@@ -29,6 +33,7 @@ interface GenerativeCanvasProps {
     dividendAnalytics?: any
     rebalancingOrders?: any
     multiAgentCrew?: any
+    quantModels?: any
     performanceTelemetry?: any
   }
   setSelectedStock: (stock: string | null) => void
@@ -46,6 +51,9 @@ export function GenerativeCanvas({
   const [activeTab, setActiveTab] = useState<
     "overview" | "technical" | "performance" | "allocations" | "multiagent" | "risk" | "rebalance_interactive" | "rebalance" | "insights" | "simulator"
   >("overview")
+  const [quantSubTab, setQuantSubTab] = useState<
+    "frontier" | "black_litterman" | "crisis" | "fama_french" | "risk_var"
+  >("frontier")
   const [showPdfReport, setShowPdfReport] = useState(false)
   const [copiedLink, setCopiedLink] = useState(false)
 
@@ -353,11 +361,65 @@ export function GenerativeCanvas({
         {/* QUANT & RISK ANALYTICS TAB */}
         {activeTab === "risk" && (
           <div className="space-y-4">
-            <RiskMetricsCard metrics={portfolioState?.riskMetrics} />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <CorrelationHeatmap data={portfolioState?.correlationMatrix} />
-              <MonteCarloChart data={portfolioState?.monteCarlo} />
+            {/* Quant Sub-View Switcher Bar */}
+            <div className="flex items-center gap-1.5 overflow-x-auto hide-scrollbar p-1.5 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl">
+              {[
+                { id: "frontier", label: "Efficient Frontier", icon: Activity, color: "text-purple-400" },
+                { id: "black_litterman", label: "Black-Litterman", icon: Scale, color: "text-blue-400" },
+                { id: "crisis", label: "Crisis Stress Test", icon: Zap, color: "text-rose-400" },
+                { id: "fama_french", label: "Fama-French 5-Factor", icon: LayoutGrid, color: "text-cyan-400" },
+                { id: "risk_var", label: "VaR & Correlation Grid", icon: ShieldCheck, color: "text-emerald-400" },
+              ].map((sub) => {
+                const Icon = sub.icon
+                const isActive = quantSubTab === sub.id
+                return (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() => setQuantSubTab(sub.id as any)}
+                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      isActive
+                        ? "bg-gradient-to-r from-purple-500/30 to-cyan-500/30 text-[#f5f5f7] border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.25)]"
+                        : "text-[#a1a1aa] hover:text-[#f5f5f7] hover:bg-white/5 border border-transparent"
+                    }`}
+                  >
+                    <Icon size={14} className={isActive ? sub.color : "text-[#a1a1aa]"} />
+                    <span>{sub.label}</span>
+                  </button>
+                )
+              })}
             </div>
+
+            {/* 1. Markowitz Efficient Frontier */}
+            {quantSubTab === "frontier" && (
+              <EfficientFrontierChart data={portfolioState?.quantModels?.efficient_frontier} />
+            )}
+
+            {/* 2. Black-Litterman Model */}
+            {quantSubTab === "black_litterman" && (
+              <BlackLittermanCard data={portfolioState?.quantModels?.black_litterman} />
+            )}
+
+            {/* 3. Crisis Stress Test & VaR */}
+            {quantSubTab === "crisis" && (
+              <CrisisStressTest data={portfolioState?.quantModels?.crisis_stress_test} />
+            )}
+
+            {/* 4. Fama-French 5-Factor Decomposition */}
+            {quantSubTab === "fama_french" && (
+              <FamaFrenchFactors data={portfolioState?.quantModels?.fama_french} />
+            )}
+
+            {/* 5. Core VaR, Correlation Heatmap & Monte Carlo */}
+            {quantSubTab === "risk_var" && (
+              <div className="space-y-4">
+                <RiskMetricsCard metrics={portfolioState?.riskMetrics} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <CorrelationHeatmap data={portfolioState?.correlationMatrix} />
+                  <MonteCarloChart data={portfolioState?.monteCarlo} />
+                </div>
+              </div>
+            )}
           </div>
         )}
 
