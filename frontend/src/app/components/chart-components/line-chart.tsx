@@ -23,7 +23,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
           {payload.map((entry: any, index: number) => {
             if (entry.hide || entry.value == null) return null
             const isPortfolio = entry.dataKey === "portfolio"
-            const color = isPortfolio ? "#FF003C" : "#94a3b8"
+            const color = isPortfolio ? "#6366F1" : "#94a3b8"
             const name = isPortfolio ? "Portfolio" : "SPY"
             return (
               <div key={`tooltip-${index}`} className="flex items-center justify-between gap-3">
@@ -75,7 +75,7 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
                   onClick={() => setTimeRange(range)}
                   className={`px-2 py-0.5 text-[10px] font-semibold rounded-md transition-all ${
                     timeRange === range
-                      ? "bg-purple-500/30 text-purple-200 border border-purple-500/40 shadow-sm"
+                      ? "bg-indigo-500/20 text-indigo-200 border border-indigo-500/40 shadow-sm"
                       : "text-[#a1a1aa] hover:text-[#f5f5f7]"
                   }`}
                 >
@@ -94,7 +94,7 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
               onClick={() => setShowGradient(!showGradient)}
               className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium transition-all border ${
                 showGradient
-                  ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-300"
+                  ? "bg-indigo-500/15 border-indigo-500/40 text-indigo-300"
                   : "bg-white/5 border-white/10 text-[#a1a1aa] opacity-50"
               }`}
             >
@@ -107,11 +107,11 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
             onClick={() => setShowPortfolio(!showPortfolio)}
             className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium transition-all cursor-pointer border ${
               showPortfolio
-                ? "bg-pink-500/15 border-pink-500/40 text-[#f5f5f7] shadow-[0_0_10px_rgba(255,0,60,0.2)]"
+                ? "bg-indigo-500/15 border-indigo-500/40 text-[#f5f5f7] shadow-[0_0_10px_rgba(99,102,241,0.2)]"
                 : "bg-white/5 border-white/10 text-[#a1a1aa] opacity-40 hover:opacity-70"
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-[#FF003C] to-[#a855f7]" />
+            <span className="w-2 h-2 rounded-full bg-[#6366F1]" />
             Portfolio
           </button>
           <button
@@ -134,13 +134,13 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
           <ComposedChart data={filteredData}>
             <defs>
               <linearGradient id="portfolioStrokeGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#FF003C" />
-                <stop offset="100%" stopColor="#a855f7" />
+                <stop offset="0%" stopColor="#6366F1" />
+                <stop offset="100%" stopColor="#818CF8" />
               </linearGradient>
               <linearGradient id="portfolioAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#FF003C" stopOpacity={0.35} />
-                <stop offset="60%" stopColor="#a855f7" stopOpacity={0.12} />
-                <stop offset="100%" stopColor="#a855f7" stopOpacity={0.0} />
+                <stop offset="0%" stopColor="#6366F1" stopOpacity={0.12} />
+                <stop offset="60%" stopColor="#6366F1" stopOpacity={0.04} />
+                <stop offset="100%" stopColor="#6366F1" stopOpacity={0.0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.06)" />

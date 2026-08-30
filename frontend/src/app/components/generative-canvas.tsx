@@ -29,7 +29,8 @@ import { FinancialWatchdogCard } from "./chart-components/financial-watchdog-car
 import { MacroYieldCurveCard } from "./chart-components/macro-yield-curve-card"
 import { EsgClimateCard } from "./chart-components/esg-climate-card"
 import { CryptoOnChainCard } from "./chart-components/crypto-onchain-card"
-import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap, Activity, ShieldAlert, Cpu, BellRing, Globe, Leaf, Coins } from "lucide-react"
+import { MarketMicrostructureCard } from "./chart-components/market-microstructure-card"
+import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap, Activity, ShieldAlert, Cpu, BellRing, Globe, Leaf, Coins, Radar } from "lucide-react"
 
 interface GenerativeCanvasProps {
   portfolioState: PortfolioState & {
@@ -46,6 +47,7 @@ interface GenerativeCanvasProps {
     macroYieldCurve?: any
     esgClimate?: any
     cryptoOnchain?: any
+    marketMicrostructure?: any
     performanceTelemetry?: any
   }
   setSelectedStock: (stock: string | null) => void
@@ -61,7 +63,7 @@ export function GenerativeCanvas({
   onApplyRebalance,
 }: GenerativeCanvasProps) {
   const [activeTab, setActiveTab] = useState<
-    "overview" | "technical" | "performance" | "allocations" | "multiagent" | "risk" | "hedging" | "backtester" | "watchdog" | "yield_curve" | "esg" | "crypto_onchain" | "rebalance_interactive" | "rebalance" | "insights" | "simulator"
+    "overview" | "technical" | "microstructure" | "performance" | "allocations" | "multiagent" | "risk" | "hedging" | "backtester" | "watchdog" | "yield_curve" | "esg" | "crypto_onchain" | "rebalance_interactive" | "rebalance" | "insights" | "simulator"
   >("overview")
   const [quantSubTab, setQuantSubTab] = useState<
     "frontier" | "black_litterman" | "crisis" | "fama_french" | "risk_var"
@@ -95,11 +97,12 @@ export function GenerativeCanvas({
       {showPdfReport && <PortfolioPdfReport portfolioState={portfolioState} onClose={() => setShowPdfReport(false)} />}
 
       {/* Generative Canvas Top Tab Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2 bg-black/40 border-b border-white/10 backdrop-blur-xl flex-shrink-0 z-10">
-        <div className="flex items-center gap-1 overflow-x-auto hide-scrollbar">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-5 py-2.5 bg-black/40 border-b border-white/10 backdrop-blur-xl flex-shrink-0 z-10">
+        <div className="flex items-center gap-1.5 overflow-x-auto hide-scrollbar">
           {[
             { id: "overview", label: "Overview", icon: LayoutGrid },
             { id: "technical", label: "Technical Charts", icon: Activity },
+            { id: "microstructure", label: "Microstructure & Dark Pool", icon: Radar },
             { id: "rebalance_interactive", label: "Live Rebalancer", icon: Sliders },
             { id: "performance", label: "Performance", icon: TrendingUp },
             { id: "allocations", label: "Allocations & Returns", icon: PieChart },
@@ -122,13 +125,13 @@ export function GenerativeCanvas({
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer ${
                   isActive
-                    ? "bg-gradient-to-r from-purple-500/20 to-indigo-500/20 text-[#f5f5f7] border border-purple-500/40 shadow-[0_0_12px_rgba(168,85,247,0.2)]"
-                    : "text-[#a1a1aa] hover:text-[#f5f5f7] hover:bg-white/5 border border-transparent"
+                    ? "bg-indigo-500/20 text-[#f8fafc] border border-indigo-500/40 shadow-[0_0_14px_rgba(99,102,241,0.20)] font-bold"
+                    : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] border border-transparent font-medium"
                 }`}
               >
-                <Icon size={14} className={isActive ? "text-purple-400" : "text-[#a1a1aa]"} />
+                <Icon size={14} className={isActive ? "text-indigo-400" : "text-slate-400"} />
                 {tab.label}
               </button>
             )
@@ -361,6 +364,11 @@ export function GenerativeCanvas({
           />
         )}
 
+        {/* INSTITUTIONAL MICROSTRUCTURE & ALTERNATIVE DATA TAB */}
+        {activeTab === "microstructure" && (
+          <MarketMicrostructureCard data={portfolioState?.marketMicrostructure} />
+        )}
+
         {/* INTERACTIVE DRAG-AND-DROP REBALANCER TAB */}
         {activeTab === "rebalance_interactive" && (
           <InteractiveRebalancer
@@ -382,11 +390,11 @@ export function GenerativeCanvas({
             {/* Quant Sub-View Switcher Bar */}
             <div className="flex items-center gap-1.5 overflow-x-auto hide-scrollbar p-1.5 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl">
               {[
-                { id: "frontier", label: "Efficient Frontier", icon: Activity, color: "text-purple-400" },
-                { id: "black_litterman", label: "Black-Litterman", icon: Scale, color: "text-blue-400" },
-                { id: "crisis", label: "Crisis Stress Test", icon: Zap, color: "text-rose-400" },
-                { id: "fama_french", label: "Fama-French 5-Factor", icon: LayoutGrid, color: "text-cyan-400" },
-                { id: "risk_var", label: "VaR & Correlation Grid", icon: ShieldCheck, color: "text-emerald-400" },
+                { id: "frontier", label: "Efficient Frontier", icon: Activity },
+                { id: "black_litterman", label: "Black-Litterman", icon: Scale },
+                { id: "crisis", label: "Crisis Stress Test", icon: Zap },
+                { id: "fama_french", label: "Fama-French 5-Factor", icon: LayoutGrid },
+                { id: "risk_var", label: "VaR & Correlation Grid", icon: ShieldCheck },
               ].map((sub) => {
                 const Icon = sub.icon
                 const isActive = quantSubTab === sub.id
@@ -395,13 +403,13 @@ export function GenerativeCanvas({
                     key={sub.id}
                     type="button"
                     onClick={() => setQuantSubTab(sub.id as any)}
-                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs transition-all cursor-pointer ${
                       isActive
-                        ? "bg-gradient-to-r from-purple-500/30 to-cyan-500/30 text-[#f5f5f7] border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.25)]"
-                        : "text-[#a1a1aa] hover:text-[#f5f5f7] hover:bg-white/5 border border-transparent"
+                        ? "bg-indigo-500/20 text-[#f8fafc] border border-indigo-500/40 shadow-[0_0_14px_rgba(99,102,241,0.20)] font-bold"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] border border-transparent font-medium"
                     }`}
                   >
-                    <Icon size={14} className={isActive ? sub.color : "text-[#a1a1aa]"} />
+                    <Icon size={14} className={isActive ? "text-indigo-400" : "text-slate-400"} />
                     <span>{sub.label}</span>
                   </button>
                 )

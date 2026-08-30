@@ -61,6 +61,7 @@ export interface PortfolioState {
   macroYieldCurve?: any
   esgClimate?: any
   cryptoOnchain?: any
+  marketMicrostructure?: any
   assetClassDistribution?: any
   performanceTelemetry?: any
 }
@@ -290,6 +291,7 @@ export default function OpenStocksCanvas() {
                       macroYieldCurve: args?.investment_summary?.macro_yield_curve,
                       esgClimate: args?.investment_summary?.esg_climate,
                       cryptoOnchain: args?.investment_summary?.crypto_onchain,
+                      marketMicrostructure: args?.investment_summary?.market_microstructure,
                       assetClassDistribution: args?.investment_summary?.asset_class_distribution,
                       performanceTelemetry: args?.investment_summary?.performance_telemetry,
                     })

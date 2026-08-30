@@ -79,6 +79,12 @@ Instead of traditional static portfolio calculators, this system leverages an au
   - **Crypto Sentiment & Fear/Greed Index**: Sentiment oscillator with historical 7-point momentum trend.
   - **Whale Exchange Net Flows & Treasury Mints**: Real-time tracking of institutional cold storage accumulation vs exchange sell-pressure.
   - **Stablecoin Supply Ratio (SSR)**: Measures dry powder liquidity available to enter digital asset markets.
+- **Alternative Data & Institutional Market Microstructure**:
+  - **Dark Pool Index (DIX) & Dealer Gamma Exposure (GEX)**: Quantifies off-exchange buying ratios (> 45% accumulation), net dealer gamma in $Billions/1% move, Call/Put Walls, and Zero-Gamma Volatility Trigger Flip Level.
+  - **Real-Time ATS Block Execution Tape**: Streams large institutional block trades (> $5M+ or > 100k shares) with ATS venue markers (FINRA ADF, UBS ATS, Citadel Connect, Crossfinder) and smart money accumulation/distribution signatures.
+  - **Statistical Arbitrage & Pairs Cointegration Engine**: Implements Engle-Granger two-step cointegration, hedge ratio ($\beta$), dynamic spread $Z$-score tracking, and Ornstein-Uhlenbeck mean-reversion half-life with Long/Short pair signals.
+  - **Level 2 Order Book Depth & VPIN Toxicity**: Computes bid/ask book depth, Order Flow Imbalance (OFI), Kyle's Lambda price impact, and Volume-Synchronized Probability of Toxicity (VPIN) to guard against predatory high-frequency flow.
+  - **Multi-Source Sentiment Velocity & Retail Divergence**: NLP sentiment velocity engine tracking Reddit (`r/wallstreetbets`), FinTwit/X, and financial news, computing Retail Euphoria vs Smart Money positioning divergence.
 - **Generative UI & Visual Analytics**:
   - **TradingView Technical & Candlestick Charts**: Institutional OHLC candlestick series with Volume profiles, EMA overlays (EMA 20/50/200), RSI (14) oscillators, and MACD histograms.
   - **Interactive Drag-and-Drop Rebalancer Canvas**: Target allocation sliders with automatic buy/sell order calculation ($ and share counts) and one-click rebalance execution.

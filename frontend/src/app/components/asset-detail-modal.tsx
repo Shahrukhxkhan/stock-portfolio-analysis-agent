@@ -38,12 +38,12 @@ export function AssetDetailModal({ ticker, portfolioState, onClose }: AssetDetai
         onClick={(e) => e.stopPropagation()}
       >
         {/* Glow accent */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-purple-500/20 blur-3xl pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
 
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FF003C]/20 to-[#a855f7]/20 border border-purple-500/30 flex items-center justify-center font-bold text-lg font-['Roobert'] text-[#f5f5f7] shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center font-bold text-lg font-['Roobert'] text-[#f5f5f7] shadow-[0_0_15px_rgba(99,102,241,0.25)]">
               {ticker}
             </div>
             <div>

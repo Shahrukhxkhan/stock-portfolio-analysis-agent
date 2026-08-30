@@ -243,7 +243,7 @@ body {
 }
 
 .copilotKitSendButton {
-  background: linear-gradient(135deg, #FF003C 0%, #a855f7 100%) !important;
+  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
   color: #ffffff !important;
   border-radius: 9999px !important;
   width: 2.25rem !important;
@@ -251,13 +251,13 @@ body {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 0 12px rgba(255, 0, 60, 0.4) !important;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4) !important;
   transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease !important;
 }
 
 .copilotKitSendButton:hover {
   transform: scale(1.06) !important;
-  box-shadow: 0 0 16px rgba(255, 0, 60, 0.6) !important;
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.6) !important;
   opacity: 0.95 !important;
 }
 

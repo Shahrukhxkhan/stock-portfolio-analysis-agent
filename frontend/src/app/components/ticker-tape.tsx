@@ -59,7 +59,7 @@ export function TickerTape() {
 
   return (
     <div
-      className={`w-full overflow-hidden border-b flex items-center h-8 text-[11px] font-mono select-none z-30 transition-colors ${
+      className={`w-full overflow-hidden border-b flex items-center h-9 text-[11px] font-mono select-none z-30 transition-colors ${
         theme === "bloomberg"
           ? "bg-[#000000] border-[#442a00] text-[#ff9900]"
           : theme === "light"
@@ -69,12 +69,12 @@ export function TickerTape() {
     >
       {/* Live Market Status Pill */}
       <div
-        className={`flex items-center gap-1.5 px-3 h-full border-r font-bold uppercase tracking-wider flex-shrink-0 z-10 ${
+        className={`flex items-center gap-1.5 px-3.5 h-full border-r font-bold uppercase tracking-wider flex-shrink-0 z-10 ${
           theme === "bloomberg"
             ? "bg-[#110a00] border-[#442a00] text-[#ff9900]"
             : theme === "light"
             ? "bg-slate-200 border-slate-300 text-slate-700"
-            : "bg-purple-950/40 border-white/10 text-purple-300"
+            : "bg-indigo-950/30 border-white/10 text-indigo-300"
         }`}
       >
         <span className="relative flex h-2 w-2">
@@ -86,7 +86,7 @@ export function TickerTape() {
 
       {/* Marquee Tickers Container */}
       <div className="overflow-hidden flex-1 relative flex items-center">
-        <div className="animate-ticker flex items-center gap-6 py-1 pl-4">
+        <div className="animate-ticker flex items-center gap-8 py-1 pl-4">
           {duplicatedTickers.map((ticker, index) => {
             const isPositive = ticker.change >= 0
             return (

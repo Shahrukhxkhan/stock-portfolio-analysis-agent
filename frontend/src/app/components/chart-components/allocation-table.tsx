@@ -70,7 +70,7 @@ export function AllocationTableComponent({ allocations, size = "normal", onSelec
           {/* Slim progress bar with gradient fill */}
           <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10 backdrop-blur-md">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#FF003C] via-[#6366f1] to-[#a855f7] transition-all duration-500 ease-out shadow-[0_0_10px_rgba(99,102,241,0.4)]"
+              className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-400 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(99,102,241,0.3)]"
               style={{ width: `${Math.min(Math.max(item.allocation, 3), 100)}%` }}
             />
           </div>

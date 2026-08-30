@@ -28,7 +28,7 @@ export function PromptPanel({ availableCash }: PromptPanelProps) {
             <span className="text-xl filter drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]">🪁</span>
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-bold text-[#f5f5f7] font-['Roobert'] tracking-wide">Portfolio Chat</h1>
-              <span className="bg-gradient-to-r from-[#FF003C] to-[#a855f7] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(255,0,60,0.4)] tracking-wider uppercase">
+              <span className="bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.25)] tracking-wider uppercase">
                 PRO
               </span>
             </div>
@@ -38,8 +38,8 @@ export function PromptPanel({ availableCash }: PromptPanelProps) {
         </div>
         <p className="text-xs text-[#a1a1aa] leading-relaxed">Interact with the CrewAI-powered AI agent via natural language or speech</p>
 
-        {/* Available Cash Card - Standout glass card with soft pink/purple gradient border */}
-        <div className="mt-3.5 p-3.5 bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-indigo-500/10 border border-purple-500/30 rounded-2xl backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.15)] relative overflow-hidden group hover:border-purple-500/50 transition-all">
+        {/* Available Cash Card */}
+        <div className="mt-3.5 p-3.5 bg-indigo-950/20 border border-indigo-500/30 rounded-2xl backdrop-blur-md shadow-[0_0_20px_rgba(99,102,241,0.1)] relative overflow-hidden group hover:border-indigo-500/50 transition-all">
           <div className="text-[11px] text-[#a1a1aa] font-medium tracking-wide uppercase">Available Cash</div>
           <div className="text-xl font-extrabold text-[#f5f5f7] font-['Roobert'] mt-0.5 tracking-tight drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
             {formatCurrency(availableCash)}

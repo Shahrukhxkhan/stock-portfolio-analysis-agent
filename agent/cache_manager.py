@@ -23,10 +23,10 @@ class CacheManager:
             client.ping()
             self._redis_client = client
             self._use_redis = True
-            print("🟢 CacheManager: Successfully connected to local Redis server.")
+            print("[CacheManager] Successfully connected to local Redis server.")
         except Exception:
             self._use_redis = False
-            print("⚡ CacheManager: Using thread-safe in-memory cache layer.")
+            print("[CacheManager] Using thread-safe in-memory cache layer.")
 
     def make_key(self, prefix: str, payload: Any) -> str:
         """

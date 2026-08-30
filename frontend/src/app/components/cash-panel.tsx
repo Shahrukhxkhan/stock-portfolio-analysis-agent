@@ -83,8 +83,8 @@ export function CashPanel({
   }
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 w-full overflow-x-auto pb-1 hide-scrollbar">
-      <div className="flex flex-wrap items-center gap-3">
+    <div className="flex flex-wrap items-center justify-between gap-4 w-full overflow-x-auto pb-1 hide-scrollbar">
+      <div className="flex flex-wrap items-center gap-3.5">
         {/* Multi-Portfolio Account Profiles Dropdown */}
         <PortfolioManager
           activeProfileId={activeProfileId}
@@ -96,7 +96,7 @@ export function CashPanel({
         />
 
         {/* Currency Switcher Dropdown */}
-        <div className="glass-panel !rounded-2xl p-2 px-3 flex items-center gap-2 border border-white/10 hover:border-white/20">
+        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-2 border border-white/10 hover:border-white/20">
           <span className="text-xs text-[#a1a1aa] font-medium uppercase">FX</span>
           <select
             value={selectedCurrency}
@@ -111,8 +111,8 @@ export function CashPanel({
         </div>
 
         {/* Total Cash */}
-        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out group border border-white/10 hover:border-white/20">
-          <div className="w-9 h-9 bg-blue-500/15 border border-blue-500/30 text-blue-400 rounded-full flex items-center justify-center shadow-[0_0_12px_rgba(59,130,246,0.25)] flex-shrink-0">
+        <div className="glass-panel !rounded-2xl p-3 px-4 flex items-center gap-3.5 hover:scale-[1.01] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out group border border-white/10 hover:border-white/20">
+          <div className="w-9 h-9 bg-white/[0.06] border border-white/[0.10] text-slate-300 rounded-xl flex items-center justify-center flex-shrink-0">
             <Wallet size={18} />
           </div>
           <div>
@@ -123,7 +123,7 @@ export function CashPanel({
                   type="text"
                   value={editValue}
                   onChange={(e) => setEditValue(e.target.value)}
-                  className="w-16 text-sm font-semibold text-[#f5f5f7] font-['Roobert'] bg-white/10 border border-white/20 rounded px-1.5 focus:outline-none focus:border-blue-400"
+                  className="w-16 text-sm font-semibold text-[#f5f5f7] font-['Roobert'] bg-white/10 border border-white/20 rounded px-1.5 focus:outline-none focus:border-indigo-400"
                   onKeyDown={(e) => e.key === "Enter" && handleSave()}
                 />
                 <button onClick={handleSave} className="p-1 text-emerald-400 hover:bg-emerald-500/20 rounded transition-colors">
@@ -150,8 +150,8 @@ export function CashPanel({
         </div>
 
         {/* Invested Amount */}
-        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
-          <div className="w-9 h-9 bg-purple-500/15 border border-purple-500/30 text-purple-400 rounded-full flex items-center justify-center shadow-[0_0_12px_rgba(168,85,247,0.25)] flex-shrink-0">
+        <div className="glass-panel !rounded-2xl p-3 px-4 flex items-center gap-3.5 hover:scale-[1.01] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
+          <div className="w-9 h-9 bg-white/[0.06] border border-white/[0.10] text-slate-300 rounded-xl flex items-center justify-center flex-shrink-0">
             <TrendingUp size={18} />
           </div>
           <div>
@@ -163,8 +163,8 @@ export function CashPanel({
         </div>
 
         {/* Current Portfolio Value */}
-        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
-          <div className="w-9 h-9 bg-amber-400/15 border border-amber-400/30 text-amber-300 rounded-full flex items-center justify-center shadow-[0_0_12px_rgba(251,191,36,0.25)] flex-shrink-0">
+        <div className="glass-panel !rounded-2xl p-3 px-4 flex items-center gap-3.5 hover:scale-[1.01] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
+          <div className="w-9 h-9 bg-white/[0.06] border border-white/[0.10] text-slate-300 rounded-xl flex items-center justify-center flex-shrink-0">
             <DollarSign size={18} />
           </div>
           <div>
@@ -176,9 +176,9 @@ export function CashPanel({
         </div>
 
         {/* 4-Year Return */}
-        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
+        <div className="glass-panel !rounded-2xl p-3 px-4 flex items-center gap-3.5 hover:scale-[1.01] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
           <div
-            className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
+            className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
               fourYearReturn >= 0 
                 ? "bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.25)]" 
                 : "bg-rose-500/15 border border-rose-500/30 text-rose-400 shadow-[0_0_12px_rgba(244,63,94,0.25)]"
@@ -219,7 +219,7 @@ export function CashPanel({
             onClick={() => setTheme("cyberpunk")}
             className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
               theme === "cyberpunk"
-                ? "bg-purple-500/30 text-purple-200 border border-purple-500/50 shadow-[0_0_8px_rgba(168,85,247,0.3)]"
+                ? "bg-indigo-500/20 text-indigo-200 border border-indigo-500/40 shadow-[0_0_8px_rgba(99,102,241,0.3)]"
                 : "text-[#a1a1aa] hover:text-[#f5f5f7]"
             }`}
           >
@@ -255,14 +255,14 @@ export function CashPanel({
         </div>
 
         {/* Investment Progress */}
-        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3.5 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
+        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3.5 hover:scale-[1.01] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
           <div className="text-right">
             <div className="text-[11px] text-[#a1a1aa] font-medium tracking-wide uppercase">Portfolio Allocation</div>
             <div className="text-sm font-semibold text-[#f5f5f7] font-['Roobert'] mt-0.5">{investedPercentage.toFixed(1)}%</div>
           </div>
           <div className="w-20 h-2 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10 backdrop-blur-md">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 transition-all duration-500 ease-out shadow-[0_0_8px_rgba(236,72,153,0.4)]"
+              className="h-full rounded-full bg-indigo-500 transition-all duration-500 ease-out shadow-[0_0_8px_rgba(99,102,241,0.4)]"
               style={{ width: `${Math.min(investedPercentage, 100)}%` }}
             />
           </div>
