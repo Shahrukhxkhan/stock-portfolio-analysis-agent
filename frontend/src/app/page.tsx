@@ -56,6 +56,7 @@ export interface PortfolioState {
   multiAgentCrew?: any
   quantModels?: any
   optionsHedging?: any
+  algoBacktest?: any
   assetClassDistribution?: any
   performanceTelemetry?: any
 }
@@ -280,6 +281,7 @@ export default function OpenStocksCanvas() {
                       multiAgentCrew: args?.investment_summary?.multi_agent_crew,
                       quantModels: args?.investment_summary?.quant_models,
                       optionsHedging: args?.investment_summary?.options_hedging,
+                      algoBacktest: args?.investment_summary?.algo_backtest,
                       assetClassDistribution: args?.investment_summary?.asset_class_distribution,
                       performanceTelemetry: args?.investment_summary?.performance_telemetry,
                     })

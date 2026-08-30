@@ -35,6 +35,7 @@ from asset_classifier import normalize_ticker, calculate_asset_class_distributio
 from cache_manager import cache_manager
 from quant_engine import execute_quantitative_analysis
 from options_hedging import execute_options_hedging_analysis
+from algo_backtester import execute_algo_backtest_analysis
 
 # Load environment variables (like API keys) from .env file
 load_dotenv()
@@ -583,6 +584,7 @@ def calculate_pnl_and_metrics(stock_data, current_tickers, all_tickers, holdings
         "multi_agent_crew": run_multi_agent_crew(stock_data, all_tickers, holdings, final_prices_dict, total_invested_per_stock),
         "quant_models": execute_quantitative_analysis(stock_data, all_tickers, percent_allocation_per_stock),
         "options_hedging": execute_options_hedging_analysis(holdings, final_prices_dict, stock_data),
+        "algo_backtest": execute_algo_backtest_analysis(stock_data, holdings, all_tickers),
         "asset_class_distribution": calculate_asset_class_distribution(holdings, final_prices_dict),
         "exchange_rates": {"USD": 1.0, "EUR": 0.92, "GBP": 0.78, "INR": 83.5},
         "performance_telemetry": performance_telemetry or {"execution_time_ms": 12, "cache_hit": True, "data_source": "Memory Cache"},

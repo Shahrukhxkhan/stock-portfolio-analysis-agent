@@ -55,6 +55,11 @@ Instead of traditional static portfolio calculators, this system leverages an au
   - **Protective Puts & Capital Floor Insurance**: Calculates exact contracts, cost, and maximum loss limits for individual holdings.
   - **Covered Call Cash Yield Generation**: Generates annualized income (8-18% cash yield) with upside profit targets and breakeven adjustments.
   - **Interactive Expiration Payoff Curves**: Renders SVG profit & loss diagrams displaying unhedged stock vs hedged strategy payoffs at expiration.
+- **Systematic Algorithmic Strategy Backtester & Trade Blotter**:
+  - **Rule-Based Trading Algorithms**: Implements Momentum Trend-Following (50/200 Golden Cross), RSI & Bollinger Mean-Reversion, and ATR Volatility Contraction Breakout strategies.
+  - **Institutional Performance Tear Sheets**: Evaluates Cumulative Returns, Alpha vs S&P 500, Win/Loss Rate, Profit Factor, Max Drawdown %, Sharpe Ratio, Sortino Ratio, and Calmar Ratio.
+  - **Trade Execution Blotter**: Full historical log of simulated entries, exits, holding periods, shares, realized P&L, and exit catalysts.
+  - **Paper Trading Simulator**: Sandbox order placement (Market, Limit, Stop Loss, Trailing Stop) with modeled execution slippage (2.5 bps).
 - **Generative UI & Visual Analytics**:
   - **TradingView Technical & Candlestick Charts**: Institutional OHLC candlestick series with Volume profiles, EMA overlays (EMA 20/50/200), RSI (14) oscillators, and MACD histograms.
   - **Interactive Drag-and-Drop Rebalancer Canvas**: Target allocation sliders with automatic buy/sell order calculation ($ and share counts) and one-click rebalance execution.
