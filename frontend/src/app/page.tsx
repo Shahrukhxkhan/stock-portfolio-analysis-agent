@@ -59,6 +59,8 @@ export interface PortfolioState {
   algoBacktest?: any
   financialWatchdog?: any
   macroYieldCurve?: any
+  esgClimate?: any
+  cryptoOnchain?: any
   assetClassDistribution?: any
   performanceTelemetry?: any
 }
@@ -286,6 +288,8 @@ export default function OpenStocksCanvas() {
                       algoBacktest: args?.investment_summary?.algo_backtest,
                       financialWatchdog: args?.investment_summary?.financial_watchdog,
                       macroYieldCurve: args?.investment_summary?.macro_yield_curve,
+                      esgClimate: args?.investment_summary?.esg_climate,
+                      cryptoOnchain: args?.investment_summary?.crypto_onchain,
                       assetClassDistribution: args?.investment_summary?.asset_class_distribution,
                       performanceTelemetry: args?.investment_summary?.performance_telemetry,
                     })

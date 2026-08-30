@@ -27,7 +27,9 @@ import { OptionsHedgingCard } from "./chart-components/options-hedging-card"
 import { AlgoBacktestCard } from "./chart-components/algo-backtest-card"
 import { FinancialWatchdogCard } from "./chart-components/financial-watchdog-card"
 import { MacroYieldCurveCard } from "./chart-components/macro-yield-curve-card"
-import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap, Activity, ShieldAlert, Cpu, BellRing, Globe } from "lucide-react"
+import { EsgClimateCard } from "./chart-components/esg-climate-card"
+import { CryptoOnChainCard } from "./chart-components/crypto-onchain-card"
+import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap, Activity, ShieldAlert, Cpu, BellRing, Globe, Leaf, Coins } from "lucide-react"
 
 interface GenerativeCanvasProps {
   portfolioState: PortfolioState & {
@@ -42,6 +44,8 @@ interface GenerativeCanvasProps {
     algoBacktest?: any
     financialWatchdog?: any
     macroYieldCurve?: any
+    esgClimate?: any
+    cryptoOnchain?: any
     performanceTelemetry?: any
   }
   setSelectedStock: (stock: string | null) => void
@@ -57,7 +61,7 @@ export function GenerativeCanvas({
   onApplyRebalance,
 }: GenerativeCanvasProps) {
   const [activeTab, setActiveTab] = useState<
-    "overview" | "technical" | "performance" | "allocations" | "multiagent" | "risk" | "hedging" | "backtester" | "watchdog" | "yield_curve" | "rebalance_interactive" | "rebalance" | "insights" | "simulator"
+    "overview" | "technical" | "performance" | "allocations" | "multiagent" | "risk" | "hedging" | "backtester" | "watchdog" | "yield_curve" | "esg" | "crypto_onchain" | "rebalance_interactive" | "rebalance" | "insights" | "simulator"
   >("overview")
   const [quantSubTab, setQuantSubTab] = useState<
     "frontier" | "black_litterman" | "crisis" | "fama_french" | "risk_var"
@@ -105,6 +109,8 @@ export function GenerativeCanvas({
             { id: "backtester", label: "Algo Backtester", icon: Cpu },
             { id: "watchdog", label: "Watchdog Sentinel", icon: BellRing },
             { id: "yield_curve", label: "Yield Curve & Macro", icon: Globe },
+            { id: "esg", label: "ESG & Climate", icon: Leaf },
+            { id: "crypto_onchain", label: "Crypto On-Chain", icon: Coins },
             { id: "rebalance", label: "Auto Orders & Dividends", icon: Scale },
             { id: "insights", label: "Market Insights", icon: Sparkles },
             { id: "simulator", label: "What-If Simulator", icon: Sliders },
@@ -453,6 +459,16 @@ export function GenerativeCanvas({
         {/* MACRO US TREASURY YIELD CURVE & RECESSION RISK TAB */}
         {activeTab === "yield_curve" && (
           <MacroYieldCurveCard data={portfolioState?.macroYieldCurve} />
+        )}
+
+        {/* ESG & CLIMATE TRANSITION STRESS TEST TAB */}
+        {activeTab === "esg" && (
+          <EsgClimateCard data={portfolioState?.esgClimate} />
+        )}
+
+        {/* CRYPTO ON-CHAIN INTELLIGENCE TAB */}
+        {activeTab === "crypto_onchain" && (
+          <CryptoOnChainCard data={portfolioState?.cryptoOnchain} />
         )}
 
         {/* REBALANCE & DIVIDENDS TAB */}

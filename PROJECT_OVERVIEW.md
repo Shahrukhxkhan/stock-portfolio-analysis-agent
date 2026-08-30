@@ -69,6 +69,16 @@ Instead of traditional static portfolio calculators, this system leverages an au
   - **2Y/10Y & 3M/10Y Inversion Spreads**: Live yield spread monitoring, yield curve steepening/inversion signals, and macroeconomic cycle regime classification.
   - **Recession Probability Model**: Quantitative probability estimation (NY Fed Probit model proxy) with visual risk gauge.
   - **Federal Reserve Rate Shock & Duration Simulator**: Interactive rate delta slider (-200 bps to +200 bps) to model immediate portfolio valuation impact in dollars and percentage, with per-asset duration breakdown.
+- **ESG, Carbon Accounting & Climate Stress Testing**:
+  - **ESG Pillar Decomposition**: Environmental ($E$), Social ($S$), and Governance ($G$) scores (0-100 scale) with weighted portfolio composite ratings (e.g. *AAA / Leader*).
+  - **Carbon Footprint Intensity**: Scope 1-3 emissions accounting measured in $tCO_2e$ per $1M invested with S&P 500 benchmark outperformance tracking (+90.6% cleaner).
+  - **Controversy & Exclusion Auditing**: Monitors UN Global Compact compliance, zero fossil fuel extraction, and governance risks.
+  - **Carbon Tax & Climate Transition Simulator**: Interactive carbon price slider ($0 to $150 per metric ton) to stress-test regulatory earnings impairment and multiple contraction.
+- **Crypto On-Chain Intelligence & Market Cycle Analytics**:
+  - **Bitcoin MVRV Z-Score Cycle Meter**: Evaluates market cap vs realized cap to detect cycle bottoms (< 0.1) and top blow-offs (> 6.0).
+  - **Crypto Sentiment & Fear/Greed Index**: Sentiment oscillator with historical 7-point momentum trend.
+  - **Whale Exchange Net Flows & Treasury Mints**: Real-time tracking of institutional cold storage accumulation vs exchange sell-pressure.
+  - **Stablecoin Supply Ratio (SSR)**: Measures dry powder liquidity available to enter digital asset markets.
 - **Generative UI & Visual Analytics**:
   - **TradingView Technical & Candlestick Charts**: Institutional OHLC candlestick series with Volume profiles, EMA overlays (EMA 20/50/200), RSI (14) oscillators, and MACD histograms.
   - **Interactive Drag-and-Drop Rebalancer Canvas**: Target allocation sliders with automatic buy/sell order calculation ($ and share counts) and one-click rebalance execution.

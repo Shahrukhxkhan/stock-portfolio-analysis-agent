@@ -38,6 +38,8 @@ from options_hedging import execute_options_hedging_analysis
 from algo_backtester import execute_algo_backtest_analysis
 from financial_watchdog import execute_watchdog_monitoring
 from macro_yield_curve import execute_macro_yield_curve_analysis
+from esg_climate_engine import execute_esg_climate_analysis
+from crypto_onchain_engine import execute_crypto_onchain_analysis
 
 # Load environment variables (like API keys) from .env file
 load_dotenv()
@@ -589,6 +591,8 @@ def calculate_pnl_and_metrics(stock_data, current_tickers, all_tickers, holdings
         "algo_backtest": execute_algo_backtest_analysis(stock_data, holdings, all_tickers),
         "financial_watchdog": execute_watchdog_monitoring(holdings, final_prices_dict, stock_data),
         "macro_yield_curve": execute_macro_yield_curve_analysis(holdings, final_prices_dict, stock_data),
+        "esg_climate": execute_esg_climate_analysis(holdings, final_prices_dict),
+        "crypto_onchain": execute_crypto_onchain_analysis(holdings),
         "asset_class_distribution": calculate_asset_class_distribution(holdings, final_prices_dict),
         "exchange_rates": {"USD": 1.0, "EUR": 0.92, "GBP": 0.78, "INR": 83.5},
         "performance_telemetry": performance_telemetry or {"execution_time_ms": 12, "cache_hit": True, "data_source": "Memory Cache"},
