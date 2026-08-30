@@ -60,6 +60,10 @@ Instead of traditional static portfolio calculators, this system leverages an au
   - **Institutional Performance Tear Sheets**: Evaluates Cumulative Returns, Alpha vs S&P 500, Win/Loss Rate, Profit Factor, Max Drawdown %, Sharpe Ratio, Sortino Ratio, and Calmar Ratio.
   - **Trade Execution Blotter**: Full historical log of simulated entries, exits, holding periods, shares, realized P&L, and exit catalysts.
   - **Paper Trading Simulator**: Sandbox order placement (Market, Limit, Stop Loss, Trailing Stop) with modeled execution slippage (2.5 bps).
+- **Autonomous Financial Watchdog & Multi-Channel Dispatcher**:
+  - **24/7 Anomaly Sentinel**: Continuously evaluates portfolio assets against threshold rules for Whale Form 4 purchases > $1M, Congressional STOCK Act disclosures, Technical RSI/MACD momentum breaches, and SEC Note 7 debt covenants.
+  - **Real-Time Filterable Alert Feed**: Categorized by severity (Critical, High, Medium, Info) with quick external source verification links.
+  - **Multi-Channel Webhook Dispatcher**: Formats and exports live JSON payloads formatted for Discord Webhooks, Telegram Bot Markdown, and Slack Block Kit with in-app test dispatch simulator.
 - **Generative UI & Visual Analytics**:
   - **TradingView Technical & Candlestick Charts**: Institutional OHLC candlestick series with Volume profiles, EMA overlays (EMA 20/50/200), RSI (14) oscillators, and MACD histograms.
   - **Interactive Drag-and-Drop Rebalancer Canvas**: Target allocation sliders with automatic buy/sell order calculation ($ and share counts) and one-click rebalance execution.

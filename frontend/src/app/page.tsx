@@ -57,6 +57,7 @@ export interface PortfolioState {
   quantModels?: any
   optionsHedging?: any
   algoBacktest?: any
+  financialWatchdog?: any
   assetClassDistribution?: any
   performanceTelemetry?: any
 }
@@ -282,6 +283,7 @@ export default function OpenStocksCanvas() {
                       quantModels: args?.investment_summary?.quant_models,
                       optionsHedging: args?.investment_summary?.options_hedging,
                       algoBacktest: args?.investment_summary?.algo_backtest,
+                      financialWatchdog: args?.investment_summary?.financial_watchdog,
                       assetClassDistribution: args?.investment_summary?.asset_class_distribution,
                       performanceTelemetry: args?.investment_summary?.performance_telemetry,
                     })
