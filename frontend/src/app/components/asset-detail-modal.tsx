@@ -1,6 +1,6 @@
 "use client"
 
-import { X, TrendingUp, TrendingDown, Sparkles, AlertCircle, DollarSign, PieChart, ShieldAlert } from "lucide-react"
+import { X, TrendingUp, TrendingDown, Sparkles, AlertCircle, DollarSign, PieChart } from "lucide-react"
 import type { PortfolioState } from "../page"
 
 interface AssetDetailModalProps {
@@ -32,35 +32,32 @@ export function AssetDetailModal({ ticker, portfolioState, onClose }: AssetDetai
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fadeIn">
       <div
-        className="glass-panel w-full max-w-lg p-6 space-y-6 border border-white/15 shadow-[0_16px_48px_rgba(0,0,0,0.8)] rounded-3xl relative overflow-hidden"
+        className="w-full max-w-lg p-6 space-y-6 border border-[#E2E6EF] shadow-2xl rounded-3xl relative overflow-hidden bg-[#FFFFFF] text-[#101828]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Glow accent */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
-
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+        <div className="flex items-center justify-between border-b border-[#E2E6EF] pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center font-bold text-lg font-['Roobert'] text-[#f5f5f7] shadow-[0_0_15px_rgba(99,102,241,0.25)]">
+            <div className="w-12 h-12 rounded-2xl bg-[#3730E0]/10 border border-[#3730E0]/30 flex items-center justify-center font-bold text-lg font-['Roobert'] text-[#3730E0]">
               {ticker}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-xl font-bold text-[#f5f5f7] font-['Roobert']">{ticker} Ticker Breakdown</h3>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white/80 border border-white/10 uppercase">
+                <h3 className="text-xl font-bold text-[#101828] font-['Roobert']">{ticker} Ticker Breakdown</h3>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F3F4F8] text-[#6B7A99] border border-[#E2E6EF] uppercase">
                   Active Asset
                 </span>
               </div>
-              <p className="text-xs text-[#a1a1aa] mt-0.5">Asset allocation & individual performance details</p>
+              <p className="text-xs text-[#6B7A99] mt-0.5">Asset allocation & individual performance details</p>
             </div>
           </div>
 
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[#a1a1aa] hover:text-[#f5f5f7] transition-all"
+            className="p-2 rounded-full bg-[#F3F4F8] hover:bg-[#E2E6EF] border border-[#E2E6EF] text-[#6B7A99] hover:text-[#101828] transition-all cursor-pointer"
           >
             <X size={18} />
           </button>
@@ -68,39 +65,39 @@ export function AssetDetailModal({ ticker, portfolioState, onClose }: AssetDetai
 
         {/* Metrics Overview Grid */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
-            <div className="flex items-center gap-1.5 text-xs text-[#a1a1aa]">
-              <PieChart size={14} className="text-indigo-400" />
+          <div className="p-3.5 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF] space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-[#6B7A99]">
+              <PieChart size={14} className="text-[#3730E0]" />
               <span>Portfolio Weight</span>
             </div>
-            <div className="text-lg font-bold text-[#f5f5f7] font-['Roobert']">
+            <div className="text-lg font-bold text-[#101828] font-['Roobert']">
               {allocationPercent.toFixed(1)}%
             </div>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
-            <div className="flex items-center gap-1.5 text-xs text-[#a1a1aa]">
-              <DollarSign size={14} className="text-amber-400" />
+          <div className="p-3.5 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF] space-y-1">
+            <div className="flex items-center gap-1.5 text-xs text-[#6B7A99]">
+              <DollarSign size={14} className="text-[#3730E0]" />
               <span>Current Market Value</span>
             </div>
-            <div className="text-lg font-bold text-[#f5f5f7] font-['Roobert']">
+            <div className="text-lg font-bold text-[#101828] font-['Roobert']">
               {formatCurrency(currentValue)}
             </div>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1 col-span-2">
-            <div className="flex items-center gap-1.5 text-xs text-[#a1a1aa]">
+          <div className="p-3.5 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF] space-y-1 col-span-2">
+            <div className="flex items-center gap-1.5 text-xs text-[#6B7A99]">
               {totalReturnPercent >= 0 ? (
-                <TrendingUp size={14} className="text-emerald-400" />
+                <TrendingUp size={14} className="text-[#1E8E5A]" />
               ) : (
-                <TrendingDown size={14} className="text-rose-400" />
+                <TrendingDown size={14} className="text-[#D64545]" />
               )}
               <span>Total Asset Return</span>
             </div>
             <div className="flex items-center gap-2">
               <span
                 className={`text-xl font-bold font-['Roobert'] ${
-                  totalReturnPercent >= 0 ? "text-emerald-400" : "text-rose-400"
+                  totalReturnPercent >= 0 ? "text-[#1E8E5A]" : "text-[#D64545]"
                 }`}
               >
                 {totalReturnPercent >= 0 ? "+" : ""}
@@ -112,30 +109,30 @@ export function AssetDetailModal({ ticker, portfolioState, onClose }: AssetDetai
 
         {/* Ticker Specific Bull & Bear Insight */}
         <div className="space-y-3">
-          <h4 className="text-xs font-bold text-[#a1a1aa] uppercase tracking-wider">AI Insight Context</h4>
+          <h4 className="text-xs font-bold text-[#6B7A99] uppercase tracking-wider">AI Insight Context</h4>
 
           {bullInsight && (
-            <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
-              <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
+            <div className="p-3.5 rounded-2xl bg-[#E8F5EE] border border-[#1E8E5A]/30 space-y-1">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#1E8E5A]">
                 <Sparkles size={14} />
                 <span>{bullInsight.emoji || "🐂"} {bullInsight.title}</span>
               </div>
-              <p className="text-xs text-[#f5f5f7]/90 leading-relaxed">{bullInsight.description}</p>
+              <p className="text-xs text-[#101828] leading-relaxed">{bullInsight.description}</p>
             </div>
           )}
 
           {bearInsight && (
-            <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-1">
-              <div className="flex items-center gap-2 text-xs font-bold text-rose-400">
+            <div className="p-3.5 rounded-2xl bg-[#FCEBEB] border border-[#D64545]/30 space-y-1">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#D64545]">
                 <AlertCircle size={14} />
                 <span>{bearInsight.emoji || "🐻"} {bearInsight.title}</span>
               </div>
-              <p className="text-xs text-[#f5f5f7]/90 leading-relaxed">{bearInsight.description}</p>
+              <p className="text-xs text-[#101828] leading-relaxed">{bearInsight.description}</p>
             </div>
           )}
 
           {!bullInsight && !bearInsight && (
-            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 text-center text-xs text-[#a1a1aa]">
+            <div className="p-4 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF] text-center text-xs text-[#6B7A99]">
               No ticker-specific text insight generated yet. Run a prompt for deep ticker synthesis.
             </div>
           )}
@@ -146,7 +143,7 @@ export function AssetDetailModal({ ticker, portfolioState, onClose }: AssetDetai
           <button
             type="button"
             onClick={onClose}
-            className="w-full py-2.5 rounded-2xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-[#f5f5f7] border border-white/10 transition-all shadow-md"
+            className="w-full py-2.5 rounded-2xl bg-[#3730E0] hover:bg-[#3730E0]/90 text-xs font-semibold text-[#FFFFFF] border border-[#3730E0] transition-all cursor-pointer"
           >
             Close Details
           </button>

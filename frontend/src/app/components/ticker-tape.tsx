@@ -1,8 +1,6 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { TrendingUp, TrendingDown, Radio } from "lucide-react"
-import { useTheme } from "../context/theme-context"
 
 interface TickerItem {
   symbol: string
@@ -28,7 +26,6 @@ const DEFAULT_TICKERS: TickerItem[] = [
 ]
 
 export function TickerTape() {
-  const { theme } = useTheme()
   const [tickers, setTickers] = useState<TickerItem[]>(DEFAULT_TICKERS)
 
   // Minor realistic jitter to simulate live streaming tick feed
@@ -58,28 +55,12 @@ export function TickerTape() {
   const duplicatedTickers = [...tickers, ...tickers]
 
   return (
-    <div
-      className={`w-full overflow-hidden border-b flex items-center h-9 text-[11px] font-mono select-none z-30 transition-colors ${
-        theme === "bloomberg"
-          ? "bg-[#000000] border-[#442a00] text-[#ff9900]"
-          : theme === "light"
-          ? "bg-slate-100/90 border-slate-300 text-slate-800"
-          : "bg-black/60 border-white/10 text-[#f5f5f7] backdrop-blur-md"
-      }`}
-    >
+    <div className="w-full overflow-hidden border-b border-[#E2E6EF] flex items-center h-9 text-[11px] font-mono select-none z-30 bg-[#FFFFFF] text-[#101828]">
       {/* Live Market Status Pill */}
-      <div
-        className={`flex items-center gap-1.5 px-3.5 h-full border-r font-bold uppercase tracking-wider flex-shrink-0 z-10 ${
-          theme === "bloomberg"
-            ? "bg-[#110a00] border-[#442a00] text-[#ff9900]"
-            : theme === "light"
-            ? "bg-slate-200 border-slate-300 text-slate-700"
-            : "bg-indigo-950/30 border-white/10 text-indigo-300"
-        }`}
-      >
+      <div className="flex items-center gap-1.5 px-3.5 h-full border-r border-[#E2E6EF] font-bold uppercase tracking-wider flex-shrink-0 z-10 bg-[#F3F4F8] text-[#3730E0]">
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1E8E5A] opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#1E8E5A]"></span>
         </span>
         <span className="hidden sm:inline">LIVE FEED</span>
       </div>
@@ -94,17 +75,13 @@ export function TickerTape() {
                 key={`${ticker.symbol}-${index}`}
                 className="flex items-center gap-1.5 whitespace-nowrap cursor-pointer hover:opacity-80 transition-opacity"
               >
-                <span className="font-bold tracking-tight">{ticker.symbol}</span>
-                <span className="opacity-80">${ticker.price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span className="font-bold tracking-tight text-[#101828]">{ticker.symbol}</span>
+                <span className="text-[#6B7A99]">${ticker.price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 <span
                   className={`flex items-center text-[10px] font-semibold px-1 rounded ${
                     isPositive
-                      ? theme === "bloomberg"
-                        ? "text-[#00ff66]"
-                        : "text-emerald-400 bg-emerald-500/10"
-                      : theme === "bloomberg"
-                      ? "text-[#ff3344]"
-                      : "text-rose-400 bg-rose-500/10"
+                      ? "text-[#1E8E5A] bg-[#E8F5EE]"
+                      : "text-[#D64545] bg-[#FCEBEB]"
                   }`}
                 >
                   {isPositive ? "+" : ""}

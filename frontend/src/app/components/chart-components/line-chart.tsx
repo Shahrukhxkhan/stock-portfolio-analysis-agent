@@ -17,21 +17,21 @@ interface LineChartComponentProps {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#0f0f17]/95 border border-white/15 p-3 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.6)] backdrop-blur-xl font-['Plus_Jakarta_Sans'] text-xs min-w-[140px]">
-        <div className="text-[#a1a1aa] font-semibold mb-2 border-b border-white/10 pb-1 text-[11px] tracking-wide">{label}</div>
+      <div className="bg-[#FFFFFF] border border-[#E2E6EF] p-3 rounded-xl shadow-lg font-['Plus_Jakarta_Sans'] text-xs min-w-[140px]">
+        <div className="text-[#6B7A99] font-semibold mb-2 border-b border-[#E2E6EF] pb-1 text-[11px] tracking-wide">{label}</div>
         <div className="space-y-1.5">
           {payload.map((entry: any, index: number) => {
             if (entry.hide || entry.value == null) return null
             const isPortfolio = entry.dataKey === "portfolio"
-            const color = isPortfolio ? "#6366F1" : "#94a3b8"
+            const color = isPortfolio ? "#3730E0" : "#6B7A99"
             const name = isPortfolio ? "Portfolio" : "SPY"
             return (
               <div key={`tooltip-${index}`} className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full shadow-sm" style={{ backgroundColor: color }} />
-                  <span className="text-[#a1a1aa] text-[11px] font-medium">{name}:</span>
+                  <span className="w-2 h-2 rounded-full shadow-xs" style={{ backgroundColor: color }} />
+                  <span className="text-[#6B7A99] text-[11px] font-medium">{name}:</span>
                 </div>
-                <span className="text-[#f5f5f7] font-semibold font-['Roobert']">
+                <span className="text-[#101828] font-semibold font-['Roobert']">
                   ${entry.value.toLocaleString()}
                 </span>
               </div>
@@ -50,7 +50,7 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
   const [showGradient, setShowGradient] = useState(true)
   const [timeRange, setTimeRange] = useState<"1M" | "6M" | "1Y" | "ALL">("ALL")
 
-  const height = size === "small" ? 120 : 210 // h-30 or h-52
+  const height = size === "small" ? 120 : 210
   const padding = size === "small" ? "p-2.5" : "p-4"
   const fontSize = size === "small" ? 8 : 10
 
@@ -60,23 +60,23 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
   )
 
   return (
-    <div className={`glass-panel ${padding} relative overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] space-y-3`}>
+    <div className={`bg-[#FFFFFF] border border-[#E2E6EF] rounded-2xl ${padding} relative overflow-hidden shadow-xs space-y-3`}>
       {/* Legend & Filter Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E2E6EF] pb-2">
         <div className="flex items-center gap-2">
-          <div className="text-xs text-[#a1a1aa] font-medium tracking-wide">Performance Overview</div>
+          <div className="text-xs text-[#6B7A99] font-medium tracking-wide">Performance Overview</div>
           {/* Time Range Chips */}
           {size !== "small" && (
-            <div className="flex items-center bg-white/5 border border-white/10 rounded-lg p-0.5 ml-2">
+            <div className="flex items-center bg-[#F3F4F8] border border-[#E2E6EF] rounded-lg p-0.5 ml-2">
               {(["1M", "6M", "1Y", "ALL"] as const).map((range) => (
                 <button
                   key={range}
                   type="button"
                   onClick={() => setTimeRange(range)}
-                  className={`px-2 py-0.5 text-[10px] font-semibold rounded-md transition-all ${
+                  className={`px-2 py-0.5 text-[10px] font-semibold rounded-md transition-all cursor-pointer ${
                     timeRange === range
-                      ? "bg-indigo-500/20 text-indigo-200 border border-indigo-500/40 shadow-sm"
-                      : "text-[#a1a1aa] hover:text-[#f5f5f7]"
+                      ? "bg-[#3730E0] text-[#FFFFFF] shadow-xs"
+                      : "text-[#6B7A99] hover:text-[#101828]"
                   }`}
                 >
                   {range}
@@ -92,10 +92,10 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
             <button
               type="button"
               onClick={() => setShowGradient(!showGradient)}
-              className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium transition-all border ${
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium transition-all border cursor-pointer ${
                 showGradient
-                  ? "bg-indigo-500/15 border-indigo-500/40 text-indigo-300"
-                  : "bg-white/5 border-white/10 text-[#a1a1aa] opacity-50"
+                  ? "bg-[#3730E0]/10 border-[#3730E0]/30 text-[#3730E0]"
+                  : "bg-[#F3F4F8] border-[#E2E6EF] text-[#6B7A99] opacity-70"
               }`}
             >
               Fill
@@ -107,11 +107,11 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
             onClick={() => setShowPortfolio(!showPortfolio)}
             className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium transition-all cursor-pointer border ${
               showPortfolio
-                ? "bg-indigo-500/15 border-indigo-500/40 text-[#f5f5f7] shadow-[0_0_10px_rgba(99,102,241,0.2)]"
-                : "bg-white/5 border-white/10 text-[#a1a1aa] opacity-40 hover:opacity-70"
+                ? "bg-[#3730E0]/10 border-[#3730E0]/30 text-[#3730E0] font-semibold"
+                : "bg-[#F3F4F8] border-[#E2E6EF] text-[#6B7A99] opacity-60 hover:opacity-100"
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-[#6366F1]" />
+            <span className="w-2 h-2 rounded-full bg-[#3730E0]" />
             Portfolio
           </button>
           <button
@@ -119,11 +119,11 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
             onClick={() => setShowSpy(!showSpy)}
             className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium transition-all cursor-pointer border ${
               showSpy
-                ? "bg-slate-400/15 border-slate-400/40 text-[#f5f5f7] shadow-[0_0_10px_rgba(148,163,184,0.2)]"
-                : "bg-white/5 border-white/10 text-[#a1a1aa] opacity-40 hover:opacity-70"
+                ? "bg-[#F3F4F8] border-[#E2E6EF] text-[#101828] font-semibold"
+                : "bg-[#F3F4F8] border-[#E2E6EF] text-[#6B7A99] opacity-60 hover:opacity-100"
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-[#94a3b8]" />
+            <span className="w-2 h-2 rounded-full bg-[#6B7A99]" />
             SPY
           </button>
         </div>
@@ -134,26 +134,26 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
           <ComposedChart data={filteredData}>
             <defs>
               <linearGradient id="portfolioStrokeGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#6366F1" />
-                <stop offset="100%" stopColor="#818CF8" />
+                <stop offset="0%" stopColor="#3730E0" />
+                <stop offset="100%" stopColor="#3730E0" />
               </linearGradient>
               <linearGradient id="portfolioAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#6366F1" stopOpacity={0.12} />
-                <stop offset="60%" stopColor="#6366F1" stopOpacity={0.04} />
-                <stop offset="100%" stopColor="#6366F1" stopOpacity={0.0} />
+                <stop offset="0%" stopColor="#3730E0" stopOpacity={0.14} />
+                <stop offset="60%" stopColor="#3730E0" stopOpacity={0.04} />
+                <stop offset="100%" stopColor="#3730E0" stopOpacity={0.0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.06)" />
-            <XAxis dataKey="date" stroke="#a1a1aa" fontSize={fontSize} fontFamily="Plus Jakarta Sans" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#E2E6EF" />
+            <XAxis dataKey="date" stroke="#6B7A99" fontSize={fontSize} fontFamily="Plus Jakarta Sans" />
             <YAxis
-              stroke="#a1a1aa"
+              stroke="#6B7A99"
               fontSize={fontSize}
               fontFamily="Plus Jakarta Sans"
               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
             />
             <Tooltip content={<CustomTooltip />} />
 
-            {/* Soft area-fill gradient for Portfolio */}
+            {/* Primary Accent area-fill gradient for Portfolio at low opacity */}
             {showPortfolio && showGradient && (
               <Area
                 type="monotone"
@@ -165,12 +165,12 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
               />
             )}
 
-            {/* Portfolio Line with Gradient Stroke */}
+            {/* Portfolio Line with Primary Accent (#3730E0) */}
             {showPortfolio && (
               <Line
                 type="monotone"
                 dataKey="portfolio"
-                stroke="url(#portfolioStrokeGradient)"
+                stroke="#3730E0"
                 strokeWidth={2.5}
                 name="Portfolio"
                 dot={false}
@@ -179,12 +179,12 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
               />
             )}
 
-            {/* SPY Line (dashed, muted blue-gray) */}
+            {/* SPY Line (dashed, muted blue-gray #6B7A99) */}
             {showSpy && (
               <Line
                 type="monotone"
                 dataKey="spy"
-                stroke="#94a3b8"
+                stroke="#6B7A99"
                 strokeWidth={1.5}
                 strokeDasharray="4 4"
                 name="SPY"
@@ -199,4 +199,3 @@ export function LineChartComponent({ data, size = "normal" }: LineChartComponent
     </div>
   )
 }
-

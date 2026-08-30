@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Sliders, RotateCcw, AlertTriangle, TrendingUp, TrendingDown } from "lucide-react"
+import { Sliders, RotateCcw, TrendingUp, TrendingDown } from "lucide-react"
 import { ResponsiveContainer, ComposedChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
 import type { PortfolioState } from "@/app/page"
 
@@ -52,18 +52,18 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
   }
 
   return (
-    <div className="glass-panel p-5 space-y-6 border border-white/10 backdrop-blur-xl">
+    <div className="bg-[#FFFFFF] p-5 space-y-6 border border-[#E2E6EF] rounded-2xl shadow-xs text-[#101828]">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-4">
+      <div className="flex items-center justify-between border-b border-[#E2E6EF] pb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+          <div className="w-10 h-10 rounded-2xl bg-[#3730E0]/10 border border-[#3730E0]/30 flex items-center justify-center text-[#3730E0]">
             <Sliders size={20} />
           </div>
           <div>
-            <h2 className="text-base font-bold text-[#f5f5f7] font-['Roobert'] tracking-wide">
+            <h2 className="text-base font-bold text-[#101828] font-['Roobert'] tracking-wide">
               What-If Market Stress Simulator
             </h2>
-            <p className="text-xs text-[#a1a1aa] mt-0.5">
+            <p className="text-xs text-[#6B7A99] mt-0.5">
               Simulate macroeconomic shifts, interest rate changes, and volatility stress tests on your portfolio
             </p>
           </div>
@@ -72,9 +72,9 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
         <button
           type="button"
           onClick={handleReset}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-semibold text-[#a1a1aa] hover:text-[#f5f5f7] transition-all"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F3F4F8] border border-[#E2E6EF] hover:bg-[#E2E6EF] text-xs font-semibold text-[#101828] transition-all cursor-pointer"
         >
-          <RotateCcw size={14} />
+          <RotateCcw size={14} className="text-[#6B7A99]" />
           Reset Sliders
         </button>
       </div>
@@ -82,16 +82,16 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
       {/* Sliders Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Slider 1: Broad Market Shift */}
-        <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-3">
+        <div className="p-4 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF] space-y-3">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold text-[#f5f5f7]">Market Shift</span>
+            <span className="font-semibold text-[#101828]">Market Shift</span>
             <span
               className={`font-mono font-bold px-2 py-0.5 rounded-md ${
                 marketShift > 0
-                  ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
+                  ? "bg-[#E8F5EE] text-[#1E8E5A] border border-[#1E8E5A]/30"
                   : marketShift < 0
-                  ? "bg-rose-500/15 text-rose-400 border border-rose-500/30"
-                  : "bg-white/10 text-[#a1a1aa]"
+                  ? "bg-[#FCEBEB] text-[#D64545] border border-[#D64545]/30"
+                  : "bg-[#FFFFFF] text-[#6B7A99] border border-[#E2E6EF]"
               }`}
             >
               {marketShift > 0 ? `+${marketShift}%` : `${marketShift}%`}
@@ -104,9 +104,9 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
             step="1"
             value={marketShift}
             onChange={(e) => setMarketShift(Number(e.target.value))}
-            className="w-full accent-indigo-500 cursor-pointer h-1.5 bg-white/10 rounded-lg"
+            className="w-full accent-[#3730E0] cursor-pointer h-1.5 bg-[#E2E6EF] rounded-lg"
           />
-          <div className="flex justify-between text-[10px] text-[#a1a1aa]">
+          <div className="flex justify-between text-[10px] text-[#6B7A99]">
             <span>-50% (Crash)</span>
             <span>0% (Neutral)</span>
             <span>+50% (Rally)</span>
@@ -114,10 +114,10 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
         </div>
 
         {/* Slider 2: Volatility Multiplier */}
-        <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-3">
+        <div className="p-4 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF] space-y-3">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold text-[#f5f5f7]">Volatility Multiplier</span>
-            <span className="font-mono font-bold px-2 py-0.5 rounded-md bg-purple-500/15 text-purple-300 border border-purple-500/30">
+            <span className="font-semibold text-[#101828]">Volatility Multiplier</span>
+            <span className="font-mono font-bold px-2 py-0.5 rounded-md bg-[#3730E0]/10 text-[#3730E0] border border-[#3730E0]/30">
               {volatilityMultiplier.toFixed(1)}x
             </span>
           </div>
@@ -128,9 +128,9 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
             step="0.1"
             value={volatilityMultiplier}
             onChange={(e) => setVolatilityMultiplier(Number(e.target.value))}
-            className="w-full accent-purple-500 cursor-pointer h-1.5 bg-white/10 rounded-lg"
+            className="w-full accent-[#3730E0] cursor-pointer h-1.5 bg-[#E2E6EF] rounded-lg"
           />
-          <div className="flex justify-between text-[10px] text-[#a1a1aa]">
+          <div className="flex justify-between text-[10px] text-[#6B7A99]">
             <span>0.5x (Muted)</span>
             <span>1.0x (Standard)</span>
             <span>2.0x (High Vol)</span>
@@ -138,16 +138,16 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
         </div>
 
         {/* Slider 3: Interest Rate / Inflation Impact */}
-        <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-3">
+        <div className="p-4 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF] space-y-3">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold text-[#f5f5f7]">Rate / Inflation Shift</span>
+            <span className="font-semibold text-[#101828]">Rate / Inflation Shift</span>
             <span
               className={`font-mono font-bold px-2 py-0.5 rounded-md ${
                 interestRateImpact > 0
-                  ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
+                  ? "bg-[#E8F5EE] text-[#1E8E5A] border border-[#1E8E5A]/30"
                   : interestRateImpact < 0
-                  ? "bg-rose-500/15 text-rose-400 border border-rose-500/30"
-                  : "bg-white/10 text-[#a1a1aa]"
+                  ? "bg-[#FCEBEB] text-[#D64545] border border-[#D64545]/30"
+                  : "bg-[#FFFFFF] text-[#6B7A99] border border-[#E2E6EF]"
               }`}
             >
               {interestRateImpact > 0 ? `+${interestRateImpact}%` : `${interestRateImpact}%`}
@@ -160,9 +160,9 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
             step="1"
             value={interestRateImpact}
             onChange={(e) => setInterestRateImpact(Number(e.target.value))}
-            className="w-full accent-pink-500 cursor-pointer h-1.5 bg-white/10 rounded-lg"
+            className="w-full accent-[#3730E0] cursor-pointer h-1.5 bg-[#E2E6EF] rounded-lg"
           />
-          <div className="flex justify-between text-[10px] text-[#a1a1aa]">
+          <div className="flex justify-between text-[10px] text-[#6B7A99]">
             <span>-15% (Tightening)</span>
             <span>0% (Base)</span>
             <span>+15% (Easing)</span>
@@ -172,33 +172,33 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
 
       {/* Stress Results Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10">
-          <div className="text-[11px] text-[#a1a1aa] font-medium uppercase tracking-wider">Baseline Portfolio</div>
-          <div className="text-lg font-bold text-[#f5f5f7] font-['Roobert'] mt-1">
+        <div className="p-4 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF]">
+          <div className="text-[11px] text-[#6B7A99] font-medium uppercase tracking-wider">Baseline Portfolio</div>
+          <div className="text-lg font-bold text-[#101828] font-['Roobert'] mt-1">
             {formatCurrency(baselineValue)}
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10">
-          <div className="text-[11px] text-[#a1a1aa] font-medium uppercase tracking-wider">Stressed Portfolio</div>
-          <div className="text-lg font-bold text-[#f5f5f7] font-['Roobert'] mt-1">
+        <div className="p-4 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF]">
+          <div className="text-[11px] text-[#6B7A99] font-medium uppercase tracking-wider">Stressed Portfolio</div>
+          <div className="text-lg font-bold text-[#101828] font-['Roobert'] mt-1">
             {formatCurrency(stressedValue)}
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10">
-          <div className="text-[11px] text-[#a1a1aa] font-medium uppercase tracking-wider">Simulated Delta</div>
+        <div className="p-4 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF]">
+          <div className="text-[11px] text-[#6B7A99] font-medium uppercase tracking-wider">Simulated Delta</div>
           <div className="flex items-center gap-1.5 mt-1">
             <span
               className={`text-lg font-bold font-['Roobert'] flex items-center gap-1 ${
-                dollarDiff >= 0 ? "text-emerald-400" : "text-rose-400"
+                dollarDiff >= 0 ? "text-[#1E8E5A]" : "text-[#D64545]"
               }`}
             >
               {dollarDiff >= 0 ? <TrendingUp size={18} /> : <TrendingDown size={18} />}
               {dollarDiff >= 0 ? "+" : ""}
               {formatCurrency(dollarDiff)}
             </span>
-            <span className={`text-xs font-semibold ${dollarDiff >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+            <span className={`text-xs font-semibold ${dollarDiff >= 0 ? "text-[#1E8E5A]" : "text-[#D64545]"}`}>
               ({percentDiff >= 0 ? "+" : ""}
               {percentDiff.toFixed(1)}%)
             </span>
@@ -208,14 +208,14 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
 
       {/* Comparison Chart */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs text-[#a1a1aa] px-1">
-          <span className="font-semibold text-[#f5f5f7]">Baseline vs Stressed Simulation Trajectory</span>
+        <div className="flex items-center justify-between text-xs text-[#6B7A99] px-1">
+          <span className="font-semibold text-[#101828]">Baseline vs Stressed Simulation Trajectory</span>
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5 text-[11px]">
-              <span className="w-2.5 h-2.5 rounded-full bg-slate-400" /> Baseline
+              <span className="w-2.5 h-2.5 rounded-full bg-[#6B7A99]" /> Baseline
             </span>
-            <span className="flex items-center gap-1.5 text-[11px]">
-              <span className="w-2.5 h-2.5 rounded-full bg-purple-500" /> Stressed Scenario
+            <span className="flex items-center gap-1.5 text-[11px] text-[#3730E0] font-semibold">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#3730E0]" /> Stressed Scenario
             </span>
           </div>
         </div>
@@ -223,28 +223,27 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
         <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={stressedPerformance}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.08)" />
-              <XAxis dataKey="date" stroke="#a1a1aa" fontSize={10} fontFamily="Plus Jakarta Sans" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E6EF" />
+              <XAxis dataKey="date" stroke="#6B7A99" fontSize={10} fontFamily="Plus Jakarta Sans" />
               <YAxis
-                stroke="#a1a1aa"
+                stroke="#6B7A99"
                 fontSize={10}
                 fontFamily="Plus Jakarta Sans"
                 tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "rgba(15, 15, 23, 0.95)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                  backgroundColor: "#FFFFFF",
+                  border: "1px solid #E2E6EF",
                   borderRadius: "12px",
-                  color: "#f5f5f7",
+                  color: "#101828",
                   fontSize: "11px",
-                  backdropFilter: "blur(12px)",
                 }}
               />
               <Line
                 type="monotone"
                 dataKey="baseline"
-                stroke="#94a3b8"
+                stroke="#6B7A99"
                 strokeWidth={1.5}
                 strokeDasharray="4 4"
                 name="Baseline"
@@ -253,7 +252,7 @@ export function ScenarioSimulator({ portfolioState }: ScenarioSimulatorProps) {
               <Line
                 type="monotone"
                 dataKey="stressed"
-                stroke="#a855f7"
+                stroke="#3730E0"
                 strokeWidth={2.5}
                 name="Stressed Scenario"
                 dot={false}

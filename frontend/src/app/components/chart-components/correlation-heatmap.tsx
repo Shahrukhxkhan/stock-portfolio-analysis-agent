@@ -21,32 +21,32 @@ export function CorrelationHeatmap({ data }: CorrelationHeatmapProps) {
   ]
 
   const getCellColor = (val: number) => {
-    if (val === 1.0) return "bg-purple-500/30 text-purple-200 border-purple-500/40"
-    if (val >= 0.8) return "bg-rose-500/25 text-rose-300 border-rose-500/40"
-    if (val >= 0.5) return "bg-amber-500/20 text-amber-300 border-amber-500/30"
-    if (val >= 0.2) return "bg-blue-500/15 text-blue-300 border-blue-500/30"
-    return "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+    if (val === 1.0) return "bg-[#3730E0] text-[#FFFFFF] border-[#3730E0]"
+    if (val >= 0.8) return "bg-[#3730E0]/20 text-[#3730E0] border-[#3730E0]/30"
+    if (val >= 0.5) return "bg-[#3730E0]/10 text-[#3730E0] border-[#3730E0]/20"
+    if (val >= 0.2) return "bg-[#F3F4F8] text-[#101828] border-[#E2E6EF]"
+    return "bg-[#E8F5EE] text-[#1E8E5A] border-[#1E8E5A]/30"
   }
 
   return (
-    <div className="glass-panel p-4 space-y-4 border border-white/10">
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+    <div className="bg-[#FFFFFF] p-4 space-y-4 border border-[#E2E6EF] rounded-2xl shadow-xs">
+      <div className="flex items-center justify-between border-b border-[#E2E6EF] pb-3">
         <div className="flex items-center gap-2">
-          <Grid size={16} className="text-purple-400" />
-          <h3 className="text-xs font-bold text-[#f5f5f7] uppercase tracking-wider font-['Roobert']">
+          <Grid size={16} className="text-[#3730E0]" />
+          <h3 className="text-xs font-bold text-[#101828] uppercase tracking-wider font-['Roobert']">
             Asset Cross-Correlation Heatmap
           </h3>
         </div>
-        <span className="text-[10px] text-[#a1a1aa]">Range: -1.0 (Inverse) to +1.0 (Identical)</span>
+        <span className="text-[10px] text-[#6B7A99]">Range: -1.0 (Inverse) to +1.0 (Identical)</span>
       </div>
 
       <div className="overflow-x-auto hide-scrollbar">
         <table className="w-full text-center border-collapse">
           <thead>
             <tr>
-              <th className="p-2 text-[10px] text-[#a1a1aa] font-bold"></th>
+              <th className="p-2 text-[10px] text-[#6B7A99] font-bold"></th>
               {tickers.map((t) => (
-                <th key={`head-${t}`} className="p-2 text-xs font-bold text-[#f5f5f7] font-['Roobert']">
+                <th key={`head-${t}`} className="p-2 text-xs font-bold text-[#101828] font-['Roobert']">
                   {t}
                 </th>
               ))}
@@ -55,7 +55,7 @@ export function CorrelationHeatmap({ data }: CorrelationHeatmapProps) {
           <tbody>
             {tickers.map((rowTicker, rowIdx) => (
               <tr key={`row-${rowTicker}`}>
-                <td className="p-2 text-xs font-bold text-[#f5f5f7] font-['Roobert'] text-right pr-3">
+                <td className="p-2 text-xs font-bold text-[#101828] font-['Roobert'] text-right pr-3">
                   {rowTicker}
                 </td>
                 {tickers.map((colTicker, colIdx) => {

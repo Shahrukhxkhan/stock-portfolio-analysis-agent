@@ -1,6 +1,6 @@
 "use client"
 
-import { Coins, TrendingUp, RefreshCw } from "lucide-react"
+import { Coins } from "lucide-react"
 import { ResponsiveContainer, ComposedChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
 
 export interface DividendData {
@@ -53,50 +53,50 @@ export function DividendAnalytics({ data }: DividendAnalyticsProps) {
   }
 
   return (
-    <div className="glass-panel p-5 space-y-5 border border-white/10">
-      <div className="flex items-center justify-between border-b border-white/10 pb-4">
+    <div className="bg-[#FFFFFF] p-5 space-y-5 border border-[#E2E6EF] rounded-2xl shadow-xs text-[#101828]">
+      <div className="flex items-center justify-between border-b border-[#E2E6EF] pb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+          <div className="w-10 h-10 rounded-2xl bg-[#E8F5EE] border border-[#1E8E5A]/30 flex items-center justify-center text-[#1E8E5A]">
             <Coins size={20} />
           </div>
           <div>
-            <h3 className="text-base font-bold text-[#f5f5f7] font-['Roobert']">Dividend & DRIP Compounding Analytics</h3>
-            <p className="text-xs text-[#a1a1aa] mt-0.5">
+            <h3 className="text-base font-bold text-[#101828] font-['Roobert']">Dividend & DRIP Compounding Analytics</h3>
+            <p className="text-xs text-[#6B7A99] mt-0.5">
               Projected annual dividend payouts and DRIP (Dividend Reinvestment Plan) compounding simulation
             </p>
           </div>
         </div>
 
         <div className="text-right">
-          <div className="text-[11px] text-[#a1a1aa] uppercase tracking-wider">Est. Annual Payout</div>
-          <div className="text-lg font-bold text-emerald-400 font-['Roobert']">{formatCurrency(defaultIncome)}</div>
+          <div className="text-[11px] text-[#6B7A99] uppercase tracking-wider">Est. Annual Payout</div>
+          <div className="text-lg font-bold text-[#1E8E5A] font-['Roobert']">{formatCurrency(defaultIncome)}</div>
         </div>
       </div>
 
       {/* Overview Cards */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
-          <div className="text-[11px] text-[#a1a1aa]">Portfolio Yield %</div>
-          <div className="text-xl font-bold text-[#f5f5f7] font-['Roobert'] mt-1">{defaultYield.toFixed(2)}%</div>
+        <div className="p-3.5 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF]">
+          <div className="text-[11px] text-[#6B7A99]">Portfolio Yield %</div>
+          <div className="text-xl font-bold text-[#101828] font-['Roobert'] mt-1">{defaultYield.toFixed(2)}%</div>
         </div>
-        <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
-          <div className="text-[11px] text-[#a1a1aa]">DRIP Reinvestment Bonus</div>
-          <div className="text-xl font-bold text-purple-400 font-['Roobert'] mt-1">+10.2% / 5Y</div>
+        <div className="p-3.5 rounded-2xl bg-[#F3F4F8] border border-[#E2E6EF]">
+          <div className="text-[11px] text-[#6B7A99]">DRIP Reinvestment Bonus</div>
+          <div className="text-xl font-bold text-[#3730E0] font-['Roobert'] mt-1">+10.2% / 5Y</div>
         </div>
       </div>
 
       {/* Per Ticker Breakdown */}
       <div className="space-y-2">
-        <h4 className="text-xs font-bold text-[#a1a1aa] uppercase tracking-wider">Dividend Payout Breakdown</h4>
+        <h4 className="text-xs font-bold text-[#6B7A99] uppercase tracking-wider">Dividend Payout Breakdown</h4>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           {Object.entries(tickerDivs).map(([ticker, info]) => (
-            <div key={ticker} className="p-3 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+            <div key={ticker} className="p-3 rounded-xl bg-[#F3F4F8] border border-[#E2E6EF] space-y-1">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-[#f5f5f7] font-['Roobert']">{ticker}</span>
-                <span className="text-emerald-400 font-semibold">{info.yield_pct.toFixed(2)}% Yield</span>
+                <span className="font-bold text-[#101828] font-['Roobert']">{ticker}</span>
+                <span className="text-[#1E8E5A] font-semibold">{info.yield_pct.toFixed(2)}% Yield</span>
               </div>
-              <div className="text-xs text-[#a1a1aa]">
-                Income: <span className="text-[#f5f5f7] font-semibold">{formatCurrency(info.annual_income)}/yr</span>
+              <div className="text-xs text-[#6B7A99]">
+                Income: <span className="text-[#101828] font-semibold">{formatCurrency(info.annual_income)}/yr</span>
               </div>
             </div>
           ))}
@@ -105,14 +105,14 @@ export function DividendAnalytics({ data }: DividendAnalyticsProps) {
 
       {/* DRIP Chart */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs text-[#a1a1aa]">
-          <span className="font-semibold text-[#f5f5f7]">5-Year Growth: DRIP vs Cash Payout</span>
+        <div className="flex items-center justify-between text-xs text-[#6B7A99]">
+          <span className="font-semibold text-[#101828]">5-Year Growth: DRIP vs Cash Payout</span>
           <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1 text-[11px] text-[#a1a1aa]">
-              <span className="w-2.5 h-2.5 rounded-full bg-slate-400" /> Cash Payout
+            <span className="flex items-center gap-1 text-[11px] text-[#6B7A99]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#6B7A99]" /> Cash Payout
             </span>
-            <span className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" /> Reinvested (DRIP)
+            <span className="flex items-center gap-1 text-[11px] text-[#1E8E5A] font-semibold">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#1E8E5A]" /> Reinvested (DRIP)
             </span>
           </div>
         </div>
@@ -120,26 +120,25 @@ export function DividendAnalytics({ data }: DividendAnalyticsProps) {
         <div className="h-52">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={dripProjection}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.08)" />
-              <XAxis dataKey="year" stroke="#a1a1aa" fontSize={10} fontFamily="Plus Jakarta Sans" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E6EF" />
+              <XAxis dataKey="year" stroke="#6B7A99" fontSize={10} fontFamily="Plus Jakarta Sans" />
               <YAxis
-                stroke="#a1a1aa"
+                stroke="#6B7A99"
                 fontSize={10}
                 fontFamily="Plus Jakarta Sans"
                 tickFormatter={(val) => `$${(val / 1000).toFixed(0)}K`}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "rgba(15, 15, 23, 0.95)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                  backgroundColor: "#FFFFFF",
+                  border: "1px solid #E2E6EF",
                   borderRadius: "12px",
-                  color: "#f5f5f7",
+                  color: "#101828",
                   fontSize: "11px",
-                  backdropFilter: "blur(12px)",
                 }}
               />
-              <Line type="monotone" dataKey="withoutDRIP" stroke="#94a3b8" strokeWidth={1.5} strokeDasharray="4 4" name="Without DRIP" dot={false} />
-              <Line type="monotone" dataKey="withDRIP" stroke="#10b981" strokeWidth={2.5} name="With DRIP" dot={false} />
+              <Line type="monotone" dataKey="withoutDRIP" stroke="#6B7A99" strokeWidth={1.5} strokeDasharray="4 4" name="Without DRIP" dot={false} />
+              <Line type="monotone" dataKey="withDRIP" stroke="#1E8E5A" strokeWidth={2.5} name="With DRIP" dot={false} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>

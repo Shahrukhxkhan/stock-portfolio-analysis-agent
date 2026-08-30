@@ -190,16 +190,10 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
 
   return (
     <div
-      className={`w-full rounded-2xl border p-4 backdrop-blur-xl transition-colors ${
-        theme === "bloomberg"
-          ? "bg-[#080808] border-[#442a00] text-[#ff9900]"
-          : theme === "light"
-          ? "bg-white/90 border-slate-200 text-slate-900 shadow-lg"
-          : "bg-white/5 border-white/10 text-[#f5f5f7] shadow-2xl"
-      }`}
+      className="bg-[#FFFFFF] border border-[#E2E6EF] rounded-2xl p-4 shadow-xs transition-colors"
     >
       {/* Top Toolbar: Ticker Selector, Timeframe, Indicators, Subcharts */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/10 mb-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E2E6EF] mb-3">
         {/* Ticker Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto hide-scrollbar">
           {activeTickers.map((t) => (
@@ -209,10 +203,8 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
               onClick={() => setSelectedTicker(t)}
               className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 selectedTicker === t
-                  ? theme === "bloomberg"
-                    ? "bg-[#ff9900] text-black font-mono shadow-[0_0_10px_rgba(255,153,0,0.5)]"
-                    : "bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]"
-                  : "bg-white/5 hover:bg-white/10 text-[#a1a1aa] hover:text-[#f5f5f7] border border-white/10"
+                  ? "bg-[#3730E0] text-white shadow-xs"
+                  : "bg-[#F3F4F8] hover:bg-[#E2E6EF] text-[#6B7A99] hover:text-[#101828] border border-[#E2E6EF]"
               }`}
             >
               {t}
@@ -221,7 +213,7 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
         </div>
 
         {/* Timeframe Interval */}
-        <div className="flex items-center gap-1 bg-white/5 p-0.5 rounded-xl border border-white/10 text-xs font-mono">
+        <div className="flex items-center gap-1 bg-[#F3F4F8] p-0.5 rounded-xl border border-[#E2E6EF] text-xs font-mono">
           {(["1D", "1W", "1M"] as const).map((tf) => (
             <button
               key={tf}
@@ -229,8 +221,8 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
               onClick={() => setTimeframe(tf)}
               className={`px-2.5 py-0.5 rounded-lg font-bold transition-colors cursor-pointer ${
                 timeframe === tf
-                  ? "bg-purple-500/30 text-purple-300 border border-purple-500/40"
-                  : "text-[#a1a1aa] hover:text-[#f5f5f7]"
+                  ? "bg-[#3730E0] text-white"
+                  : "text-[#6B7A99] hover:text-[#101828]"
               }`}
             >
               {tf}
@@ -243,47 +235,47 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
           <button
             type="button"
             onClick={() => setShowEMA20(!showEMA20)}
-            className={`flex items-center gap-1 px-2 py-1 rounded-lg border text-[11px] font-mono transition-all ${
+            className={`flex items-center gap-1 px-2 py-1 rounded-lg border text-[11px] font-mono transition-all cursor-pointer ${
               showEMA20
-                ? "bg-cyan-500/20 border-cyan-500/40 text-cyan-300"
-                : "bg-white/5 border-white/10 text-[#a1a1aa] opacity-60"
+                ? "bg-[#3730E0]/10 border-[#3730E0]/30 text-[#3730E0]"
+                : "bg-[#F3F4F8] border-[#E2E6EF] text-[#6B7A99]"
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+            <span className="w-2 h-2 rounded-full bg-[#3730E0]"></span>
             EMA 20
           </button>
           <button
             type="button"
             onClick={() => setShowEMA50(!showEMA50)}
-            className={`flex items-center gap-1 px-2 py-1 rounded-lg border text-[11px] font-mono transition-all ${
+            className={`flex items-center gap-1 px-2 py-1 rounded-lg border text-[11px] font-mono transition-all cursor-pointer ${
               showEMA50
-                ? "bg-amber-500/20 border-amber-500/40 text-amber-300"
-                : "bg-white/5 border-white/10 text-[#a1a1aa] opacity-60"
+                ? "bg-[#F4D03F]/20 border-[#F4D03F] text-[#101828]"
+                : "bg-[#F3F4F8] border-[#E2E6EF] text-[#6B7A99]"
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span className="w-2 h-2 rounded-full bg-[#F4D03F]"></span>
             EMA 50
           </button>
           <button
             type="button"
             onClick={() => setShowEMA200(!showEMA200)}
-            className={`flex items-center gap-1 px-2 py-1 rounded-lg border text-[11px] font-mono transition-all ${
+            className={`flex items-center gap-1 px-2 py-1 rounded-lg border text-[11px] font-mono transition-all cursor-pointer ${
               showEMA200
-                ? "bg-purple-500/20 border-purple-500/40 text-purple-300"
-                : "bg-white/5 border-white/10 text-[#a1a1aa] opacity-60"
+                ? "bg-[#3730E0]/20 border-[#3730E0]/40 text-[#3730E0]"
+                : "bg-[#F3F4F8] border-[#E2E6EF] text-[#6B7A99]"
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+            <span className="w-2 h-2 rounded-full bg-[#3730E0]"></span>
             EMA 200
           </button>
 
           {/* Subchart Mode Switcher */}
-          <div className="flex items-center gap-1 bg-white/5 p-0.5 rounded-xl border border-white/10 text-[11px] font-mono">
+          <div className="flex items-center gap-1 bg-[#F3F4F8] p-0.5 rounded-xl border border-[#E2E6EF] text-[11px] font-mono">
             <button
               type="button"
               onClick={() => setActiveSubChart(activeSubChart === "rsi" ? "none" : "rsi")}
-              className={`px-2 py-0.5 rounded-lg transition-colors ${
-                activeSubChart === "rsi" ? "bg-emerald-500/20 text-emerald-300 font-bold" : "text-[#a1a1aa]"
+              className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
+                activeSubChart === "rsi" ? "bg-[#1E8E5A] text-white font-bold" : "text-[#6B7A99]"
               }`}
             >
               RSI (14)
@@ -291,8 +283,8 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
             <button
               type="button"
               onClick={() => setActiveSubChart(activeSubChart === "macd" ? "none" : "macd")}
-              className={`px-2 py-0.5 rounded-lg transition-colors ${
-                activeSubChart === "macd" ? "bg-indigo-500/20 text-indigo-300 font-bold" : "text-[#a1a1aa]"
+              className={`px-2 py-0.5 rounded-lg transition-colors cursor-pointer ${
+                activeSubChart === "macd" ? "bg-[#3730E0] text-white font-bold" : "text-[#6B7A99]"
               }`}
             >
               MACD
@@ -302,31 +294,31 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
       </div>
 
       {/* Real-time OHLC Metric Ribbon */}
-      <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono py-1 px-2 bg-white/5 rounded-xl border border-white/10 mb-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono py-1.5 px-3 bg-[#F3F4F8] rounded-xl border border-[#E2E6EF] mb-3 text-[#101828]">
         <div className="flex items-center gap-3">
-          <span className="font-extrabold text-sm text-[#f5f5f7] tracking-tight">{selectedTicker}</span>
-          <span className="text-[#a1a1aa]">{activeCandle.time}</span>
+          <span className="font-extrabold text-sm text-[#101828] tracking-tight">{selectedTicker}</span>
+          <span className="text-[#6B7A99]">{activeCandle.time}</span>
           <span>
-            O: <strong className="text-[#f5f5f7]">${activeCandle.open.toFixed(2)}</strong>
+            O: <strong className="text-[#101828]">${activeCandle.open.toFixed(2)}</strong>
           </span>
           <span>
-            H: <strong className="text-emerald-400">${activeCandle.high.toFixed(2)}</strong>
+            H: <strong className="text-[#1E8E5A]">${activeCandle.high.toFixed(2)}</strong>
           </span>
           <span>
-            L: <strong className="text-rose-400">${activeCandle.low.toFixed(2)}</strong>
+            L: <strong className="text-[#D64545]">${activeCandle.low.toFixed(2)}</strong>
           </span>
           <span>
             C:{" "}
-            <strong className={isPositiveDay ? "text-emerald-400" : "text-rose-400"}>
+            <strong className={isPositiveDay ? "text-[#1E8E5A]" : "text-[#D64545]"}>
               ${activeCandle.close.toFixed(2)}
             </strong>
           </span>
         </div>
-        <div className="flex items-center gap-3 text-[11px] text-[#a1a1aa]">
+        <div className="flex items-center gap-3 text-[11px] text-[#6B7A99]">
           <span>Vol: {(activeCandle.volume / 1000000).toFixed(1)}M</span>
           {activeCandle.rsi && (
             <span>
-              RSI: <strong className="text-emerald-300">{activeCandle.rsi}</strong>
+              RSI: <strong className="text-[#1E8E5A]">{activeCandle.rsi}</strong>
             </span>
           )}
         </div>
@@ -341,12 +333,12 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
         >
           <defs>
             <linearGradient id="volUp" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#10b981" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#10b981" stopOpacity="0.05" />
+              <stop offset="0%" stopColor="#1E8E5A" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#1E8E5A" stopOpacity="0.05" />
             </linearGradient>
             <linearGradient id="volDown" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ef4444" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#ef4444" stopOpacity="0.05" />
+              <stop offset="0%" stopColor="#D64545" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#D64545" stopOpacity="0.05" />
             </linearGradient>
           </defs>
 
@@ -356,8 +348,8 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
             const price = maxPrice - ratio * priceRange
             return (
               <g key={idx}>
-                <line x1="0" y1={y} x2={svgWidth} y2={y} stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
-                <text x={svgWidth - 5} y={y - 4} textAnchor="end" fill="#6b7280" fontSize="9" fontFamily="monospace">
+                <line x1="0" y1={y} x2={svgWidth} y2={y} stroke="#E2E6EF" strokeDasharray="3 3" />
+                <text x={svgWidth - 5} y={y - 4} textAnchor="end" fill="#6B7A99" fontSize="9" fontFamily="monospace">
                   ${price.toFixed(2)}
                 </text>
               </g>
@@ -396,13 +388,7 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
             const candleTop = Math.min(openY, closeY)
             const candleHeight = Math.max(2, Math.abs(closeY - openY))
 
-            const candleColor = isUp
-              ? theme === "bloomberg"
-                ? "#00ff66"
-                : "#10b981"
-              : theme === "bloomberg"
-              ? "#ff3344"
-              : "#ef4444"
+            const candleColor = isUp ? "#1E8E5A" : "#D64545"
 
             return (
               <g
@@ -438,7 +424,7 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
                 })
                 .join(" ")}
               fill="none"
-              stroke="#06b6d4"
+              stroke="#3730E0"
               strokeWidth="2"
               strokeLinecap="round"
             />
@@ -457,7 +443,7 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
                 })
                 .join(" ")}
               fill="none"
-              stroke="#f59e0b"
+              stroke="#F4D03F"
               strokeWidth="2"
               strokeLinecap="round"
             />
@@ -476,7 +462,7 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
                 })
                 .join(" ")}
               fill="none"
-              stroke="#a855f7"
+              stroke="#3730E0"
               strokeWidth="2.5"
               strokeLinecap="round"
             />
@@ -485,17 +471,17 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
           {/* Subchart: RSI (14) Oscillator */}
           {activeSubChart === "rsi" && (
             <g transform={`translate(0, ${mainChartHeight + 20})`}>
-              <line x1="0" y1="0" x2={svgWidth} y2="0" stroke="rgba(255,255,255,0.15)" />
-              <text x="15" y="14" fill="#a1a1aa" fontSize="10" fontFamily="monospace" fontWeight="bold">
+              <line x1="0" y1="0" x2={svgWidth} y2="0" stroke="#E2E6EF" />
+              <text x="15" y="14" fill="#6B7A99" fontSize="10" fontFamily="monospace" fontWeight="bold">
                 RSI (14) OSCILLATOR
               </text>
               {/* 70 Overbought & 30 Oversold bands */}
-              <line x1="0" y1="25" x2={svgWidth} y2="25" stroke="#ef4444" strokeDasharray="3 3" opacity="0.4" />
-              <text x={svgWidth - 5} y="28" textAnchor="end" fill="#ef4444" fontSize="8" fontFamily="monospace">
+              <line x1="0" y1="25" x2={svgWidth} y2="25" stroke="#D64545" strokeDasharray="3 3" opacity="0.4" />
+              <text x={svgWidth - 5} y="28" textAnchor="end" fill="#D64545" fontSize="8" fontFamily="monospace">
                 70 OB
               </text>
-              <line x1="0" y1="65" x2={svgWidth} y2="65" stroke="#10b981" strokeDasharray="3 3" opacity="0.4" />
-              <text x={svgWidth - 5} y="68" textAnchor="end" fill="#10b981" fontSize="8" fontFamily="monospace">
+              <line x1="0" y1="65" x2={svgWidth} y2="65" stroke="#1E8E5A" strokeDasharray="3 3" opacity="0.4" />
+              <text x={svgWidth - 5} y="68" textAnchor="end" fill="#1E8E5A" fontSize="8" fontFamily="monospace">
                 30 OS
               </text>
 
@@ -509,7 +495,7 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
                   })
                   .join(" ")}
                 fill="none"
-                stroke="#10b981"
+                stroke="#1E8E5A"
                 strokeWidth="2"
               />
             </g>
@@ -518,11 +504,11 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
           {/* Subchart: MACD (12, 26, 9) */}
           {activeSubChart === "macd" && (
             <g transform={`translate(0, ${mainChartHeight + 20})`}>
-              <line x1="0" y1="0" x2={svgWidth} y2="0" stroke="rgba(255,255,255,0.15)" />
-              <text x="15" y="14" fill="#a1a1aa" fontSize="10" fontFamily="monospace" fontWeight="bold">
+              <line x1="0" y1="0" x2={svgWidth} y2="0" stroke="#E2E6EF" />
+              <text x="15" y="14" fill="#6B7A99" fontSize="10" fontFamily="monospace" fontWeight="bold">
                 MACD (12, 26, 9)
               </text>
-              <line x1="0" y1="45" x2={svgWidth} y2="45" stroke="rgba(255,255,255,0.1)" />
+              <line x1="0" y1="45" x2={svgWidth} y2="45" stroke="#E2E6EF" />
 
               {/* MACD Histogram */}
               {ohlcData.map((d, i) => {
@@ -537,7 +523,7 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
                     y={y}
                     width={candleWidth}
                     height={Math.max(1, histHeight)}
-                    fill={hist >= 0 ? "#10b981" : "#ef4444"}
+                    fill={hist >= 0 ? "#1E8E5A" : "#D64545"}
                     opacity="0.8"
                   />
                 )
@@ -548,15 +534,15 @@ export function TradingViewChart({ tickers, currentPrices = {} }: TradingViewCha
       </div>
 
       {/* Chart Footer Technical Summary */}
-      <div className="mt-3 pt-2.5 border-t border-white/10 flex flex-wrap items-center justify-between text-xs text-[#a1a1aa] font-mono">
+      <div className="mt-3 pt-2.5 border-t border-[#E2E6EF] flex flex-wrap items-center justify-between text-xs text-[#6B7A99] font-mono">
         <div className="flex items-center gap-2">
-          <Activity size={13} className="text-purple-400" />
+          <Activity size={13} className="text-[#3730E0]" />
           <span>Trend Signal:</span>
           <span
             className={`font-bold px-2 py-0.5 rounded ${
               latest.close >= (latest.ema50 || 0)
-                ? "bg-emerald-500/20 text-emerald-300"
-                : "bg-rose-500/20 text-rose-300"
+                ? "bg-[#E8F5EE] text-[#1E8E5A]"
+                : "bg-[#FCEBEB] text-[#D64545]"
             }`}
           >
             {latest.close >= (latest.ema50 || 0) ? "BULLISH MOMENTUM" : "BEARISH PRESSURE"}

@@ -87,21 +87,21 @@ export function ComponentTree({ portfolioState }: ComponentTreeProps) {
     return (
       <div key={node.id}>
         <div
-          className={`flex items-center py-1 px-1 hover:bg-white/10 rounded cursor-pointer text-xs transition-colors`}
+          className={`flex items-center py-1 px-1 hover:bg-[#F3F4F8] rounded cursor-pointer text-xs transition-colors`}
           style={{ paddingLeft: `${depth * 12 + 4}px` }}
           onClick={() => hasChildren && toggleNode(node.id)}
         >
           {hasChildren ? (
             isExpanded ? (
-              <ChevronDown size={12} className="text-[#a1a1aa] mr-1" />
+              <ChevronDown size={12} className="text-[#6B7A99] mr-1" />
             ) : (
-              <ChevronRight size={12} className="text-[#a1a1aa] mr-1" />
+              <ChevronRight size={12} className="text-[#6B7A99] mr-1" />
             )
           ) : (
             <div className="w-3 mr-1" />
           )}
-          <span className="text-xs text-[#f5f5f7] font-medium truncate">{node.name}</span>
-          <span className="text-xs text-[#a1a1aa] ml-1">({node.type})</span>
+          <span className="text-xs text-[#101828] font-medium truncate">{node.name}</span>
+          <span className="text-xs text-[#6B7A99] ml-1">({node.type})</span>
         </div>
         {hasChildren && isExpanded && <div>{node.children!.map((child) => renderNode(child, depth + 1))}</div>}
       </div>
@@ -109,16 +109,16 @@ export function ComponentTree({ portfolioState }: ComponentTreeProps) {
   }
 
   return (
-    <div className="h-full flex flex-col bg-transparent">
-      <div className="p-3 border-b border-white/10">
-        <h2 className="text-sm font-semibold text-[#f5f5f7] font-['Roobert']">Component Tree</h2>
-        <p className="text-xs text-[#a1a1aa] mt-1">Layout structure</p>
+    <div className="h-full flex flex-col bg-[#FFFFFF] text-[#101828]">
+      <div className="p-3 border-b border-[#E2E6EF]">
+        <h2 className="text-sm font-semibold text-[#101828] font-['Roobert']">Component Tree</h2>
+        <p className="text-xs text-[#6B7A99] mt-1">Layout structure</p>
       </div>
 
       <div className="flex-1 overflow-auto p-2">{renderNode(treeData)}</div>
 
-      <div className="p-3 border-t border-white/10 bg-white/5">
-        <div className="text-xs text-[#a1a1aa] space-y-1">
+      <div className="p-3 border-t border-[#E2E6EF] bg-[#F3F4F8]">
+        <div className="text-xs text-[#6B7A99] space-y-1">
           <div>Components: {portfolioState.bullInsights.length + portfolioState.bearInsights.length + 5}</div>
           <div>Updated: {new Date().toLocaleTimeString()}</div>
         </div>

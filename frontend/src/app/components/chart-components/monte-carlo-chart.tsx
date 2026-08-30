@@ -27,29 +27,29 @@ export function MonteCarloChart({ data }: MonteCarloChartProps) {
       ]
 
   return (
-    <div className="glass-panel p-4 space-y-4 border border-white/10">
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+    <div className="bg-[#FFFFFF] rounded-2xl p-4 space-y-4 border border-[#E2E6EF] shadow-xs">
+      <div className="flex items-center justify-between border-b border-[#E2E6EF] pb-3">
         <div className="flex items-center gap-2">
-          <Dices size={18} className="text-indigo-400" />
+          <Dices size={18} className="text-[#3730E0]" />
           <div>
-            <h3 className="text-xs font-bold text-[#f5f5f7] uppercase tracking-wider font-['Roobert']">
+            <h3 className="text-xs font-bold text-[#101828] uppercase tracking-wider font-['Roobert']">
               1-Year Monte Carlo Simulation (1,000 Paths)
             </h3>
-            <p className="text-[10px] text-[#a1a1aa] mt-0.5">
+            <p className="text-[10px] text-[#6B7A99] mt-0.5">
               Probabilistic fan chart derived from daily log return distributions
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2 text-[10px]">
-          <span className="flex items-center gap-1 text-emerald-400 font-semibold">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" /> 95th (Bull)
+          <span className="flex items-center gap-1 text-[#1E8E5A] font-semibold">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#1E8E5A]" /> 95th (Bull)
           </span>
-          <span className="flex items-center gap-1 text-purple-400 font-semibold">
-            <span className="w-2.5 h-2.5 rounded-full bg-purple-400" /> 50th (Median)
+          <span className="flex items-center gap-1 text-[#3730E0] font-semibold">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#3730E0]" /> 50th (Median)
           </span>
-          <span className="flex items-center gap-1 text-rose-400 font-semibold">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-400" /> 5th (Bear)
+          <span className="flex items-center gap-1 text-[#D64545] font-semibold">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#D64545]" /> 5th (Bear)
           </span>
         </div>
       </div>
@@ -59,34 +59,33 @@ export function MonteCarloChart({ data }: MonteCarloChartProps) {
           <ComposedChart data={defaultData}>
             <defs>
               <linearGradient id="bullGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#10b981" stopOpacity={0.25} />
-                <stop offset="100%" stopColor="#10b981" stopOpacity={0.0} />
+                <stop offset="0%" stopColor="#1E8E5A" stopOpacity={0.2} />
+                <stop offset="100%" stopColor="#1E8E5A" stopOpacity={0.0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.08)" />
-            <XAxis dataKey="period" stroke="#a1a1aa" fontSize={10} fontFamily="Plus Jakarta Sans" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#E2E6EF" />
+            <XAxis dataKey="period" stroke="#6B7A99" fontSize={10} fontFamily="Plus Jakarta Sans" />
             <YAxis
-              stroke="#a1a1aa"
+              stroke="#6B7A99"
               fontSize={10}
               fontFamily="Plus Jakarta Sans"
               tickFormatter={(val) => `$${(val / 1000).toFixed(0)}K`}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "rgba(15, 15, 23, 0.95)",
-                border: "1px solid rgba(255, 255, 255, 0.12)",
+                backgroundColor: "#FFFFFF",
+                border: "1px solid #E2E6EF",
                 borderRadius: "12px",
-                color: "#f5f5f7",
+                color: "#101828",
                 fontSize: "11px",
-                backdropFilter: "blur(12px)",
               }}
               formatter={(val: number) => [`$${val.toLocaleString()}`, "Valuation"]}
             />
 
             <Area type="monotone" dataKey="bull95th" stroke="none" fill="url(#bullGradient)" />
-            <Line type="monotone" dataKey="bull95th" stroke="#10b981" strokeWidth={2} name="95th Percentile (Bull)" dot={false} />
-            <Line type="monotone" dataKey="median50th" stroke="#a855f7" strokeWidth={2.5} name="50th Percentile (Median)" dot={false} />
-            <Line type="monotone" dataKey="bear5th" stroke="#f43f5e" strokeWidth={2} strokeDasharray="4 4" name="5th Percentile (Bear)" dot={false} />
+            <Line type="monotone" dataKey="bull95th" stroke="#1E8E5A" strokeWidth={2} name="95th Percentile (Bull)" dot={false} />
+            <Line type="monotone" dataKey="median50th" stroke="#3730E0" strokeWidth={2.5} name="50th Percentile (Median)" dot={false} />
+            <Line type="monotone" dataKey="bear5th" stroke="#D64545" strokeWidth={2} strokeDasharray="4 4" name="5th Percentile (Bear)" dot={false} />
           </ComposedChart>
         </ResponsiveContainer>
       </div>

@@ -17,31 +17,25 @@ interface BarChartComponentProps {
 export function BarChartComponent({ data, size = "normal", onClick }: BarChartComponentProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="glass-panel p-6 flex flex-col items-center justify-center text-center space-y-3 relative overflow-hidden">
-        {/* Subtle pulsing skeleton lines */}
-        <div className="absolute inset-0 flex flex-col justify-around opacity-10 pointer-events-none p-4">
-          <div className="h-2 bg-white/30 rounded-full w-2/3 animate-pulse" />
-          <div className="h-2 bg-white/30 rounded-full w-1/2 animate-pulse delay-100" />
-          <div className="h-2 bg-white/30 rounded-full w-4/5 animate-pulse delay-200" />
-        </div>
-        <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#a1a1aa] shadow-inner relative z-10">
-          <BarChart3 size={20} className="animate-pulse text-[#a1a1aa]" />
+      <div className="bg-[#FFFFFF] border border-[#E2E6EF] rounded-2xl p-6 flex flex-col items-center justify-center text-center space-y-3 relative overflow-hidden shadow-xs">
+        <div className="w-10 h-10 rounded-full bg-[#F3F4F8] border border-[#E2E6EF] flex items-center justify-center text-[#6B7A99] shadow-inner relative z-10">
+          <BarChart3 size={20} className="animate-pulse text-[#6B7A99]" />
         </div>
         <div className="relative z-10">
-          <p className="text-xs font-semibold text-[#f5f5f7]">No Returns Data</p>
-          <p className="text-[11px] text-[#a1a1aa] mt-0.5">Execute an analysis query to view ticker returns</p>
+          <p className="text-xs font-semibold text-[#101828]">No Returns Data</p>
+          <p className="text-[11px] text-[#6B7A99] mt-0.5">Execute an analysis query to view ticker returns</p>
         </div>
       </div>
     )
   }
 
-  const height = size === "small" ? 80 : 140 // h-20 or h-35
+  const height = size === "small" ? 80 : 140
   const padding = size === "small" ? "p-2.5" : "p-3.5"
   const fontSize = size === "small" ? 8 : 10
   const tooltipFontSize = size === "small" ? "9px" : "11px"
 
   return (
-    <div className={`glass-panel ${padding} space-y-3`}>
+    <div className={`bg-[#FFFFFF] border border-[#E2E6EF] rounded-2xl ${padding} space-y-3 shadow-xs`}>
       {/* Stat Chips per Ticker */}
       <div className="flex flex-wrap gap-2">
         {data.map((item) => (
@@ -50,11 +44,11 @@ export function BarChartComponent({ data, size = "normal", onClick }: BarChartCo
             onClick={() => onClick?.(item.ticker)}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-xs font-medium cursor-pointer transition-all hover:scale-[1.03] ${
               item.return >= 0
-                ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.2)]"
-                : "bg-rose-500/15 border-rose-500/30 text-rose-400 shadow-[0_0_12px_rgba(244,63,94,0.2)]"
+                ? "bg-[#E8F5EE] border-[#1E8E5A]/30 text-[#1E8E5A]"
+                : "bg-[#FCEBEB] border-[#D64545]/30 text-[#D64545]"
             }`}
           >
-            <span className="font-bold text-[#f5f5f7] font-['Roobert']">{item.ticker}</span>
+            <span className="font-bold text-[#101828] font-['Roobert']">{item.ticker}</span>
             <span className="font-semibold">
               {item.return >= 0 ? "+" : ""}
               {item.return.toFixed(1)}%
@@ -66,27 +60,26 @@ export function BarChartComponent({ data, size = "normal", onClick }: BarChartCo
       <div style={{ height }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.08)" />
-            <XAxis dataKey="ticker" stroke="#a1a1aa" fontSize={fontSize} fontFamily="Plus Jakarta Sans" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#E2E6EF" />
+            <XAxis dataKey="ticker" stroke="#6B7A99" fontSize={fontSize} fontFamily="Plus Jakarta Sans" />
             <YAxis
-              stroke="#a1a1aa"
+              stroke="#6B7A99"
               fontSize={fontSize}
               fontFamily="Plus Jakarta Sans"
               tickFormatter={(value) => `${value}%`}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "rgba(15, 15, 23, 0.95)",
-                border: "1px solid rgba(255, 255, 255, 0.12)",
+                backgroundColor: "#FFFFFF",
+                border: "1px solid #E2E6EF",
                 borderRadius: "12px",
-                color: "#f5f5f7",
+                color: "#101828",
                 fontSize: tooltipFontSize,
                 fontFamily: "Plus Jakarta Sans",
-                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.5)",
-                backdropFilter: "blur(12px)",
+                boxShadow: "0 4px 16px rgba(16, 24, 40, 0.08)",
               }}
-              itemStyle={{ color: "#f5f5f7" }}
-              labelStyle={{ color: "#a1a1aa" }}
+              itemStyle={{ color: "#101828" }}
+              labelStyle={{ color: "#6B7A99" }}
               formatter={(value: number) => [`${value.toFixed(1)}%`, "Return"]}
             />
             <Bar
@@ -99,7 +92,7 @@ export function BarChartComponent({ data, size = "normal", onClick }: BarChartCo
               radius={[4, 4, 0, 0]}
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.return >= 0 ? "#10b981" : "#f43f5e"} />
+                <Cell key={`cell-${index}`} fill={entry.return >= 0 ? "#1E8E5A" : "#D64545"} />
               ))}
             </Bar>
           </BarChart>
@@ -108,4 +101,3 @@ export function BarChartComponent({ data, size = "normal", onClick }: BarChartCo
     </div>
   )
 }
-

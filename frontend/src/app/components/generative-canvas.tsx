@@ -92,12 +92,12 @@ export function GenerativeCanvas({
   const activeTickers = (portfolioState.allocations || []).map((a) => a.ticker)
 
   return (
-    <div className="h-full flex flex-col overflow-hidden">
+    <div className="h-full flex flex-col overflow-hidden bg-[#EDF0F7]">
       {/* PDF Executive Report Modal */}
       {showPdfReport && <PortfolioPdfReport portfolioState={portfolioState} onClose={() => setShowPdfReport(false)} />}
 
       {/* Generative Canvas Top Tab Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-5 py-2.5 bg-black/40 border-b border-white/10 backdrop-blur-xl flex-shrink-0 z-10">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-5 py-2.5 bg-[#FFFFFF] border-b border-[#E2E6EF] flex-shrink-0 z-10">
         <div className="flex items-center gap-1.5 overflow-x-auto hide-scrollbar">
           {[
             { id: "overview", label: "Overview", icon: LayoutGrid },
@@ -127,11 +127,11 @@ export function GenerativeCanvas({
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer ${
                   isActive
-                    ? "bg-indigo-500/20 text-[#f8fafc] border border-indigo-500/40 shadow-[0_0_14px_rgba(99,102,241,0.20)] font-bold"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] border border-transparent font-medium"
+                    ? "bg-[#3730E0] text-[#FFFFFF] border border-[#3730E0] shadow-xs font-bold"
+                    : "text-[#6B7A99] hover:text-[#101828] hover:bg-[#F3F4F8] border border-transparent font-medium"
                 }`}
               >
-                <Icon size={14} className={isActive ? "text-indigo-400" : "text-slate-400"} />
+                <Icon size={14} className={isActive ? "text-[#FFFFFF]" : "text-[#6B7A99]"} />
                 {tab.label}
               </button>
             )
@@ -144,34 +144,35 @@ export function GenerativeCanvas({
           <div
             className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-mono font-bold border transition-all ${
               portfolioState.performanceTelemetry?.cache_hit
-                ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30 shadow-[0_0_8px_rgba(52,211,153,0.2)]"
-                : "bg-purple-500/15 text-purple-300 border-purple-500/30 shadow-[0_0_8px_rgba(168,85,247,0.2)]"
+                ? "bg-[#E8F5EE] text-[#1E8E5A] border-[#1E8E5A]/30"
+                : "bg-[#F3F4F8] text-[#3730E0] border-[#E2E6EF]"
             }`}
             title={`Source: ${portfolioState.performanceTelemetry?.data_source || "Memory Cache"}`}
           >
-            <Zap size={12} className={portfolioState.performanceTelemetry?.cache_hit ? "text-emerald-400" : "text-purple-400"} />
+            <Zap size={12} className={portfolioState.performanceTelemetry?.cache_hit ? "text-[#1E8E5A]" : "text-[#3730E0]"} />
             <span>{portfolioState.performanceTelemetry?.execution_time_ms ?? 12}ms</span>
             <span className="opacity-70">
               ({portfolioState.performanceTelemetry?.cache_hit ? "Cache Hit" : "Network"})
             </span>
           </div>
+
           <button
             type="button"
             onClick={handleCopyShareLink}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
               copiedLink
-                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
-                : "bg-white/5 hover:bg-white/10 border-white/10 text-[#a1a1aa] hover:text-[#f5f5f7]"
+                ? "bg-[#E8F5EE] text-[#1E8E5A] border-[#1E8E5A]"
+                : "bg-[#F3F4F8] hover:bg-[#E2E6EF] border-[#E2E6EF] text-[#101828]"
             }`}
           >
-            {copiedLink ? <Check size={13} className="text-emerald-400" /> : <Link size={13} />}
+            {copiedLink ? <Check size={13} className="text-[#1E8E5A]" /> : <Link size={13} className="text-[#6B7A99]" />}
             {copiedLink ? "Link Copied!" : "Share Link"}
           </button>
 
           <button
             type="button"
             onClick={() => setShowPdfReport(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-500/30 to-indigo-500/30 hover:from-purple-500/40 hover:to-indigo-500/40 border border-purple-500/40 text-xs font-semibold text-purple-200 transition-all shadow-[0_0_10px_rgba(168,85,247,0.2)]"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#3730E0] hover:bg-[#3730E0]/90 border border-[#3730E0] text-xs font-semibold text-[#FFFFFF] transition-all shadow-xs cursor-pointer"
           >
             <FileText size={13} />
             Export PDF
@@ -180,16 +181,16 @@ export function GenerativeCanvas({
           <button
             type="button"
             onClick={handleExportData}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-[#a1a1aa] hover:text-[#f5f5f7] transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F3F4F8] hover:bg-[#E2E6EF] border border-[#E2E6EF] text-xs font-semibold text-[#101828] transition-all cursor-pointer"
           >
-            <Download size={13} />
+            <Download size={13} className="text-[#6B7A99]" />
             JSON
           </button>
         </div>
       </div>
 
       {/* Tab Content Container */}
-      <div className="flex-1 overflow-auto p-4 space-y-4 max-w-none">
+      <div className="flex-1 overflow-auto p-4 space-y-4 max-w-none bg-[#EDF0F7]">
         {/* OVERVIEW TAB */}
         {activeTab === "overview" && (
           <>
@@ -198,13 +199,13 @@ export function GenerativeCanvas({
               <SectionTitle title="Performance" />
               <div className="mt-3">
                 {portfolioState?.performanceData?.length === 0 ? (
-                  <div className="glass-panel p-6 flex flex-col items-center justify-center text-center space-y-3 relative overflow-hidden">
-                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#a1a1aa] shadow-inner">
+                  <div className="bg-[#FFFFFF] border border-[#E2E6EF] rounded-2xl p-6 flex flex-col items-center justify-center text-center space-y-3 relative overflow-hidden shadow-xs">
+                    <div className="w-10 h-10 rounded-full bg-[#F3F4F8] border border-[#E2E6EF] flex items-center justify-center text-[#6B7A99] shadow-inner">
                       <Sparkles size={20} className="animate-pulse" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-[#f5f5f7]">No Performance Data</p>
-                      <p className="text-[11px] text-[#a1a1aa] mt-0.5">Performance charts will be rendered here upon prompt submission</p>
+                      <p className="text-xs font-semibold text-[#101828]">No Performance Data</p>
+                      <p className="text-[11px] text-[#6B7A99] mt-0.5">Performance charts will be rendered here upon prompt submission</p>
                     </div>
                   </div>
                 ) : (
@@ -253,22 +254,22 @@ export function GenerativeCanvas({
               <SectionTitle title="Market Insights" />
               <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Bull Insights */}
-                <div className="glass-panel p-4 border-emerald-500/20 shadow-[0_0_20px_rgba(52,211,153,0.06)] space-y-3">
+                <div className="bg-[#FFFFFF] border border-[#E2E6EF] rounded-2xl p-4 shadow-xs space-y-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-base shadow-[0_0_10px_rgba(52,211,153,0.2)] flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-[#E8F5EE] border border-[#1E8E5A]/30 flex items-center justify-center text-base flex-shrink-0">
                       🐂
                     </div>
-                    <h3 className="text-sm font-bold text-emerald-400 font-['Roobert'] tracking-wide">BULL CASE</h3>
+                    <h3 className="text-sm font-bold text-[#1E8E5A] font-['Roobert'] tracking-wide">BULL CASE</h3>
                   </div>
                   <div className="space-y-2.5">
                     {portfolioState.bullInsights.length === 0 ? (
-                      <div className="p-5 flex flex-col items-center justify-center text-center space-y-2 relative overflow-hidden bg-white/[0.02] rounded-xl border border-white/5">
-                        <div className="w-9 h-9 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                      <div className="p-5 flex flex-col items-center justify-center text-center space-y-2 relative overflow-hidden bg-[#F3F4F8] rounded-xl border border-[#E2E6EF]">
+                        <div className="w-9 h-9 rounded-full bg-[#E8F5EE] border border-[#1E8E5A]/30 flex items-center justify-center text-[#1E8E5A]">
                           <Sparkles size={18} className="animate-pulse" />
                         </div>
                         <div>
-                          <p className="text-xs font-semibold text-[#f5f5f7]">No Bull Case Insights</p>
-                          <p className="text-[11px] text-[#a1a1aa] mt-0.5">Bullish analysis will appear here after prompt execution</p>
+                          <p className="text-xs font-semibold text-[#101828]">No Bull Case Insights</p>
+                          <p className="text-[11px] text-[#6B7A99] mt-0.5">Bullish analysis will appear here after prompt execution</p>
                         </div>
                       </div>
                     ) : (
@@ -280,22 +281,22 @@ export function GenerativeCanvas({
                 </div>
 
                 {/* Bear Insights */}
-                <div className="glass-panel p-4 border-rose-500/20 shadow-[0_0_20px_rgba(244,63,94,0.06)] space-y-3">
+                <div className="bg-[#FFFFFF] border border-[#E2E6EF] rounded-2xl p-4 shadow-xs space-y-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-full bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-base shadow-[0_0_10px_rgba(244,63,94,0.2)] flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-[#FCEBEB] border border-[#D64545]/30 flex items-center justify-center text-base flex-shrink-0">
                       🐻
                     </div>
-                    <h3 className="text-sm font-bold text-rose-400 font-['Roobert'] tracking-wide">BEAR CASE</h3>
+                    <h3 className="text-sm font-bold text-[#D64545] font-['Roobert'] tracking-wide">BEAR CASE</h3>
                   </div>
                   <div className="space-y-2.5">
                     {portfolioState.bearInsights.length === 0 ? (
-                      <div className="p-5 flex flex-col items-center justify-center text-center space-y-2 relative overflow-hidden bg-white/[0.02] rounded-xl border border-white/5">
-                        <div className="w-9 h-9 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
+                      <div className="p-5 flex flex-col items-center justify-center text-center space-y-2 relative overflow-hidden bg-[#F3F4F8] rounded-xl border border-[#E2E6EF]">
+                        <div className="w-9 h-9 rounded-full bg-[#FCEBEB] border border-[#D64545]/30 flex items-center justify-center text-[#D64545]">
                           <AlertCircle size={18} className="animate-pulse" />
                         </div>
                         <div>
-                          <p className="text-xs font-semibold text-[#f5f5f7]">No Bear Case Insights</p>
-                          <p className="text-[11px] text-[#a1a1aa] mt-0.5">Bearish analysis will appear here after prompt execution</p>
+                          <p className="text-xs font-semibold text-[#101828]">No Bear Case Insights</p>
+                          <p className="text-[11px] text-[#6B7A99] mt-0.5">Bearish analysis will appear here after prompt execution</p>
                         </div>
                       </div>
                     ) : (
@@ -388,7 +389,7 @@ export function GenerativeCanvas({
         {activeTab === "risk" && (
           <div className="space-y-4">
             {/* Quant Sub-View Switcher Bar */}
-            <div className="flex items-center gap-1.5 overflow-x-auto hide-scrollbar p-1.5 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl">
+            <div className="flex items-center gap-1.5 overflow-x-auto hide-scrollbar p-1.5 rounded-2xl bg-[#FFFFFF] border border-[#E2E6EF] shadow-xs">
               {[
                 { id: "frontier", label: "Efficient Frontier", icon: Activity },
                 { id: "black_litterman", label: "Black-Litterman", icon: Scale },
@@ -405,11 +406,11 @@ export function GenerativeCanvas({
                     onClick={() => setQuantSubTab(sub.id as any)}
                     className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs transition-all cursor-pointer ${
                       isActive
-                        ? "bg-indigo-500/20 text-[#f8fafc] border border-indigo-500/40 shadow-[0_0_14px_rgba(99,102,241,0.20)] font-bold"
-                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] border border-transparent font-medium"
+                        ? "bg-[#3730E0] text-[#FFFFFF] border border-[#3730E0] shadow-xs font-bold"
+                        : "text-[#6B7A99] hover:text-[#101828] hover:bg-[#F3F4F8] border border-transparent font-medium"
                     }`}
                   >
-                    <Icon size={14} className={isActive ? "text-indigo-400" : "text-slate-400"} />
+                    <Icon size={14} className={isActive ? "text-[#FFFFFF]" : "text-[#6B7A99]"} />
                     <span>{sub.label}</span>
                   </button>
                 )
@@ -490,10 +491,10 @@ export function GenerativeCanvas({
         {/* INSIGHTS TAB */}
         {activeTab === "insights" && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="glass-panel p-5 border-emerald-500/20 space-y-4">
+            <div className="bg-[#FFFFFF] border border-[#E2E6EF] rounded-2xl p-5 shadow-xs space-y-4">
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl">🐂</span>
-                <h3 className="text-base font-bold text-emerald-400 font-['Roobert']">BULLISH CATALYSTS</h3>
+                <h3 className="text-base font-bold text-[#1E8E5A] font-['Roobert']">BULLISH CATALYSTS</h3>
               </div>
               <div className="space-y-3">
                 {portfolioState.bullInsights.map((insight, index) => (
@@ -502,10 +503,10 @@ export function GenerativeCanvas({
               </div>
             </div>
 
-            <div className="glass-panel p-5 border-rose-500/20 space-y-4">
+            <div className="bg-[#FFFFFF] border border-[#E2E6EF] rounded-2xl p-5 shadow-xs space-y-4">
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl">🐻</span>
-                <h3 className="text-base font-bold text-rose-400 font-['Roobert']">BEARISH RISKS</h3>
+                <h3 className="text-base font-bold text-[#D64545] font-['Roobert']">BEARISH RISKS</h3>
               </div>
               <div className="space-y-3">
                 {portfolioState.bearInsights.map((insight, index) => (

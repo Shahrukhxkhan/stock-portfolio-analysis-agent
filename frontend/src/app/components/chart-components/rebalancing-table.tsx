@@ -63,15 +63,15 @@ export function RebalancingTable({ orders }: RebalancingTableProps) {
   }
 
   return (
-    <div className="glass-panel p-4 space-y-4 border border-white/10">
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+    <div className="bg-[#FFFFFF] p-4 space-y-4 border border-[#E2E6EF] rounded-2xl shadow-xs">
+      <div className="flex items-center justify-between border-b border-[#E2E6EF] pb-3">
         <div className="flex items-center gap-2">
-          <Scale size={18} className="text-amber-400" />
+          <Scale size={18} className="text-[#3730E0]" />
           <div>
-            <h3 className="text-xs font-bold text-[#f5f5f7] uppercase tracking-wider font-['Roobert']">
+            <h3 className="text-xs font-bold text-[#101828] uppercase tracking-wider font-['Roobert']">
               Smart Portfolio Rebalancing Orders
             </h3>
-            <p className="text-[10px] text-[#a1a1aa] mt-0.5">
+            <p className="text-[10px] text-[#6B7A99] mt-0.5">
               Actionable order recommendations to realign allocations to target weights
             </p>
           </div>
@@ -81,7 +81,7 @@ export function RebalancingTable({ orders }: RebalancingTableProps) {
       <div className="overflow-x-auto hide-scrollbar">
         <table className="w-full text-left border-collapse text-xs font-['Plus_Jakarta_Sans']">
           <thead>
-            <tr className="border-b border-white/10 text-[10px] text-[#a1a1aa] uppercase tracking-wider">
+            <tr className="border-b border-[#E2E6EF] text-[10px] text-[#6B7A99] uppercase tracking-wider">
               <th className="py-2 px-3">Ticker</th>
               <th className="py-2 px-3">Current Weight</th>
               <th className="py-2 px-3">Target Weight</th>
@@ -91,16 +91,16 @@ export function RebalancingTable({ orders }: RebalancingTableProps) {
               <th className="py-2 px-3 text-right">Value Delta</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-[#E2E6EF]">
             {defaultOrders.map((ord) => (
-              <tr key={ord.ticker} className="hover:bg-white/5 transition-colors">
-                <td className="py-2.5 px-3 font-bold text-[#f5f5f7] font-['Roobert']">{ord.ticker}</td>
-                <td className="py-2.5 px-3 font-semibold text-[#f5f5f7]">{ord.current_weight_pct.toFixed(1)}%</td>
-                <td className="py-2.5 px-3 text-[#a1a1aa]">{ord.target_weight_pct.toFixed(1)}%</td>
+              <tr key={ord.ticker} className="hover:bg-[#F3F4F8] transition-colors">
+                <td className="py-2.5 px-3 font-bold text-[#101828] font-['Roobert']">{ord.ticker}</td>
+                <td className="py-2.5 px-3 font-semibold text-[#101828]">{ord.current_weight_pct.toFixed(1)}%</td>
+                <td className="py-2.5 px-3 text-[#6B7A99]">{ord.target_weight_pct.toFixed(1)}%</td>
                 <td className="py-2.5 px-3">
                   <span
                     className={`font-semibold ${
-                      ord.drift_pct > 0 ? "text-rose-400" : ord.drift_pct < 0 ? "text-emerald-400" : "text-[#a1a1aa]"
+                      ord.drift_pct > 0 ? "text-[#D64545]" : ord.drift_pct < 0 ? "text-[#1E8E5A]" : "text-[#6B7A99]"
                     }`}
                   >
                     {ord.drift_pct > 0 ? `+${ord.drift_pct.toFixed(1)}%` : `${ord.drift_pct.toFixed(1)}%`}
@@ -110,10 +110,10 @@ export function RebalancingTable({ orders }: RebalancingTableProps) {
                   <span
                     className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border ${
                       ord.action === "BUY"
-                        ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
+                        ? "bg-[#E8F5EE] text-[#1E8E5A] border-[#1E8E5A]/30"
                         : ord.action === "SELL"
-                        ? "bg-rose-500/15 text-rose-400 border-rose-500/30"
-                        : "bg-white/10 text-[#a1a1aa] border-white/10"
+                        ? "bg-[#FCEBEB] text-[#D64545] border-[#D64545]/30"
+                        : "bg-[#F3F4F8] text-[#6B7A99] border-[#E2E6EF]"
                     }`}
                   >
                     {ord.action === "BUY" ? (
@@ -126,10 +126,10 @@ export function RebalancingTable({ orders }: RebalancingTableProps) {
                     {ord.action}
                   </span>
                 </td>
-                <td className="py-2.5 px-3 text-right font-mono font-bold text-[#f5f5f7]">
+                <td className="py-2.5 px-3 text-right font-mono font-bold text-[#101828]">
                   {ord.share_delta > 0 ? `${ord.share_delta} shares` : "-"}
                 </td>
-                <td className="py-2.5 px-3 text-right font-mono font-bold text-[#f5f5f7]">
+                <td className="py-2.5 px-3 text-right font-mono font-bold text-[#101828]">
                   {ord.dollar_delta > 0 ? formatCurrency(ord.dollar_delta) : "-"}
                 </td>
               </tr>

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
-import { Mic, MicOff, Volume2, Sparkles } from "lucide-react"
+import { Mic, MicOff, Volume2 } from "lucide-react"
 
 interface VoiceInputButtonProps {
   onTranscript?: (transcript: string) => void
@@ -99,23 +99,23 @@ export function VoiceInputButton({ onTranscript, className = "" }: VoiceInputBut
         title={isListening ? "Listening... Click to stop" : "Voice Input (Speech-to-Text)"}
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer border ${
           isListening
-            ? "bg-rose-500/20 text-rose-300 border-rose-500/50 shadow-[0_0_15px_rgba(244,63,94,0.4)] animate-pulse"
-            : "bg-white/5 hover:bg-white/10 text-[#a1a1aa] hover:text-[#f5f5f7] border-white/10 hover:border-purple-500/30"
+            ? "bg-[#FCEBEB] text-[#D64545] border-[#D64545] shadow-xs"
+            : "bg-[#F3F4F8] hover:bg-[#E2E6EF] text-[#101828] border-[#E2E6EF] hover:border-[#3730E0]"
         }`}
       >
         {isListening ? (
           <>
-            <MicOff size={14} className="text-rose-400 animate-bounce" />
-            <span className="font-mono text-[11px] font-bold text-rose-300">Listening...</span>
+            <MicOff size={14} className="text-[#D64545]" />
+            <span className="font-mono text-[11px] font-bold text-[#D64545]">Listening...</span>
             <div className="flex items-center gap-0.5 ml-1">
-              <span className="w-1 h-3 bg-rose-400 rounded-full voice-wave-bar" style={{ animationDelay: "0ms" }}></span>
-              <span className="w-1 h-4 bg-rose-300 rounded-full voice-wave-bar" style={{ animationDelay: "200ms" }}></span>
-              <span className="w-1 h-2 bg-rose-400 rounded-full voice-wave-bar" style={{ animationDelay: "400ms" }}></span>
+              <span className="w-1 h-3 bg-[#D64545] rounded-full voice-wave-bar" style={{ animationDelay: "0ms" }}></span>
+              <span className="w-1 h-4 bg-[#D64545] rounded-full voice-wave-bar" style={{ animationDelay: "200ms" }}></span>
+              <span className="w-1 h-2 bg-[#D64545] rounded-full voice-wave-bar" style={{ animationDelay: "400ms" }}></span>
             </div>
           </>
         ) : (
           <>
-            <Mic size={14} className="text-purple-400" />
+            <Mic size={14} className="text-[#3730E0]" />
             <span>Voice</span>
           </>
         )}
@@ -123,11 +123,11 @@ export function VoiceInputButton({ onTranscript, className = "" }: VoiceInputBut
 
       {/* Floating active transcript preview balloon */}
       {isListening && transcript && (
-        <div className="absolute left-0 bottom-full mb-2 w-64 p-2.5 bg-black/90 border border-rose-500/40 rounded-xl shadow-2xl backdrop-blur-xl z-50 text-xs text-[#f5f5f7] animate-in fade-in slide-in-from-bottom-2">
-          <div className="flex items-center gap-1 text-[10px] text-rose-400 font-bold uppercase tracking-wider mb-1">
+        <div className="absolute left-0 bottom-full mb-2 w-64 p-2.5 bg-[#FFFFFF] border border-[#E2E6EF] rounded-xl shadow-lg z-50 text-xs text-[#101828] animate-in fade-in">
+          <div className="flex items-center gap-1 text-[10px] text-[#D64545] font-bold uppercase tracking-wider mb-1">
             <Volume2 size={10} /> Live Voice Transcript
           </div>
-          <p className="italic line-clamp-3">&ldquo;{transcript}&rdquo;</p>
+          <p className="italic line-clamp-3 text-[#101828]">&ldquo;{transcript}&rdquo;</p>
         </div>
       )}
     </div>
