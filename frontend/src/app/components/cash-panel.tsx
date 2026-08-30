@@ -1,7 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Edit2, Check, X, DollarSign, TrendingUp, Wallet, Calendar, ArrowUpRight, ArrowDownRight } from "lucide-react"
+import { Edit2, Check, X, DollarSign, TrendingUp, Wallet, Calendar, ArrowUpRight, ArrowDownRight, Sun, Moon, Terminal } from "lucide-react"
+import { PortfolioManager, PortfolioProfile } from "./portfolio-manager"
+import { useTheme, ThemeType } from "../context/theme-context"
 
 interface CashPanelProps {
   totalCash: number
@@ -9,12 +11,31 @@ interface CashPanelProps {
   currentPortfolioValue: number
   onTotalCashChange: (amount: number) => void
   onStateCashChange: (state: any) => void
+  activeProfileId: string
+  profiles: PortfolioProfile[]
+  onSelectProfile: (profileId: string) => void
+  onCreateProfile: (profile: PortfolioProfile) => void
+  onDeleteProfile: (profileId: string) => void
+  onResetActiveProfile: () => void
 }
 
-export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, onTotalCashChange, onStateCashChange }: CashPanelProps) {
+export function CashPanel({
+  totalCash,
+  investedAmount,
+  currentPortfolioValue,
+  onTotalCashChange,
+  onStateCashChange,
+  activeProfileId,
+  profiles,
+  onSelectProfile,
+  onCreateProfile,
+  onDeleteProfile,
+  onResetActiveProfile,
+}: CashPanelProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [editValue, setEditValue] = useState(totalCash.toString())
   const [selectedCurrency, setSelectedCurrency] = useState<"USD" | "EUR" | "GBP" | "INR">("USD")
+  const { theme, setTheme } = useTheme()
 
   const CURRENCY_RATES = {
     USD: { rate: 1.0, symbol: "$", code: "USD" },
@@ -63,7 +84,17 @@ export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, on
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 w-full overflow-x-auto pb-1 hide-scrollbar">
-      <div className="flex flex-wrap items-center gap-3.5">
+      <div className="flex flex-wrap items-center gap-3">
+        {/* Multi-Portfolio Account Profiles Dropdown */}
+        <PortfolioManager
+          activeProfileId={activeProfileId}
+          profiles={profiles}
+          onSelectProfile={onSelectProfile}
+          onCreateProfile={onCreateProfile}
+          onDeleteProfile={onDeleteProfile}
+          onResetActiveProfile={onResetActiveProfile}
+        />
+
         {/* Currency Switcher Dropdown */}
         <div className="glass-panel !rounded-2xl p-2 px-3 flex items-center gap-2 border border-white/10 hover:border-white/20">
           <span className="text-xs text-[#a1a1aa] font-medium uppercase">FX</span>
@@ -78,6 +109,7 @@ export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, on
             <option value="INR" className="bg-[#0f0f17] text-white">🇮🇳 INR (₹)</option>
           </select>
         </div>
+
         {/* Total Cash */}
         <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out group border border-white/10 hover:border-white/20">
           <div className="w-9 h-9 bg-blue-500/15 border border-blue-500/30 text-blue-400 rounded-full flex items-center justify-center shadow-[0_0_12px_rgba(59,130,246,0.25)] flex-shrink-0">
@@ -177,17 +209,63 @@ export function CashPanel({ totalCash, investedAmount, currentPortfolioValue, on
         </div>
       </div>
 
-      {/* Investment Progress */}
-      <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3.5 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
-        <div className="text-right">
-          <div className="text-[11px] text-[#a1a1aa] font-medium tracking-wide uppercase">Portfolio Allocation</div>
-          <div className="text-sm font-semibold text-[#f5f5f7] font-['Roobert'] mt-0.5">{investedPercentage.toFixed(1)}%</div>
+      {/* Right Controls: Theme Switcher & Investment Progress */}
+      <div className="flex items-center gap-3">
+        {/* Theme Switcher Pill */}
+        <div className="glass-panel !rounded-2xl p-1 px-1.5 flex items-center gap-1 border border-white/10">
+          <button
+            type="button"
+            title="Cyberpunk Dark Theme"
+            onClick={() => setTheme("cyberpunk")}
+            className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+              theme === "cyberpunk"
+                ? "bg-purple-500/30 text-purple-200 border border-purple-500/50 shadow-[0_0_8px_rgba(168,85,247,0.3)]"
+                : "text-[#a1a1aa] hover:text-[#f5f5f7]"
+            }`}
+          >
+            <span>🌆</span>
+            <span className="hidden md:inline">Cyber</span>
+          </button>
+          <button
+            type="button"
+            title="Bloomberg Terminal High-Density Mode"
+            onClick={() => setTheme("bloomberg")}
+            className={`px-2.5 py-1 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-1 cursor-pointer ${
+              theme === "bloomberg"
+                ? "bg-[#ff9900] text-black border border-[#ff9900] shadow-[0_0_10px_rgba(255,153,0,0.4)]"
+                : "text-[#a1a1aa] hover:text-[#ff9900]"
+            }`}
+          >
+            <span>📟</span>
+            <span className="hidden md:inline">Terminal</span>
+          </button>
+          <button
+            type="button"
+            title="Executive Light Mode"
+            onClick={() => setTheme("light")}
+            className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+              theme === "light"
+                ? "bg-blue-500/20 text-blue-700 border border-blue-400"
+                : "text-[#a1a1aa] hover:text-[#f5f5f7]"
+            }`}
+          >
+            <span>☀️</span>
+            <span className="hidden md:inline">Light</span>
+          </button>
         </div>
-        <div className="w-24 h-2 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10 backdrop-blur-md">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 transition-all duration-500 ease-out shadow-[0_0_8px_rgba(236,72,153,0.4)]"
-            style={{ width: `${Math.min(investedPercentage, 100)}%` }}
-          />
+
+        {/* Investment Progress */}
+        <div className="glass-panel !rounded-2xl p-2.5 px-3.5 flex items-center gap-3.5 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out border border-white/10 hover:border-white/20">
+          <div className="text-right">
+            <div className="text-[11px] text-[#a1a1aa] font-medium tracking-wide uppercase">Portfolio Allocation</div>
+            <div className="text-sm font-semibold text-[#f5f5f7] font-['Roobert'] mt-0.5">{investedPercentage.toFixed(1)}%</div>
+          </div>
+          <div className="w-20 h-2 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10 backdrop-blur-md">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 transition-all duration-500 ease-out shadow-[0_0_8px_rgba(236,72,153,0.4)]"
+              style={{ width: `${Math.min(investedPercentage, 100)}%` }}
+            />
+          </div>
         </div>
       </div>
     </div>

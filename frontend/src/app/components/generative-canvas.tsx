@@ -17,7 +17,9 @@ import { AssetClassDistribution } from "./chart-components/asset-class-distribut
 import { PortfolioPdfReport } from "./portfolio-pdf-report"
 import { copyShareLinkToClipboard } from "@/utils/share-link-utils"
 import type { PortfolioState, SandBoxPortfolioState } from "../page"
-import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap } from "lucide-react"
+import { TradingViewChart } from "./chart-components/tradingview-chart"
+import { InteractiveRebalancer } from "./chart-components/interactive-rebalancer"
+import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap, Activity } from "lucide-react"
 
 interface GenerativeCanvasProps {
   portfolioState: PortfolioState & {
@@ -32,15 +34,17 @@ interface GenerativeCanvasProps {
   setSelectedStock: (stock: string | null) => void
   sandBoxPortfolio: SandBoxPortfolioState[]
   setSandBoxPortfolio: (portfolio: SandBoxPortfolioState[]) => void
+  onApplyRebalance?: (rebalancedAllocations: any[], newCash: number) => void
 }
 
 export function GenerativeCanvas({
   portfolioState,
   setSelectedStock,
   sandBoxPortfolio,
+  onApplyRebalance,
 }: GenerativeCanvasProps) {
   const [activeTab, setActiveTab] = useState<
-    "overview" | "performance" | "allocations" | "multiagent" | "risk" | "rebalance" | "insights" | "simulator"
+    "overview" | "technical" | "performance" | "allocations" | "multiagent" | "risk" | "rebalance_interactive" | "rebalance" | "insights" | "simulator"
   >("overview")
   const [showPdfReport, setShowPdfReport] = useState(false)
   const [copiedLink, setCopiedLink] = useState(false)
@@ -63,6 +67,8 @@ export function GenerativeCanvas({
     downloadAnchor.remove()
   }
 
+  const activeTickers = (portfolioState.allocations || []).map((a) => a.ticker)
+
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* PDF Executive Report Modal */}
@@ -73,11 +79,13 @@ export function GenerativeCanvas({
         <div className="flex items-center gap-1 overflow-x-auto hide-scrollbar">
           {[
             { id: "overview", label: "Overview", icon: LayoutGrid },
+            { id: "technical", label: "Technical Charts", icon: Activity },
+            { id: "rebalance_interactive", label: "Live Rebalancer", icon: Sliders },
             { id: "performance", label: "Performance", icon: TrendingUp },
             { id: "allocations", label: "Allocations & Returns", icon: PieChart },
-            { id: "multiagent", label: "Multi-Agent Intelligence", icon: Bot },
-            { id: "risk", label: "Quant & Risk Analytics", icon: ShieldCheck },
-            { id: "rebalance", label: "Rebalance & Dividends", icon: Scale },
+            { id: "multiagent", label: "Multi-Agent Intel", icon: Bot },
+            { id: "risk", label: "Quant Risk", icon: ShieldCheck },
+            { id: "rebalance", label: "Auto Orders & Dividends", icon: Scale },
             { id: "insights", label: "Market Insights", icon: Sparkles },
             { id: "simulator", label: "What-If Simulator", icon: Sliders },
           ].map((tab) => {
@@ -312,6 +320,29 @@ export function GenerativeCanvas({
               </div>
             </div>
           </div>
+        )}
+
+        {/* TECHNICAL CANDLESTICK & INDICATORS TAB */}
+        {activeTab === "technical" && (
+          <TradingViewChart
+            tickers={activeTickers}
+            currentPrices={
+              portfolioState.allocations?.reduce((acc: any, curr) => {
+                acc[curr.ticker] = curr.currentValue / Math.max(1, Math.round(curr.currentValue / 180))
+                return acc
+              }, {}) || {}
+            }
+          />
+        )}
+
+        {/* INTERACTIVE DRAG-AND-DROP REBALANCER TAB */}
+        {activeTab === "rebalance_interactive" && (
+          <InteractiveRebalancer
+            allocations={portfolioState.allocations || []}
+            totalPortfolioValue={portfolioState.currentPortfolioValue || 100000}
+            availableCash={portfolioState.investmentAmount || 10000}
+            onApplyRebalance={onApplyRebalance}
+          />
         )}
 
         {/* MULTI-AGENT INTELLIGENCE TAB */}
