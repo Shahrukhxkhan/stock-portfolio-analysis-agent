@@ -55,6 +55,7 @@ export interface PortfolioState {
   rebalancingOrders?: any
   multiAgentCrew?: any
   quantModels?: any
+  optionsHedging?: any
   assetClassDistribution?: any
   performanceTelemetry?: any
 }
@@ -278,6 +279,7 @@ export default function OpenStocksCanvas() {
                       rebalancingOrders: args?.investment_summary?.rebalancing_orders,
                       multiAgentCrew: args?.investment_summary?.multi_agent_crew,
                       quantModels: args?.investment_summary?.quant_models,
+                      optionsHedging: args?.investment_summary?.options_hedging,
                       assetClassDistribution: args?.investment_summary?.asset_class_distribution,
                       performanceTelemetry: args?.investment_summary?.performance_telemetry,
                     })

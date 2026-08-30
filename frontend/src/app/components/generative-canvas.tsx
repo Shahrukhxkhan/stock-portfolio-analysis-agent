@@ -23,7 +23,8 @@ import { EfficientFrontierChart } from "./chart-components/efficient-frontier-ch
 import { BlackLittermanCard } from "./chart-components/black-litterman-card"
 import { CrisisStressTest } from "./chart-components/crisis-stress-test"
 import { FamaFrenchFactors } from "./chart-components/fama-french-factors"
-import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap, Activity } from "lucide-react"
+import { OptionsHedgingCard } from "./chart-components/options-hedging-card"
+import { Sparkles, AlertCircle, LayoutGrid, TrendingUp, PieChart, Sliders, Download, ShieldCheck, Scale, Bot, Link, Check, FileText, Zap, Activity, ShieldAlert } from "lucide-react"
 
 interface GenerativeCanvasProps {
   portfolioState: PortfolioState & {
@@ -34,6 +35,7 @@ interface GenerativeCanvasProps {
     rebalancingOrders?: any
     multiAgentCrew?: any
     quantModels?: any
+    optionsHedging?: any
     performanceTelemetry?: any
   }
   setSelectedStock: (stock: string | null) => void
@@ -49,7 +51,7 @@ export function GenerativeCanvas({
   onApplyRebalance,
 }: GenerativeCanvasProps) {
   const [activeTab, setActiveTab] = useState<
-    "overview" | "technical" | "performance" | "allocations" | "multiagent" | "risk" | "rebalance_interactive" | "rebalance" | "insights" | "simulator"
+    "overview" | "technical" | "performance" | "allocations" | "multiagent" | "risk" | "hedging" | "rebalance_interactive" | "rebalance" | "insights" | "simulator"
   >("overview")
   const [quantSubTab, setQuantSubTab] = useState<
     "frontier" | "black_litterman" | "crisis" | "fama_french" | "risk_var"
@@ -93,6 +95,7 @@ export function GenerativeCanvas({
             { id: "allocations", label: "Allocations & Returns", icon: PieChart },
             { id: "multiagent", label: "Multi-Agent Intel", icon: Bot },
             { id: "risk", label: "Quant Risk", icon: ShieldCheck },
+            { id: "hedging", label: "Hedging & Options", icon: ShieldAlert },
             { id: "rebalance", label: "Auto Orders & Dividends", icon: Scale },
             { id: "insights", label: "Market Insights", icon: Sparkles },
             { id: "simulator", label: "What-If Simulator", icon: Sliders },
@@ -421,6 +424,11 @@ export function GenerativeCanvas({
               </div>
             )}
           </div>
+        )}
+
+        {/* HEDGING & OPTIONS TAB */}
+        {activeTab === "hedging" && (
+          <OptionsHedgingCard data={portfolioState?.optionsHedging} />
         )}
 
         {/* REBALANCE & DIVIDENDS TAB */}

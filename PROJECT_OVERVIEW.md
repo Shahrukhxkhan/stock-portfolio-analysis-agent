@@ -49,7 +49,12 @@ Instead of traditional static portfolio calculators, this system leverages an au
   - **Markowitz Modern Portfolio Theory & Efficient Frontier**: Monte Carlo mean-variance optimization, Capital Allocation Line (CAL), Max Sharpe optimal tangency star, Global Min Volatility boundary, and current portfolio coordinate.
   - **Black-Litterman Asset Allocation Model**: Blends CAPM equilibrium market returns with AI subjective conviction views and confidence matrices to compute posterior expected returns and optimal target weights.
   - **Historical Crisis Stress Testing & VaR/CVaR**: Simulates portfolio vulnerability across real-world crashes (2008 GFC, 2020 COVID, 2022 Fed Rate Hikes, 2000 Dot-com bust) and computes 95%/99% Parametric & Historical Value at Risk and Expected Shortfall (CVaR).
-  - **Fama-French 5-Factor & Momentum Decomposition**: Evaluates systematic risk exposures across Market Beta (`Mkt-RF`), Size (`SMB`), Value (`HML`), Profitability (`RMW`), Investment (`CMA`), and Trend Momentum (`MOM`) alongside Jensen's Alpha ($\alpha$).
+- **Options & Derivatives Hedging & Greeks Engine**:
+  - **Black-Scholes-Merton Pricing & Greeks**: Computes exact option sensitivities ($\Delta, \Gamma, \Theta, \mathcal{V}, \rho$) and portfolio beta-weighted dollar delta.
+  - **Automated Protective Collars**: Constructs zero-cost collar strategies (long OTM put financed by short OTM call) to secure 100% free downside loss floors.
+  - **Protective Puts & Capital Floor Insurance**: Calculates exact contracts, cost, and maximum loss limits for individual holdings.
+  - **Covered Call Cash Yield Generation**: Generates annualized income (8-18% cash yield) with upside profit targets and breakeven adjustments.
+  - **Interactive Expiration Payoff Curves**: Renders SVG profit & loss diagrams displaying unhedged stock vs hedged strategy payoffs at expiration.
 - **Generative UI & Visual Analytics**:
   - **TradingView Technical & Candlestick Charts**: Institutional OHLC candlestick series with Volume profiles, EMA overlays (EMA 20/50/200), RSI (14) oscillators, and MACD histograms.
   - **Interactive Drag-and-Drop Rebalancer Canvas**: Target allocation sliders with automatic buy/sell order calculation ($ and share counts) and one-click rebalance execution.
