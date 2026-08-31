@@ -69,6 +69,31 @@ def test_compute_performance_metrics_real_trades():
     assert "sortino_ratio" in metrics
 
 
+def test_compute_performance_metrics_zero_loss_edge_case():
+    dates = pd.date_range(start="2023-01-01", periods=50, freq="B")
+    equity_series = pd.Series(np.linspace(100000, 110000, 50), index=dates)
+    benchmark_series = pd.Series(np.linspace(100000, 105000, 50), index=dates)
+
+    # 100% win rate trades (zero losing trades)
+    trades = [
+        {
+            "entry_date": "2023-01-10",
+            "exit_date": "2023-01-20",
+            "action": "LONG",
+            "entry_price": 100.0,
+            "exit_price": 110.0,
+            "shares": 500,
+            "pnl_dollars": 5000.0,
+            "pnl_pct": 10.0,
+            "reason": "Target Hit"
+        }
+    ]
+
+    metrics = compute_performance_metrics(equity_series, benchmark_series, trades, initial_capital=100000.0)
+    assert metrics["win_rate_pct"] == 100.0
+    assert metrics["profit_factor"] == 99.99  # Capped gracefully without numerical blowup
+
+
 def test_bar_by_bar_strategies_execution():
     # Deterministic 300 bars dataset
     dates = pd.date_range(start="2023-01-01", periods=300, freq="B")

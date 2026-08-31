@@ -158,12 +158,13 @@ def compute_performance_metrics(
     gross_profits = sum(t["pnl_dollars"] for t in winning_trades)
     gross_losses = abs(sum(t["pnl_dollars"] for t in losing_trades))
 
-    if gross_losses > 0:
+    if gross_losses > 0.001:
         profit_factor = round(gross_profits / gross_losses, 2)
     elif gross_profits > 0:
-        profit_factor = round(gross_profits / 1.0, 2)
+        # Zero losing trades (100% win rate): cap at institutional standard 99.99 to prevent absurd float inflation
+        profit_factor = 99.99
     else:
-        profit_factor = 1.0
+        profit_factor = 0.0 if trades else 1.0
 
     avg_trade_pnl = float(np.mean([t["pnl_pct"] for t in trades])) if trades else 0.0
 
@@ -181,7 +182,10 @@ def compute_performance_metrics(
     downside_returns = daily_returns[daily_returns < 0]
     if len(downside_returns) > 1:
         downside_vol = float(downside_returns.std() * np.sqrt(252))
-        sortino = round(float((daily_returns.mean() * 252 - 0.045) / (downside_vol + 1e-8)), 2)
+        if downside_vol > 0.001:
+            sortino = round(float((daily_returns.mean() * 252 - 0.045) / downside_vol), 2)
+        else:
+            sortino = sharpe
     else:
         sortino = sharpe
 
