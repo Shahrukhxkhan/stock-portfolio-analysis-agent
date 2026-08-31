@@ -479,11 +479,15 @@ export function AlgoBacktestCard({ data = DEFAULT_BACKTEST_DATA }: AlgoBacktestC
           <div className="flex items-center gap-2">
             <DollarSign size={16} className="text-emerald-400" />
             <span className="font-bold text-[#f5f5f7]">Paper Trading Order Execution Sandbox</span>
+            <span className="text-[10px] font-mono font-medium uppercase px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 border border-zinc-700/60 inline-flex items-center gap-1">
+              SIMULATED DATA
+            </span>
           </div>
           <div className="flex items-center gap-3 text-[11px] text-[#a1a1aa]">
             <span>Virtual Cash: <strong className="text-emerald-300">$100,000.00</strong></span>
             <span>•</span>
             <span>Modeled Slippage: <strong className="text-cyan-300">0.025%</strong></span>
+            <span className="text-zinc-500">• (Sandbox model only)</span>
           </div>
         </div>
 

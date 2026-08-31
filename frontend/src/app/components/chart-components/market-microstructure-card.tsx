@@ -462,12 +462,15 @@ export function MarketMicrostructureCard({ data }: MarketMicrostructureCardProps
 
           {/* Off-Exchange Ticker Table */}
           <div className="rounded-xl border border-white/10 bg-black/20 overflow-hidden">
-            <div className="px-4 py-3 bg-white/5 border-b border-white/10 flex items-center justify-between">
+            <div className="px-4 py-3 bg-white/5 border-b border-white/10 flex items-center justify-between flex-wrap gap-2">
               <h3 className="text-sm font-bold flex items-center gap-2">
                 <Layers className="w-4 h-4 text-cyan-400" />
-                Portfolio Off-Exchange Dark Pool Volume Breakdown
+                <span>Portfolio Off-Exchange Dark Pool Volume Breakdown</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium uppercase bg-zinc-800 text-zinc-400 border border-zinc-700/60 inline-flex items-center gap-1">
+                  SIMULATED DATA
+                </span>
               </h3>
-              <span className="text-xs text-slate-400 font-mono">FINRA ADF / ATS Feeds</span>
+              <span className="text-xs text-slate-400 font-mono">Illustrative DIX/GEX — not connected to a live market feed</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs font-mono">
@@ -512,12 +515,15 @@ export function MarketMicrostructureCard({ data }: MarketMicrostructureCardProps
 
           {/* Real-Time Block Trade Stream */}
           <div className="rounded-xl border border-white/10 bg-black/20 p-4">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
               <h3 className="text-sm font-bold flex items-center gap-2">
                 <Activity className="w-4 h-4 text-emerald-400" />
-                Institutional Block Execution Tape (&gt; $5M+ Notional)
+                <span>Institutional Block Execution Tape (&gt; $5M+ Notional)</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium uppercase bg-zinc-800 text-zinc-400 border border-zinc-700/60 inline-flex items-center gap-1">
+                  SIMULATED DATA
+                </span>
               </h3>
-              <span className="text-xs text-slate-400 font-mono">Auto-Updating Tape</span>
+              <span className="text-xs text-slate-400 font-mono">Illustrative data — procedurally generated demonstration tape</span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
               {dark_pool_gex.recent_block_trades.map((block) => (
@@ -752,12 +758,15 @@ export function MarketMicrostructureCard({ data }: MarketMicrostructureCardProps
 
           {/* Level 2 Depth & Liquidity Ladder */}
           <div className="rounded-xl border border-white/10 bg-black/20 overflow-hidden">
-            <div className="px-4 py-3 bg-white/5 border-b border-white/10 flex items-center justify-between">
+            <div className="px-4 py-3 bg-white/5 border-b border-white/10 flex items-center justify-between flex-wrap gap-2">
               <h3 className="text-sm font-bold flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-purple-400" />
-                Level 2 Depth & Order Flow Imbalance (OFI)
+                <span>Level 2 Depth & Order Flow Imbalance (OFI)</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium uppercase bg-zinc-800 text-zinc-400 border border-zinc-700/60 inline-flex items-center gap-1">
+                  SIMULATED DATA
+                </span>
               </h3>
-              <span className="text-xs text-slate-400 font-mono">BBO Book Depth</span>
+              <span className="text-xs text-slate-400 font-mono">Illustrative order book ladder — not connected to direct exchange market depth feeds</span>
             </div>
 
             <div className="p-4 space-y-4 font-mono text-xs">
@@ -811,6 +820,17 @@ export function MarketMicrostructureCard({ data }: MarketMicrostructureCardProps
       {/* TAB 4: SOCIAL SENTIMENT VELOCITY & SMART MONEY DIVERGENCE */}
       {subTab === "sentiment" && (
         <div className="space-y-6">
+          <div className="flex items-center justify-between pb-2 border-b border-white/10 flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <Radio className="w-4 h-4 text-purple-400" />
+              <span className="text-sm font-bold">Social Sentiment Velocity & Smart Money Divergence</span>
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium uppercase bg-zinc-800 text-zinc-400 border border-zinc-700/60 inline-flex items-center gap-1">
+                SIMULATED DATA
+              </span>
+            </div>
+            <span className="text-xs text-slate-400 font-mono">Illustrative data — not connected to a live social/news stream</span>
+          </div>
+
           {/* Sentiment Gauge Headers */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="p-4 rounded-xl bg-black/30 border border-white/10">

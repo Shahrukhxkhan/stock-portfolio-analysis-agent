@@ -96,9 +96,12 @@ export function SentimentFeed({ data = DEFAULT_SENTIMENT_DATA }: SentimentFeedPr
               <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
                 NewsAPI • Reddit • StockTwits
               </span>
+              <span className="text-[10px] font-mono font-medium uppercase px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 border border-zinc-700/60 inline-flex items-center gap-1">
+                SIMULATED DATA
+              </span>
             </h2>
             <p className="text-xs text-[#a1a1aa]">
-              Multi-source natural language sentiment analysis, retail community buzz, and breaking news impact
+              Multi-source natural language sentiment analysis, retail community buzz, and breaking news impact • <span className="text-zinc-400">Illustrative data — not connected to a live social/news stream</span>
             </p>
           </div>
         </div>

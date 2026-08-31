@@ -121,9 +121,12 @@ export function WhaleTracking({ data = DEFAULT_WHALE_DATA }: WhaleTrackingProps)
               <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
                 Form 4 • 13F • Congress
               </span>
+              <span className="text-[10px] font-mono font-medium uppercase px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 border border-zinc-700/60 inline-flex items-center gap-1">
+                SIMULATED DATA
+              </span>
             </h2>
             <p className="text-xs text-[#a1a1aa]">
-              Real-time insider transactions, Congressional disclosures, and institutional hedge fund positioning
+              Real-time insider transactions, Congressional disclosures, and institutional hedge fund positioning • <span className="text-zinc-400">Illustrative filings — mock demonstration feed</span>
             </p>
           </div>
         </div>

@@ -166,9 +166,12 @@ export function FinancialWatchdogCard({ data = DEFAULT_WATCHDOG_DATA }: Financia
               <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
                 24/7 Sentinel
               </span>
+              <span className="text-[10px] font-mono font-medium uppercase px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 border border-zinc-700/60 inline-flex items-center gap-1">
+                SIMULATED DATA
+              </span>
             </h2>
             <p className="text-xs text-[#a1a1aa]">
-              Continuous anomaly monitoring for whale transactions, Congressional trades, technical breaches, and SEC footnote covenants
+              Continuous anomaly monitoring for whale transactions, Congressional trades, technical breaches, and SEC footnote covenants • <span className="text-zinc-400">Illustrative anomaly feed</span>
             </p>
           </div>
         </div>
@@ -316,6 +319,9 @@ export function FinancialWatchdogCard({ data = DEFAULT_WATCHDOG_DATA }: Financia
           <div className="flex items-center gap-2">
             <Send size={16} className="text-purple-400" />
             <span className="font-bold text-[#f5f5f7]">Multi-Channel Webhook Dispatcher Simulator</span>
+            <span className="text-[10px] font-mono font-medium uppercase px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 border border-zinc-700/60 inline-flex items-center gap-1">
+              SIMULATED DATA
+            </span>
           </div>
           <div className="flex items-center gap-1.5">
             {(["discord", "telegram", "slack"] as const).map((ch) => (

@@ -42,9 +42,9 @@ Instead of traditional static portfolio calculators, this system leverages an au
 - **Dynamic Cash Management**: Tracks available liquid cash (starting at default `$1,000,000` or custom balance), automatically deducting total invested amounts upon portfolio confirmation.
 - **Bull & Bear Insight Generation**: Uses AI reasoning models to synthesize balanced investment evaluations—highlighting growth catalysts (Bull Case) and potential risk factors (Bear Case) with custom icons/emojis.
 - **Enhanced Multi-Agent Intelligence & RAG**:
-  - **Autonomous Multi-Agent Debate Arena**: Adversarial dual-analyst debate (Permabull Growth Analyst vs Skeptical Risk Officer) adjudicated by a Senior Portfolio Manager Judge who outputs round-by-round arguments, conviction scores (0-100%), and allocation guidance.
+  - **Autonomous Multi-Agent Debate Arena**: *(Simulated/Demo Implementation — generated scenario dialogue)* Adversarial dual-analyst debate (Permabull Growth Analyst vs Skeptical Risk Officer) adjudicated by a Senior Portfolio Manager Judge who outputs round-by-round arguments, conviction scores (0-100%), and allocation guidance.
   - **SEC EDGAR 10-K / 10-Q RAG Agent**: Vector citation engine extracting verified balance sheet footnotes, long-term debt maturity schedules, liquidity covenants, and earnings call transcript excerpts with CIK references.
-  - **Whale Activity & Form 4 / 13F / Congressional Tracker**: Real-time monitoring of Form 4 insider transactions (CEO/CFO buys and sales), Congressional trading disclosures (Senate & House members), institutional 13F hedge fund changes, and net smart money momentum.
+  - **Whale Activity & Form 4 / 13F / Congressional Tracker**: *(Simulated/Demo Implementation — illustrative filings feed)* Real-time monitoring of Form 4 insider transactions (CEO/CFO buys and sales), Congressional trading disclosures (Senate & House members), institutional 13F hedge fund changes, and net smart money momentum.
   - **Advanced Quantitative Finance & Modeling**:
   - **Markowitz Modern Portfolio Theory & Efficient Frontier**: Monte Carlo mean-variance optimization, Capital Allocation Line (CAL), Max Sharpe optimal tangency star, Global Min Volatility boundary, and current portfolio coordinate.
   - **Black-Litterman Asset Allocation Model**: Blends CAPM equilibrium market returns with AI subjective conviction views and confidence matrices to compute posterior expected returns and optimal target weights.
@@ -59,11 +59,11 @@ Instead of traditional static portfolio calculators, this system leverages an au
   - **Rule-Based Trading Algorithms**: Implements Momentum Trend-Following (50/200 Golden Cross), RSI & Bollinger Mean-Reversion, and ATR Volatility Contraction Breakout strategies.
   - **Institutional Performance Tear Sheets**: Evaluates Cumulative Returns, Alpha vs S&P 500, Win/Loss Rate, Profit Factor, Max Drawdown %, Sharpe Ratio, Sortino Ratio, and Calmar Ratio.
   - **Trade Execution Blotter**: Full historical log of simulated entries, exits, holding periods, shares, realized P&L, and exit catalysts.
-  - **Paper Trading Simulator**: Sandbox order placement (Market, Limit, Stop Loss, Trailing Stop) with modeled execution slippage (2.5 bps).
+  - **Paper Trading Simulator**: *(Simulated/Demo Implementation — sandbox slippage model without live broker routing)* Sandbox order placement (Market, Limit, Stop Loss, Trailing Stop) with modeled execution slippage (2.5 bps).
 - **Autonomous Financial Watchdog & Multi-Channel Dispatcher**:
-  - **24/7 Anomaly Sentinel**: Continuously evaluates portfolio assets against threshold rules for Whale Form 4 purchases > $1M, Congressional STOCK Act disclosures, Technical RSI/MACD momentum breaches, and SEC Note 7 debt covenants.
+  - **24/7 Anomaly Sentinel**: *(Simulated/Demo Implementation — heuristic demonstration alert engine)* Continuously evaluates portfolio assets against threshold rules for Whale Form 4 purchases > $1M, Congressional STOCK Act disclosures, Technical RSI/MACD momentum breaches, and SEC Note 7 debt covenants.
   - **Real-Time Filterable Alert Feed**: Categorized by severity (Critical, High, Medium, Info) with quick external source verification links.
-  - **Multi-Channel Webhook Dispatcher**: Formats and exports live JSON payloads formatted for Discord Webhooks, Telegram Bot Markdown, and Slack Block Kit with in-app test dispatch simulator.
+  - **Multi-Channel Webhook Dispatcher**: *(Simulated/Demo Implementation — payload format preview without active webhooks)* Formats and exports live JSON payloads formatted for Discord Webhooks, Telegram Bot Markdown, and Slack Block Kit with in-app test dispatch simulator.
 - **Macro US Treasury Yield Curve & Recession Risk Barometer**:
   - **Multi-Curve Term Structure**: Interactive multi-line SVG visualization across 9 benchmark maturities (1M to 30Y) comparing Current, 1-Month Ago, 1-Year Ago, and Peak Inversion curves with hover crosshairs.
   - **2Y/10Y & 3M/10Y Inversion Spreads**: Live yield spread monitoring, yield curve steepening/inversion signals, and macroeconomic cycle regime classification.
@@ -75,16 +75,16 @@ Instead of traditional static portfolio calculators, this system leverages an au
   - **Controversy & Exclusion Auditing**: Monitors UN Global Compact compliance, zero fossil fuel extraction, and governance risks.
   - **Carbon Tax & Climate Transition Simulator**: Interactive carbon price slider ($0 to $150 per metric ton) to stress-test regulatory earnings impairment and multiple contraction.
 - **Crypto On-Chain Intelligence & Market Cycle Analytics**:
-  - **Bitcoin MVRV Z-Score Cycle Meter**: Evaluates market cap vs realized cap to detect cycle bottoms (< 0.1) and top blow-offs (> 6.0).
+  - **Bitcoin MVRV Z-Score Cycle Meter**: *(Simulated/Demo Implementation — illustrative on-chain metrics)* Evaluates market cap vs realized cap to detect cycle bottoms (< 0.1) and top blow-offs (> 6.0).
   - **Crypto Sentiment & Fear/Greed Index**: Sentiment oscillator with historical 7-point momentum trend.
   - **Whale Exchange Net Flows & Treasury Mints**: Real-time tracking of institutional cold storage accumulation vs exchange sell-pressure.
   - **Stablecoin Supply Ratio (SSR)**: Measures dry powder liquidity available to enter digital asset markets.
 - **Alternative Data & Institutional Market Microstructure**:
-  - **Dark Pool Index (DIX) & Dealer Gamma Exposure (GEX)**: Quantifies off-exchange buying ratios (> 45% accumulation), net dealer gamma in $Billions/1% move, Call/Put Walls, and Zero-Gamma Volatility Trigger Flip Level.
-  - **Real-Time ATS Block Execution Tape**: Streams large institutional block trades (> $5M+ or > 100k shares) with ATS venue markers (FINRA ADF, UBS ATS, Citadel Connect, Crossfinder) and smart money accumulation/distribution signatures.
+  - **Dark Pool Index (DIX) & Dealer Gamma Exposure (GEX)**: *(Simulated/Demo Implementation — illustrative off-exchange metrics)* Quantifies off-exchange buying ratios (> 45% accumulation), net dealer gamma in $Billions/1% move, Call/Put Walls, and Zero-Gamma Volatility Trigger Flip Level.
+  - **Real-Time ATS Block Execution Tape**: *(Simulated/Demo Implementation — procedurally generated demonstration tape)* Streams large institutional block trades (> $5M+ or > 100k shares) with ATS venue markers (FINRA ADF, UBS ATS, Citadel Connect, Crossfinder) and smart money accumulation/distribution signatures.
   - **Statistical Arbitrage & Pairs Cointegration Engine**: Implements Engle-Granger two-step cointegration, hedge ratio ($\beta$), dynamic spread $Z$-score tracking, and Ornstein-Uhlenbeck mean-reversion half-life with Long/Short pair signals.
-  - **Level 2 Order Book Depth & VPIN Toxicity**: Computes bid/ask book depth, Order Flow Imbalance (OFI), Kyle's Lambda price impact, and Volume-Synchronized Probability of Toxicity (VPIN) to guard against predatory high-frequency flow.
-  - **Multi-Source Sentiment Velocity & Retail Divergence**: NLP sentiment velocity engine tracking Reddit (`r/wallstreetbets`), FinTwit/X, and financial news, computing Retail Euphoria vs Smart Money positioning divergence.
+  - **Level 2 Order Book Depth & VPIN Toxicity**: *(Simulated/Demo Implementation — illustrative order book model)* Computes bid/ask book depth, Order Flow Imbalance (OFI), Kyle's Lambda price impact, and Volume-Synchronized Probability of Toxicity (VPIN) to guard against predatory high-frequency flow.
+  - **Multi-Source Sentiment Velocity & Retail Divergence**: *(Simulated/Demo Implementation — simulated sentiment scoring)* NLP sentiment velocity engine tracking Reddit (`r/wallstreetbets`), FinTwit/X, and financial news, computing Retail Euphoria vs Smart Money positioning divergence.
 - **Generative UI & Visual Analytics**:
   - **TradingView Technical & Candlestick Charts**: Institutional OHLC candlestick series with Volume profiles, EMA overlays (EMA 20/50/200), RSI (14) oscillators, and MACD histograms.
   - **Interactive Drag-and-Drop Rebalancer Canvas**: Target allocation sliders with automatic buy/sell order calculation ($ and share counts) and one-click rebalance execution.

@@ -141,9 +141,12 @@ export function CryptoOnChainCard({ data = DEFAULT_CRYPTO_DATA }: CryptoOnChainC
               <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
                 Layer 1 Quant
               </span>
+              <span className="text-[10px] font-mono font-medium uppercase px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 border border-zinc-700/60 inline-flex items-center gap-1">
+                SIMULATED DATA
+              </span>
             </h2>
             <p className="text-xs text-[#a1a1aa]">
-              Bitcoin MVRV Z-Score, Crypto Fear & Greed Index, Stablecoin Supply Ratio (SSR), and Whale Exchange Flows
+              Bitcoin MVRV Z-Score, Crypto Fear & Greed Index, Stablecoin Supply Ratio (SSR), and Whale Exchange Flows • <span className="text-zinc-400">Illustrative data — not connected to a live on-chain node</span>
             </p>
           </div>
         </div>
