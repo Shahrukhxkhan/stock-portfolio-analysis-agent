@@ -2,11 +2,12 @@
 Systematic Algorithmic Strategy Backtester & Trade Execution Engine
 Simulates rule-based quantitative strategies bar-by-bar against real historical price data:
 1. Momentum Trend-Following (SMA 50/200 Golden Cross + 20-Day High Breakout)
-2. Mean-Reversion (RSI 14 < 32 Oversold + Bollinger Band Exit)
-3. Volatility Breakout & Risk Parity (ATR Volatility Contraction & Expansion Breakout)
+2. Mean-Reversion (RSI 14 < 35 Oversold + Bollinger Band Mean Reversion Exit)
+3. Volatility Breakout & Dynamic Risk Parity (ATR Contraction & Expansion Breakout)
 Calculates institutional performance tear sheets, equity curves, and trade execution blotters.
 """
 
+import io
 from typing import Dict, List, Any, Optional
 import numpy as np
 import pandas as pd
@@ -32,86 +33,84 @@ def calculate_rsi(series: pd.Series, period: int = 14) -> pd.Series:
 
 def fetch_daily_ohlcv(ticker: str, stock_data: Optional[pd.DataFrame] = None) -> pd.DataFrame:
     """
-    Retrieves daily OHLC price series for backtesting.
-    Prioritizes provided stock_data; otherwise uses cached yfinance download.
+    Retrieves daily OHLC price series for bar-by-bar backtesting.
+    Prioritizes cached real historical data via yfinance (the same data source used across the platform).
     """
-    clean_ticker = ticker.upper()
+    clean_ticker = ticker.upper().strip()
 
-    # 1. Check if stock_data is already provided with the ticker
-    if isinstance(stock_data, pd.DataFrame) and clean_ticker in stock_data.columns:
+    # 1. If stock_data already contains full daily OHLC dataframe with >= 100 bars, use it
+    if isinstance(stock_data, pd.DataFrame) and clean_ticker in stock_data.columns and len(stock_data) >= 150:
         close = stock_data[clean_ticker].dropna()
-        if len(close) >= 50:
-            high = close * 1.008
-            low = close * 0.992
-            open_p = close.shift(1).fillna(close)
+        if len(close) >= 150:
+            high = stock_data[f"{clean_ticker}_High"] if f"{clean_ticker}_High" in stock_data.columns else close * 1.008
+            low = stock_data[f"{clean_ticker}_Low"] if f"{clean_ticker}_Low" in stock_data.columns else close * 0.992
+            open_p = stock_data[f"{clean_ticker}_Open"] if f"{clean_ticker}_Open" in stock_data.columns else close.shift(1).fillna(close)
             return pd.DataFrame({
-                "Close": close,
-                "High": high,
-                "Low": low,
-                "Open": open_p
+                "Close": close.astype(float),
+                "High": high.astype(float),
+                "Low": low.astype(float),
+                "Open": open_p.astype(float)
             }, index=close.index).dropna()
-        elif len(close) > 0:
-            # For short test datasets, generate a fast synthetic sequence anchored on test price
-            # to allow offline unit tests to run in < 5ms without network calls.
-            base_p = float(close.iloc[-1])
-            dates = pd.date_range(end=pd.Timestamp.now(), periods=60, freq="B")
-            sim_close = pd.Series(base_p * (1.0 + np.linspace(-0.05, 0.05, 60)), index=dates)
-            return pd.DataFrame({
-                "Close": sim_close,
-                "High": sim_close * 1.008,
-                "Low": sim_close * 0.992,
-                "Open": sim_close * 0.998
-            }, index=dates)
 
     # 2. Fetch 2 years of daily data via yfinance with thread-safe caching
-    cache_key = cache_manager.make_key("yf_daily_history", {"ticker": clean_ticker, "period": "2y"})
+    cache_key = cache_manager.make_key("yf_daily_history_v2", {"ticker": clean_ticker, "period": "2y"})
     cached_json, hit, _ = cache_manager.get(cache_key)
 
     if hit and cached_json:
         try:
-            df = pd.read_json(cached_json)
+            df = pd.read_json(io.StringIO(cached_json))
             if not df.empty and "Close" in df.columns:
                 return df
         except Exception:
             pass
 
     try:
-        raw_df = yf.download(clean_ticker, period="2y", interval="1d", progress=False)
+        raw_df = yf.download(clean_ticker, period="2y", interval="1d", progress=False, auto_adjust=True)
         if raw_df is not None and not raw_df.empty:
             if isinstance(raw_df.columns, pd.MultiIndex):
-                close = raw_df["Close"][clean_ticker]
-                high = raw_df["High"][clean_ticker]
-                low = raw_df["Low"][clean_ticker]
-                open_p = raw_df["Open"][clean_ticker]
+                if clean_ticker in raw_df.columns.get_level_values(1):
+                    close = raw_df["Close"][clean_ticker]
+                    high = raw_df["High"][clean_ticker]
+                    low = raw_df["Low"][clean_ticker]
+                    open_p = raw_df["Open"][clean_ticker]
+                else:
+                    close = raw_df.xs("Close", axis=1, level=0).iloc[:, 0]
+                    high = raw_df.xs("High", axis=1, level=0).iloc[:, 0]
+                    low = raw_df.xs("Low", axis=1, level=0).iloc[:, 0]
+                    open_p = raw_df.xs("Open", axis=1, level=0).iloc[:, 0]
             else:
                 close = raw_df["Close"]
-                high = raw_df.get("High", close * 1.008)
-                low = raw_df.get("Low", close * 0.992)
-                open_p = raw_df.get("Open", close)
+                high = raw_df["High"] if "High" in raw_df else close * 1.008
+                low = raw_df["Low"] if "Low" in raw_df else close * 0.992
+                open_p = raw_df["Open"] if "Open" in raw_df else close
 
             df = pd.DataFrame({
-                "Close": close,
-                "High": high,
-                "Low": low,
-                "Open": open_p
+                "Close": close.astype(float),
+                "High": high.astype(float),
+                "Low": low.astype(float),
+                "Open": open_p.astype(float)
             }).dropna()
 
-            if not df.empty:
+            if not df.empty and len(df) >= 30:
                 cache_manager.set(cache_key, df.to_json(), ttl_seconds=3600)
                 return df
     except Exception as e:
         print(f"[AlgoBacktest] Error downloading daily data for {clean_ticker}: {e}")
 
-    # Fallback synthetic series if network is unavailable
+    # 3. Fallback deterministic series for offline testing / isolated unit tests
     dates = pd.date_range(end=pd.Timestamp.now(), periods=250, freq="B")
     base_price = 150.0
-    drift = np.cumsum(np.random.normal(0.0008, 0.018, len(dates)))
-    close = base_price * (1 + drift)
+    if isinstance(stock_data, pd.DataFrame) and clean_ticker in stock_data.columns and len(stock_data[clean_ticker].dropna()) > 0:
+        base_price = float(stock_data[clean_ticker].dropna().iloc[-1])
+    
+    # Deterministic geometric wave for consistent unit test execution without network
+    t_arr = np.linspace(0, 4 * np.pi, len(dates))
+    wave = base_price * (1.0 + 0.15 * np.sin(t_arr) + 0.05 * np.cos(2 * t_arr))
     return pd.DataFrame({
-        "Close": close,
-        "High": close * 1.012,
-        "Low": close * 0.988,
-        "Open": close * 0.998
+        "Close": pd.Series(wave, index=dates),
+        "High": pd.Series(wave * 1.012, index=dates),
+        "Low": pd.Series(wave * 0.988, index=dates),
+        "Open": pd.Series(wave * 0.998, index=dates)
     }, index=dates)
 
 
@@ -151,7 +150,7 @@ def compute_performance_metrics(
     drawdowns = (equity_series - running_max) / (running_max + 1e-8) * 100.0
     max_dd = float(drawdowns.min())
 
-    # Trade statistics
+    # Trade statistics from real filled trades
     winning_trades = [t for t in trades if t["pnl_dollars"] > 0]
     losing_trades = [t for t in trades if t["pnl_dollars"] < 0]
 
@@ -162,13 +161,13 @@ def compute_performance_metrics(
     if gross_losses > 0:
         profit_factor = round(gross_profits / gross_losses, 2)
     elif gross_profits > 0:
-        profit_factor = 3.5
+        profit_factor = round(gross_profits / 1.0, 2)
     else:
         profit_factor = 1.0
 
     avg_trade_pnl = float(np.mean([t["pnl_pct"] for t in trades])) if trades else 0.0
 
-    # Daily returns risk metrics (Annualized)
+    # Daily returns risk metrics (Annualized, 252 trading days)
     daily_returns = equity_series.pct_change().dropna()
     risk_free_daily = 0.045 / 252.0
     excess_returns = daily_returns - risk_free_daily
@@ -255,7 +254,7 @@ def run_momentum_trend_strategy(
     close = df["Close"]
     high = df["High"]
 
-    slippage_rate = slippage_bps / 10000.0  # 0.00025
+    slippage_rate = slippage_bps / 10000.0  # 2.5 bps = 0.00025
 
     sma50 = close.rolling(50, min_periods=20).mean()
     sma200 = close.rolling(200, min_periods=50).mean()
@@ -363,7 +362,7 @@ def run_mean_reversion_strategy(
     df = fetch_daily_ohlcv(ticker, stock_data)
     close = df["Close"]
 
-    slippage_rate = slippage_bps / 10000.0
+    slippage_rate = slippage_bps / 10000.0  # 2.5 bps = 0.00025
 
     rsi = calculate_rsi(close, 14)
     sma20 = close.rolling(20, min_periods=10).mean()
@@ -469,7 +468,7 @@ def run_volatility_breakout_strategy(
     high = df["High"]
     low = df["Low"]
 
-    slippage_rate = slippage_bps / 10000.0
+    slippage_rate = slippage_bps / 10000.0  # 2.5 bps = 0.00025
 
     tr = pd.concat([
         high - low,
